@@ -8,7 +8,7 @@ public class BookEverywhereApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookEverywhereApplication.class, args);
-		System.out.println("using git desktop test");
+		System.out.println("using git desktop push test2");
 	}
 
 }
