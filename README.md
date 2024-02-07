@@ -2,6 +2,10 @@
 ## 🚀 소개
 이 프로젝트는 스위프 3기 10팀 읽는곳곳 프로젝트의 백엔드 레파지토리입니다.
 
+## 👥 기여자 Backend
+- @dltjdgh0428
+- @kf3907
+
 ## 📋 협업 규칙
 ### 브랜치 전략
 - Main: 테스트가 모두 완료된 코드 병합
@@ -39,9 +43,9 @@
 
 
 ## 🛠 기술 스택
-- Backend: Java, Spring Boot 3.2.2
+- Backend: Java17, Spring Boot 3.2.2
 - Database: MariaDB
-- ORM: JPA
+- ORM: spring data JPA
 - 인증: OAuth 소셜 로그인
 
 ## 🤝 기여 방법
