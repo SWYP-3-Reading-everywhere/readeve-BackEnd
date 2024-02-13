@@ -1,4 +1,4 @@
-package com.book_everywhere.domain.address;
+package com.book_everywhere.domain.review;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Address {
+public class Review {
 }
