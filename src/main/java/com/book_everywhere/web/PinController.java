@@ -3,6 +3,7 @@ package com.book_everywhere.web;
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.service.PinService;
 import com.book_everywhere.web.dto.CMRespDto;
+import com.book_everywhere.web.dto.pin.PinDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,8 +31,8 @@ public class PinController {
     }
 
     @PostMapping("/pin")
-    public CMRespDto<?> createPin() {
-        pinService.핀생성();
+    public CMRespDto<?> createPin(PinDto pinDto) {
+        pinService.핀생성(pinDto);
         return new CMRespDto<>(1, null);
     }
 
