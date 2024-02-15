@@ -2,6 +2,7 @@ package com.book_everywhere.domain.user;
 
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.pin.Pin;
+import com.book_everywhere.domain.visit.Visit;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class User {
     private List<Book> books;
 
     @OneToMany(mappedBy = "user")
-    private List<Pin> pins;
+    private List<Visit> visits;
 
     private String name;
     private String nickname;

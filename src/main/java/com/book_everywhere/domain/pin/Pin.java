@@ -46,6 +46,7 @@ public class Pin {
     private String description;
     private String tag;
 
+    //최초 방문자의 생성
     @CreationTimestamp
     private Timestamp createAt;
 

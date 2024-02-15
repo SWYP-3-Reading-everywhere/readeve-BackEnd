@@ -5,6 +5,7 @@ import com.book_everywhere.service.PinService;
 import com.book_everywhere.web.dto.CMRespDto;
 import com.book_everywhere.web.dto.pin.PinDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class PinController {
 
     private final PinService pinService;
