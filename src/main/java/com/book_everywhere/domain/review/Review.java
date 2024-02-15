@@ -1,40 +1,49 @@
-package com.book_everywhere.domain.user;
+package com.book_everywhere.domain.review;
 
 import com.book_everywhere.domain.book.Book;
+import com.book_everywhere.domain.image.Image;
 import com.book_everywhere.domain.pin.Pin;
-import com.book_everywhere.domain.visit.Visit;
+import com.book_everywhere.domain.user.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
 import java.util.List;
+import java.sql.Timestamp;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "user")
-    private List<Book> books;
+    @ManyToOne
+    @JoinColumn(name = "bookId")
+    private Book book;
 
-    @OneToMany(mappedBy = "user")
-    private List<Visit> visits;
+    private String title;
+    private String content;
+    @Column(nullable = false)
+    private String isPrivate;
+    @OneToMany(mappedBy = "review")
+    private List<Image> images;
 
-    private String image;
-    private Role Role;
-    private String nickname;
+    @CreationTimestamp
+    private Timestamp updateAt;
 
     @CreationTimestamp
     private Timestamp createAt;
+
 }
