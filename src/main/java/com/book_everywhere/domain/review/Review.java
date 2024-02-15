@@ -37,7 +37,8 @@ public class Review {
     private String content;
     @Column(nullable = false)
     private String isPrivate;
-    @OneToMany(mappedBy = "review")
+    @OneToMany
+    @JoinColumn(name = "image_id")
     private List<Image> images;
 
     @CreationTimestamp
