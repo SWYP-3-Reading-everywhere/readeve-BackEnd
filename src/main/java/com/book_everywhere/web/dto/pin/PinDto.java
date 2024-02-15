@@ -6,21 +6,19 @@ import lombok.Data;
 
 @Data
 public class PinDto {
-    private String pinTitle;
+    private String title;
     private double latitude;
     private double longitude;
-    private String description;
+    private String memo;
     private boolean isPrivate;
     private String message;
 
     public Pin toEntity(User userEntity){
         return Pin.builder()
-                .pinTitle(pinTitle)
+                .title(title)
                 .latitude(latitude)
                 .longitude(longitude)
-                .description(description)
-                .isPrivate(isPrivate)
-                .message(message)
+                .memo(memo)
                 .user(userEntity)
                 .build();
     }
