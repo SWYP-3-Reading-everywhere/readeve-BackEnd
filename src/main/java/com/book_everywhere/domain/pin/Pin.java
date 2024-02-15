@@ -43,7 +43,7 @@ public class Pin {
 
     private String title;
     @Column(length = 100)
-    private String description;
+    private String memo;
     private String tag;
 
     //최초 방문자의 생성

@@ -31,10 +31,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Visit> visits;
 
-    private String name;
+    private String image;
+    private Role Role;
     private String nickname;
-    private String Email;
-    private String Gender;
 
     @CreationTimestamp
     private Timestamp createAt;

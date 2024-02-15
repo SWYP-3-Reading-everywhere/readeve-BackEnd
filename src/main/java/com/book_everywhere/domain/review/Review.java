@@ -40,7 +40,8 @@ public class Review {
     @OneToMany(mappedBy = "review")
     private List<Image> images;
 
-
+    @CreationTimestamp
+    private Timestamp updateAt;
 
     @CreationTimestamp
     private Timestamp createAt;
