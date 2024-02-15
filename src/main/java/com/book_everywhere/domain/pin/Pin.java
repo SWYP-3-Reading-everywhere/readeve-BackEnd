@@ -1,5 +1,6 @@
 package com.book_everywhere.domain.pin;
 
+import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.user.User;
 import jakarta.persistence.Column;
@@ -33,7 +34,7 @@ public class Pin {
     private User user;
 
     @OneToMany(mappedBy = "pin")
-    private List<Review> reviews;
+    private List<Book> books;
     //경도 x
     @Column(nullable = false)
     private double latitude;

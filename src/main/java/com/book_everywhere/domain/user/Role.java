@@ -1,5 +1,5 @@
 package com.book_everywhere.domain.user;
 
 public enum Role {
-    ADMIN,MEMBER
+    ROLE_ADMIN,ROLE_MEMBER
 }
