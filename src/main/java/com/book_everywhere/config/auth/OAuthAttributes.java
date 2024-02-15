@@ -24,8 +24,6 @@ public class OAuthAttributes {
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
 
-        log.info("properties : {}", properties);
-
         return OAuthAttributes.builder()
                 .nickname((String) properties.get("nickname"))
                 .image((String) properties.get("profile_image"))
@@ -37,7 +35,7 @@ public class OAuthAttributes {
         return User.builder()
                 .nickname(nickname)
                 .image(image)
-                .role(Role.MEMBER)
+                .role(Role.ROLE_MEMBER)
                 .build();
     }
 

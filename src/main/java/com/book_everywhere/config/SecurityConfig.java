@@ -36,6 +36,8 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         .requestMatchers(new MvcRequestMatcher(introspector, "/login")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/")).hasRole("MEMBER")
+                        .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
                         oauth2Login.userInfoEndpoint(userInfoEndpointConfig ->

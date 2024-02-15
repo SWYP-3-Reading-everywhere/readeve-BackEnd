@@ -1,7 +1,6 @@
 package com.book_everywhere.domain.user;
 
 import com.book_everywhere.domain.book.Book;
-import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.visit.Visit;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,16 +11,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 public class User {
     @Id
