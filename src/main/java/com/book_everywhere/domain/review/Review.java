@@ -16,7 +16,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.sql.Timestamp;
 
@@ -41,10 +43,14 @@ public class Review {
     @JoinColumn(name = "image_id")
     private List<Image> images;
 
-    @CreationTimestamp
-    private Timestamp updateAt;
+    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
+    @Builder.Default
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @CreationTimestamp
-    private Timestamp createAt;
+    @Column(name = "updated_at")
+    @Builder.Default
+    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
 }
