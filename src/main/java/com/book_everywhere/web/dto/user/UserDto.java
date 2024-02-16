@@ -1,5 +1,6 @@
 package com.book_everywhere.web.dto.user;
 
+import com.book_everywhere.domain.user.Role;
 import lombok.Data;
 
 @Data

@@ -3,13 +3,10 @@ package com.book_everywhere.domain.user;
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.visit.Visit;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -19,11 +16,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @OneToMany(mappedBy = "user")
     private List<Book> books;
@@ -31,9 +29,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Visit> visits;
 
-    private String image;
-    private Role Role;
     private String nickname;
+    private String imageUrl;
+    private String socialId;
+
+    @Enumerated(EnumType.STRING)
+    private Role Role;
 
     @CreationTimestamp
     private Timestamp createAt;
