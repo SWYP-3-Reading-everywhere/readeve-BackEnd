@@ -1,6 +1,5 @@
 package com.book_everywhere.jwt;
 
-import com.book_everywhere.service.CustomOAuth2UserService;
 import com.book_everywhere.web.dto.user.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;

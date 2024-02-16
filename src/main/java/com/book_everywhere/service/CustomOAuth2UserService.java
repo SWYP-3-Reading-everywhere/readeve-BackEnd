@@ -20,33 +20,31 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
 
-
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
             //user 정보받기
             OAuth2User oAuth2User = super.loadUser(userRequest);
-            System.out.println("oAuth2User = " + oAuth2User);
 
             KakaoResponse oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
 
         //리소스 서버에서 발급 받은 정보로 사용자를 특정할 아이디값을 만듬
-        String providerId = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
-        User findUser = userRepository.findBySocialId(providerId);
+        String socialId = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
+        User findUser = userRepository.findBySocialId(socialId);
 
         if(findUser == null) {
 
             User user = User.builder()
                     .nickname(oAuth2Response.getNickname())
                     .imageUrl(oAuth2Response.getImageUrl())
-                    .socialId(providerId)
+                    .socialId(socialId)
                     .Role(Role.MEMBER)
                     .build();
 
             userRepository.save(user);
 
             UserDto userDto = new UserDto();
-            userDto.setSocialId(providerId);
+            userDto.setSocialId(socialId);
             userDto.setNickname(oAuth2Response.getNickname());
             userDto.setImageUrl(oAuth2Response.getImageUrl());
             userDto.setRole("MEMBER");
@@ -56,7 +54,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         else {
 
             UserDto userDto = new UserDto();
-            userDto.setSocialId(providerId);
+            userDto.setSocialId(socialId);
             userDto.setNickname(findUser.getNickname());
             userDto.setImageUrl(findUser.getImageUrl());
             userDto.setRole("MEMBER");

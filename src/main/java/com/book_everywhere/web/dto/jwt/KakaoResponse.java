@@ -7,7 +7,7 @@ public class KakaoResponse implements OAuth2Response{
     private final Map<String, Object> attribute;
 
     public KakaoResponse(Map<String, Object> attribute) {
-        this.attribute = (Map<String, Object>) attribute.get("kakao_account");
+        this.attribute = attribute;
     }
 
     @Override
@@ -21,10 +21,12 @@ public class KakaoResponse implements OAuth2Response{
     }
 
     public String getNickname() {
-        return attribute.get("profile_nickname").toString();
+        Map<String, Object> properties = (Map<String, Object>) attribute.get("properties");
+        return properties.get("nickname").toString();
     }
 
     public String getImageUrl() {
-        return attribute.get("profile_image").toString();
+        Map<String, Object> properties = (Map<String, Object>) attribute.get("properties");
+        return properties.get("profile_image").toString();
     }
 }
