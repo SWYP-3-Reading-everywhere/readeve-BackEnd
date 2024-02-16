@@ -30,7 +30,7 @@ spring:
 # Logging
 logging:
   level: # 각 package 별로 로깅 레벨을 지정할 수 있다.
-   rg.hibernate.type: trace  # 콘솔차에 조건에 바인딩되는 값 및 조회 결과 출력
+    rg.hibernate.type: trace  # 콘솔차에 조건에 바인딩되는 값 및 조회 결과 출력
 
 file:
   path: C:/workspace/bookeverywhere/upload/
