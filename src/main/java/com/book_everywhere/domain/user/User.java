@@ -2,6 +2,7 @@ package com.book_everywhere.domain.user;
 
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.visit.Visit;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,10 +28,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Book> books;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Visit> visits;
 
     @Column(nullable = false)
