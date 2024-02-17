@@ -1,6 +1,7 @@
 package com.book_everywhere.web;
 
 import com.book_everywhere.domain.pin.Pin;
+import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.service.PinService;
 import com.book_everywhere.web.dto.CMRespDto;
 import com.book_everywhere.web.dto.pin.PinDto;
@@ -27,9 +28,10 @@ public class PinController {
         return new CMRespDto<>(1, result);
     }
 
+    //핀을 눌렀을때 핀에 해당하는 독후감 정보 조회
     @GetMapping("/pin/{id}")
     public CMRespDto<?> pinDetails(@PathVariable int id, @AuthenticationPrincipal OAuth2User oAuth2User) {
-        Pin result = pinService.단일핀조회(id, oAuth2User);
+        List<Review> result = pinService.단일핀조회(id, oAuth2User);
         return new CMRespDto<>(1, result);
     }
 
