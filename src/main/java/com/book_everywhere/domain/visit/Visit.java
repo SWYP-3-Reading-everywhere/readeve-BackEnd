@@ -1,7 +1,7 @@
-package com.book_everywhere.domain.review;
+package com.book_everywhere.domain.visit;
 
-import com.book_everywhere.domain.book.Book;
-import jakarta.persistence.Column;
+import com.book_everywhere.domain.pin.Pin;
+import com.book_everywhere.domain.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
@@ -20,28 +19,20 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Review {
+public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @ManyToOne
-    @JoinColumn(name = "bookId")
-    private Book book;
+    @JoinColumn(name = "userId")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "pinId")
+    private Pin pin;
 
-    @Column(nullable = false)
-    private String title;
-    @Column(nullable = false)
-    private String content;
-    @Column(nullable = false)
-    private String isPrivate;
-
+    private boolean isPrivate;
+    //최초 방문시각
     @CreationTimestamp
     private Timestamp createAt;
-
-    @UpdateTimestamp
-    private Timestamp updateAt;
-
-
 }

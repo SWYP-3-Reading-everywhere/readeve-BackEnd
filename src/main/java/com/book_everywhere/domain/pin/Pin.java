@@ -1,7 +1,10 @@
 package com.book_everywhere.domain.pin;
 
+import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.review.Review;
+import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.user.User;
+import com.book_everywhere.domain.visit.Visit;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,12 +31,15 @@ public class Pin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;
+    @OneToMany(mappedBy = "pin")
+    private List<Visit> visits;
 
     @OneToMany(mappedBy = "pin")
-    private List<Review> reviews;
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "pin")
+    private List<Tagged> tags;
+
     //경도 x
     @Column(nullable = false)
     private double latitude;
@@ -41,11 +47,13 @@ public class Pin {
     @Column(nullable = false)
     private double longitude;
 
+    @Column(nullable = false)
     private String title;
-    @Column(length = 100)
-    private String description;
-    private String tag;
 
+    @Column(nullable = false)
+    private String address;
+
+    //최초 방문자의 생성
     @CreationTimestamp
     private Timestamp createAt;
 
