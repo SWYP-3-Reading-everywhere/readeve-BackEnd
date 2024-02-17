@@ -12,5 +12,7 @@ public interface PinRepository extends JpaRepository<Pin, Integer> {
     @Query(value = "SELECT Pin.* FROM Pin JOIN Visit ON Pin.id = Visit.pinId WHERE Visit.userId = :socialId", nativeQuery = true)
     List<Pin> mUserMap(@Param("socialId") Long socialId);
 
-    Optional<Pin> findByPinId(Long pinId);
+    // 그냥 핀 하나 찾아오는 쿼리
+    @Query(value = "SELECT * FROM Pin WHERE Pin.id = :pinId", nativeQuery = true)
+    Pin mFindByPinId(Long pinId);
 }

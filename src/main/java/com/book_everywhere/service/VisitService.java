@@ -27,7 +27,7 @@ public class VisitService {
         //review가 올라가기전 visit에 등록되어있는지 확인후 없다면 visit등록
         long socialId = (Long) oAuth2User.getAttributes().get("id");
         User user = userRepository.findBySocialId(socialId).orElseThrow();
-        Pin pin = pinRepository.findByPinId(pinId).orElseThrow();
+        Pin pin = pinRepository.mFindByPinId(pinId);
 
         Optional<Visit> visited = visitRepository.findByUserAndPin(user, pin);
 
