@@ -4,6 +4,8 @@ import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.pin.PinRepository;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.review.ReviewRepository;
+import com.book_everywhere.domain.tag.TagRepository;
+import com.book_everywhere.domain.tagged.TaggedRepository;
 import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.domain.visit.Visit;
@@ -21,6 +23,7 @@ import java.util.List;
 public class PinService {
     private final PinRepository pinRepository;
     private final ReviewRepository reviewRepository;
+    private final TaggedRepository taggedRepository;
 
     @Transactional(readOnly = true)
     public List<Pin> 전체지도조회() {
@@ -42,5 +45,10 @@ public class PinService {
     @Transactional(readOnly = true)
     public List<Pin> 나만의지도조회(@AuthenticationPrincipal OAuth2User oAuth2User){
         return pinRepository.mUserMap((Long)oAuth2User.getAttributes().get("id"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Pin> 태그조회(Long tagId){
+        return taggedRepository.mFindTaggedPin(tagId);
     }
 }
