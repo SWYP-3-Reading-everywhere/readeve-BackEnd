@@ -37,7 +37,7 @@ public class PinController {
 
     @PostMapping("/pin")
     public CMRespDto<?> createPin(PinDto pinDto, @AuthenticationPrincipal OAuth2User oAuth2User) {
-        pinService.핀생성(pinDto, oAuth2User);
+        pinService.핀생성(pinDto);
         return new CMRespDto<>(1, null);
     }
 

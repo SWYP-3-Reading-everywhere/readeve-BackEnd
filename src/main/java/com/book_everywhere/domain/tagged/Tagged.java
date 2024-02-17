@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 public class Tagged {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "pinId")

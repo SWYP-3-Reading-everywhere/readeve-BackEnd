@@ -4,7 +4,9 @@ import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.pin.PinRepository;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.review.ReviewRepository;
-import com.book_everywhere.domain.visit.VisitRepository;
+import com.book_everywhere.domain.user.User;
+import com.book_everywhere.domain.user.UserRepository;
+import com.book_everywhere.domain.visit.Visit;
 import com.book_everywhere.web.dto.pin.PinDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,7 +34,7 @@ public class PinService {
     }
 
     @Transactional
-    public void 핀생성(PinDto pinDto ,@AuthenticationPrincipal OAuth2User oAuth2User){
+    public void 핀생성(PinDto pinDto){
         Pin pin = pinDto.toEntity();
         pinRepository.save(pin);
     }

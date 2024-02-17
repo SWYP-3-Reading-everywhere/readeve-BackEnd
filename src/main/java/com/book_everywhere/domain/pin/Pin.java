@@ -29,7 +29,7 @@ public class Pin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @OneToMany(mappedBy = "pin")
     private List<Visit> visits;

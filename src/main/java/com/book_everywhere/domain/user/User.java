@@ -26,7 +26,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Book> books;

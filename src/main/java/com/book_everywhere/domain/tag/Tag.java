@@ -22,7 +22,7 @@ import java.util.List;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
     private List<Tagged> tags;
