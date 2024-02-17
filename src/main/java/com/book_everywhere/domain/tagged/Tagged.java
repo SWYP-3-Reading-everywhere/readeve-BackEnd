@@ -1,7 +1,7 @@
-package com.book_everywhere.domain.visit;
+package com.book_everywhere.domain.tagged;
 
 import com.book_everywhere.domain.pin.Pin;
-import com.book_everywhere.domain.user.User;
+import com.book_everywhere.domain.tag.Tag;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,20 +19,19 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Visit {
-
+public class Tagged {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;
+
     @ManyToOne
     @JoinColumn(name = "pinId")
     private Pin pin;
 
-    private boolean isPrivate;
-    //최초 방문시각
+    @ManyToOne
+    @JoinColumn(name = "tagId")
+    private Tag tag;
+
     @CreationTimestamp
     private Timestamp createAt;
 }
