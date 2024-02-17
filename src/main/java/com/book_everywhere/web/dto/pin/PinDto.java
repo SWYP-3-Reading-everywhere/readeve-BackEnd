@@ -9,14 +9,13 @@ public class PinDto {
     private String title;
     private double latitude;
     private double longitude;
-    private String memo;
-    private boolean isPrivate;
-    private String message;
+    private String address;
 
     public Pin toEntity(){
         return Pin.builder()
                 .title(title)
                 .latitude(latitude)
+                .address(address)
                 .longitude(longitude)
                 .build();
     }

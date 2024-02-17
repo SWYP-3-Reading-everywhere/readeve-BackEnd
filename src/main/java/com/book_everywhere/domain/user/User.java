@@ -35,7 +35,7 @@ public class User {
     private List<Visit> visits;
 
     @Column(nullable = false, unique = true)
-    private long socialId;
+    private Long socialId;
     @Column(nullable = false)
     private String nickname;
     @Column(nullable = false)

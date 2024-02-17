@@ -27,11 +27,11 @@ public class PinService {
 
     @Transactional(readOnly = true)
     public List<Pin> 전체지도조회() {
-        return pinRepository.findAll();
+        return pinRepository.mFindAllPin();
     }
 
     @Transactional(readOnly = true)
-    public List<Review> 단일핀조회(int pinId, @AuthenticationPrincipal OAuth2User oAuth2User) {
+    public List<Review> 단일핀조회(Long pinId, @AuthenticationPrincipal OAuth2User oAuth2User) {
         //단일 핀을 눌렀을때 독후감이 조회됩니다.
         return reviewRepository.mFindReviewUserMap((Long)oAuth2User.getAttributes().get("id"),pinId);
     }
@@ -48,7 +48,7 @@ public class PinService {
     }
 
     @Transactional(readOnly = true)
-    public List<Pin> 태그조회(Long tagId){
-        return taggedRepository.mFindTaggedPin(tagId);
+    public List<Pin> 태그조회(String tagContent){
+        return taggedRepository.mFindTaggedPin(tagContent);
     }
 }

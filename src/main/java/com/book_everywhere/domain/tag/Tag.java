@@ -27,6 +27,6 @@ public class Tag {
     @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
     private List<Tagged> tags;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String content;
 }

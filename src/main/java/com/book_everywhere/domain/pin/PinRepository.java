@@ -9,10 +9,17 @@ import java.util.Optional;
 
 public interface PinRepository extends JpaRepository<Pin, Integer> {
     // 유저 아이디를 넣으면 어디에 방믄했는지 모두 가져옴 -> 나만의 지도 기능
-    @Query("SELECT Pin.* FROM Pin JOIN Visit ON Pin.id = Visit.pinId WHERE Visit.userId = :socialId")
+    @Query("SELECT pin FROM Pin pin JOIN pin.visits visit WHERE visit.user.socialId = :socialId")
     List<Pin> mUserMap(@Param("socialId") Long socialId);
 
+
     // 그냥 핀 하나 찾아오는 쿼리
-    @Query("SELECT * FROM Pin WHERE Pin.id = :pinId")
-    Pin mFindByPinId(Long pinId);
+    @Query("SELECT pin FROM Pin pin WHERE pin.id = :pinId")
+    Pin mFindByPinId(@Param("pinId") Long pinId);
+
+    // 모든핀을 찾아옴
+    @Query(value = "SELECT * FROM pin", nativeQuery = true)
+    List<Pin> mFindAllPin();
+
+
 }

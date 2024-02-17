@@ -41,7 +41,7 @@ public class Review {
     @Column(nullable = false)
     private String content;
     @Column(nullable = false)
-    private String isPrivate;
+    private boolean isPrivate;
 
     @CreationTimestamp
     private Timestamp createAt;
