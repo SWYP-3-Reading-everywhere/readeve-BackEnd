@@ -34,6 +34,8 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Visit> visits;
 
+    @Column(nullable = false, unique = true)
+    private long socialId;
     @Column(nullable = false)
     private String nickname;
     @Column(nullable = false)

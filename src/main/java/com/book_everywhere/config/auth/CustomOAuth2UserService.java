@@ -54,7 +54,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      *  사용자 정보를 데이터베이스에 저장하거나 업데이트합니다.
      */
     private User saveOrUpdate(OAuthAttributes attributes) {
-        User user = userRepository.findByNickname(attributes.getNickname())
+        User user = userRepository.findBySocialId(attributes.getSocialId())
                 .map(entity -> entity.update(attributes.getNickname(),attributes.getImage()))
                 .orElse(attributes.toEntity());
 

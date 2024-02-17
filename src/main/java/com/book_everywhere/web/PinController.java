@@ -23,19 +23,19 @@ public class PinController {
 
     @GetMapping("/pin")
     public CMRespDto<?> pin() {
-        List<Pin> result = pinService.전체핀조회();
+        List<Pin> result = pinService.전체지도조회();
         return new CMRespDto<>(1, result);
     }
 
     @GetMapping("/pin/{id}")
-    public CMRespDto<?> pinDetails(@PathVariable int id) {
-        Pin result = pinService.단일핀조회(id);
+    public CMRespDto<?> pinDetails(@PathVariable int id, @AuthenticationPrincipal OAuth2User oAuth2User) {
+        Pin result = pinService.단일핀조회(id, oAuth2User);
         return new CMRespDto<>(1, result);
     }
 
     @PostMapping("/pin")
-    public CMRespDto<?> createPin(PinDto pinDto,@AuthenticationPrincipal OAuth2User oAuth2User) {
-        pinService.핀생성(pinDto,oAuth2User);
+    public CMRespDto<?> createPin(PinDto pinDto, @AuthenticationPrincipal OAuth2User oAuth2User) {
+        pinService.핀생성(pinDto, oAuth2User);
         return new CMRespDto<>(1, null);
     }
 
