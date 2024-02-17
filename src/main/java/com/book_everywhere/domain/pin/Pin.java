@@ -35,7 +35,7 @@ public class Pin {
     private List<Visit> visits;
 
     @OneToMany(mappedBy = "pin")
-    private List<Book> books;
+    private List<Review> reviews;
 
     @OneToMany(mappedBy = "pin")
     private List<Tagged> tags;

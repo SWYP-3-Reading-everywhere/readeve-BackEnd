@@ -9,7 +9,7 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
     // 개인지도에서 핀을 눌렀을때 독후감이 모두 뜨는 기능
     //Entity 바뀐다면 수정 필요
-    @Query(value = "SELECT review FROM Review review WHERE review.book.user.socialId = :socialId AND review.book.pin.id = :pinId", nativeQuery = true)
+    @Query(value = "SELECT review FROM Review review WHERE review.book.user.socialId = :socialId AND review.pin.id = :pinId", nativeQuery = true)
     List<Review> mFindReviewUserMap(@Param("socialId") Long socialId, @Param("pinId") int pinId);
 
     //모든 공유리뷰 호출

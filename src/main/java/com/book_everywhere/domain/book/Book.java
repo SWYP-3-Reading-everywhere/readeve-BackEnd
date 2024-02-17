@@ -32,9 +32,6 @@ public class Book {
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "pinId")
-    private Pin pin;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
