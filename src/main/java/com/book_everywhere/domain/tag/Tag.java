@@ -1,22 +1,31 @@
-package com.book_everywhere.domain.image;
+package com.book_everywhere.domain.tag;
 
+import com.book_everywhere.domain.book.Book;
+import com.book_everywhere.domain.tagged.Tagged;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Image {
-
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String reviewImageUrl;
+    @OneToMany(mappedBy = "tag")
+    private List<Tagged> tags;
+
+    @Column(nullable = false)
+    private String content;
 }

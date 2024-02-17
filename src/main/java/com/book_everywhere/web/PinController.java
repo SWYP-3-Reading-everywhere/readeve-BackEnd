@@ -5,6 +5,8 @@ import com.book_everywhere.service.PinService;
 import com.book_everywhere.web.dto.CMRespDto;
 import com.book_everywhere.web.dto.pin.PinDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +34,8 @@ public class PinController {
     }
 
     @PostMapping("/pin")
-    public CMRespDto<?> createPin(PinDto pinDto) {
-        pinService.핀생성(pinDto);
+    public CMRespDto<?> createPin(PinDto pinDto,@AuthenticationPrincipal OAuth2User oAuth2User) {
+        pinService.핀생성(pinDto,oAuth2User);
         return new CMRespDto<>(1, null);
     }
 

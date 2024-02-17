@@ -13,13 +13,11 @@ public class PinDto {
     private boolean isPrivate;
     private String message;
 
-    public Pin toEntity(User userEntity){
+    public Pin toEntity(){
         return Pin.builder()
                 .title(title)
                 .latitude(latitude)
                 .longitude(longitude)
-                .memo(memo)
-                .user(userEntity)
                 .build();
     }
 }
