@@ -2,6 +2,7 @@ package com.book_everywhere.domain.tag;
 
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.tagged.Tagged;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "tag")
+    @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
     private List<Tagged> tags;
 
     @Column(nullable = false)
