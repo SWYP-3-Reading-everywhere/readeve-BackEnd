@@ -14,13 +14,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+
+import java.sql.Timestamp;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -36,14 +38,11 @@ public class Review {
     @Column(nullable = false)
     private String isPrivate;
 
-    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
-    @Builder.Default
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private Timestamp createAt;
 
-    @Column(name = "updated_at")
-    @Builder.Default
-    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @UpdateTimestamp
+    private Timestamp updateAt;
+
 
 }
