@@ -67,11 +67,8 @@ public class Review {
         this.title = reviewDto.getTitle();
         this.content = reviewDto.getContent();
         this.isPrivate = reviewDto.getIsPrivate();
-        this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
     }
-
-    public void setIsPrivate(boolean isPrivate) {
-        this.isPrivate = isPrivate;
+    public boolean isPrivate() {
+        return isPrivate;
     }
-
 }

@@ -22,9 +22,10 @@ public class ReviewService {
 
     //등록
     @Transactional
-    public void createReview(ReviewDto reviewDto) {
+    public Long createReview(ReviewDto reviewDto) {
         Review review = new Review().createFromDto(reviewDto);
         reviewRepository.save(review);
+        return review.getId();
     }
 
 
