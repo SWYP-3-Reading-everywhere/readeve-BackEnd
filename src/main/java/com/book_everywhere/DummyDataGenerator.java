@@ -30,9 +30,9 @@ public class DummyDataGenerator implements CommandLineRunner {
 
     public void generateDummyData() {
         // 5명의 유저, 각 유저당 1개의 책, 리뷰, 핀, 태그 생성 및 연결
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 0; i <= 5; i++) {
             User user = User.builder()
-                    .socialId(1000L + i)
+                    .socialId(3345007590L+ i)
                     .nickname("User" + i)
                     .image("http://image.url/user" + i)
                     .build();

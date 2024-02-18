@@ -32,7 +32,6 @@ public class Book {
     @JoinColumn(name = "userId")
     private User user;
 
-
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 

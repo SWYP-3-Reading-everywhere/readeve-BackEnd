@@ -38,6 +38,13 @@ public class PinController {
         List<ReviewDto> result = reviewService.단일핀독후감조회(id, oAuth2User);
         return new CMRespDto<>(HttpStatus.OK, result,"핀 및 종속 독후감 조회 성공!");
     }
+
+    //나만의 지도 기능
+    @GetMapping("/user")
+    public CMRespDto<?> userMap(@AuthenticationPrincipal OAuth2User oAuth2User) {
+        List<PinDto> result = pinService.나만의지도조회(oAuth2User);
+        return new CMRespDto<>(HttpStatus.OK, result,"핀 및 종속 독후감 조회 성공!");
+    }
     //태그String에 대한 pin 추출
     @GetMapping("/pin/tag/{content}")
     public CMRespDto<?> taggedPin(@PathVariable String content) {
