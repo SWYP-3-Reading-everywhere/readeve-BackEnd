@@ -5,6 +5,7 @@ import com.book_everywhere.domain.review.ReviewRepository;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
