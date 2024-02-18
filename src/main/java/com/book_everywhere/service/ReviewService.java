@@ -63,7 +63,7 @@ public class ReviewService {
     //특정 유저의 특정 책에 등록된 독후감 조회 기능
     public List<Review> findReviewsByUserAndBook(Long bookId) {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book does not exist"));
-        return reviewRepository.findByUserAndBook(book.getUser(), book);
+        return reviewRepository.findReviewsByUserAndBook(book.getUser().getId(), book.getId());
     }
 
     //공유 목록에서의 독후감 조회

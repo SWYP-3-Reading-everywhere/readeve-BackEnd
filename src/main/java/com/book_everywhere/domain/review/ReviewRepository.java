@@ -7,16 +7,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     //공유목록에서의 모든 독후감 조회
     List<Review> findByIsPrivate(boolean isPrivate, Pageable pageable);
 
-    //특정 유저의 모든 독후감 조회
-    List<Review> findByUserAndBook(User user, Book book);
+    //특정 유저의 모든 독후감 조회 //user필드를 book을 통해 간접 참조하기 때문에 socialId를 사용할 수 없음 이 경우에 대한 의논이 필요함
+    @Query("SELECT r FROM Review r WHERE r.book.id = :bookId AND r.book.user.id = :userId")
+    List<Review> findReviewsByUserAndBook(@Param("userId") Long userId, @Param("bookId") Long bookId);
+
 
     // 개인지도에서 핀을 눌렀을때 독후감이 모두 뜨는 기능
     @Query("SELECT review FROM Review review WHERE review.book.user.socialId = :socialId AND review.pin.id = :pinId")

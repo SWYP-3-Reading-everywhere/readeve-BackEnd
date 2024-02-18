@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -23,13 +24,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Book> books;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Visit> visits;
