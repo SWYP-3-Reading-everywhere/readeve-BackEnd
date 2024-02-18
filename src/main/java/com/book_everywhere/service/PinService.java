@@ -22,7 +22,7 @@ public class PinService {
     }
 
     @Transactional(readOnly = true)
-    public Pin 단일핀조회(int pinId) {
+    public Pin 단일핀조회(Long pinId) {
         return pinRepository.findById(pinId).orElseThrow();
     }
 

@@ -28,7 +28,7 @@ public class PinController {
     }
 
     @GetMapping("/pin/{id}")
-    public CMRespDto<?> pinDetails(@PathVariable int id) {
+    public CMRespDto<?> pinDetails(@PathVariable Long id) {
         Pin result = pinService.단일핀조회(id);
         return new CMRespDto<>(1, result);
     }

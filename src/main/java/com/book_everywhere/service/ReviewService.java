@@ -20,7 +20,7 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
-    public Review findOneReview(int id) {
+    public Review findOneReview(Long id) {
         return reviewRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Review does not exist"));
     }

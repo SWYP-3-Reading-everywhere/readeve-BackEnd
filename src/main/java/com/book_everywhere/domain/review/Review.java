@@ -1,6 +1,7 @@
 package com.book_everywhere.domain.review;
 
 import com.book_everywhere.domain.book.Book;
+import com.book_everywhere.domain.pin.Pin;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +33,10 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "bookId")
     private Book book;
+
+    @ManyToOne
+    @JoinColumn(name = "pinId")
+    private Pin pin;
 
     @Column(nullable = false)
     private String title;
