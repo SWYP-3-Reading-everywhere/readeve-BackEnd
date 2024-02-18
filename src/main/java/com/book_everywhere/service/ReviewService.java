@@ -9,12 +9,10 @@ import com.book_everywhere.domain.review.ReviewRepository;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +43,9 @@ public class ReviewService {
     @Transactional
     public void updateReview(Long id, ReviewDto reviewDto) {
         Review review = findOneReview(id);
-        review.update(reviewDto);
+        review.setTitle(reviewDto.getTitle());
+        review.setContent(reviewDto.getContent());
+        review.setIsPrivate(reviewDto.getIsPrivate());
     }
 
 
@@ -60,18 +60,25 @@ public class ReviewService {
 
 
     //조회
-    //공유 지도에서의 조회
+    //특정 유저의 특정 책에 등록된 독후감 조회 기능
+    public List<Review> findReviewsByUserAndBook(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book does not exist"));
+        return reviewRepository.findByUserAndBook(book.getUser(), book);
+    }
+
+    //공유 목록에서의 독후감 조회
     public List<Review> findPublicReviews(boolean isPrivate, Pageable pageable) {
         return reviewRepository.findByIsPrivate(isPrivate, pageable);
     }
 
-    //아이디 값 하나만 조회
+
+    //리뷰 하나만 조회
     public Review findOneReview(Long id) {
         return reviewRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Review does not exist"));
     }
 
-    //테스트용
+    //등록된 모든 리뷰 조회
     public List<Review> findReviews() {
         return reviewRepository.findAll();
     }
