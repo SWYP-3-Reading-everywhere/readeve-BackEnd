@@ -25,7 +25,7 @@ public class PinController {
 
     @GetMapping("/pin")
     public CMRespDto<?> allPin() {
-        List<Pin> result = pinService.전체지도조회();
+        List<PinDto> result = pinService.전체지도조회();
         return new CMRespDto<>(HttpStatus.OK, result,"전체 지도 조회 성공!");
     }
 

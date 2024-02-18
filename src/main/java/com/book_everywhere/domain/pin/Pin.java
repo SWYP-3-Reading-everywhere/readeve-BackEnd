@@ -6,14 +6,12 @@ import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.visit.Visit;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.List;
-
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

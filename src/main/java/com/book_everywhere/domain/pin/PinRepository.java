@@ -1,5 +1,6 @@
 package com.book_everywhere.domain.pin;
 
+import com.book_everywhere.web.dto.pin.PinDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,8 +19,7 @@ public interface PinRepository extends JpaRepository<Pin, Integer> {
     Pin mFindByPinId(@Param("pinId") Long pinId);
 
     // 모든핀을 찾아옴
-    @Query(value = "SELECT * FROM pin", nativeQuery = true)
+    @Query("SELECT pin FROM Pin pin")
     List<Pin> mFindAllPin();
-
 
 }

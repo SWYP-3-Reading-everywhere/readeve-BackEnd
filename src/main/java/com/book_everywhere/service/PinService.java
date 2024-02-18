@@ -25,9 +25,16 @@ public class PinService {
     private final ReviewRepository reviewRepository;
     private final TaggedRepository taggedRepository;
 
+    //DTO 변환단계
     @Transactional(readOnly = true)
-    public List<Pin> 전체지도조회() {
-        return pinRepository.mFindAllPin();
+    public List<PinDto> 전체지도조회() {
+        List<Pin> init = pinRepository.mFindAllPin();
+
+        List<PinDto> resultDto = init.stream()
+                .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .toList();
+
+        return resultDto;
     }
 
     @Transactional(readOnly = true)
