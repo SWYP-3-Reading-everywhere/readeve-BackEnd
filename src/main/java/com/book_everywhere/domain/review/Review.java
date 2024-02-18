@@ -58,7 +58,6 @@ public class Review {
         return Review.builder()
                 .title(reviewDto.getTitle())
                 .content(reviewDto.getContent())
-                .book(reviewDto.getBook())
                 .isPrivate(reviewDto.getIsPrivate())
                 .build();
     }
@@ -69,7 +68,6 @@ public class Review {
                 .id(this.id)
                 .title(reviewDto.getTitle())
                 .content(reviewDto.getContent())
-                .book(reviewDto.getBook())
                 .isPrivate(reviewDto.getIsPrivate())
                 .createdAt(this.createdAt)
                 .updatedAt(Timestamp.valueOf(LocalDateTime.now()))
