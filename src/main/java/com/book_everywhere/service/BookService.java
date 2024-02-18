@@ -24,13 +24,7 @@ public class BookService {
     @Transactional
     public Long createBook(Long userId, BookDto bookDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User does not exist"));
-        Book book = Book.builder()
-                .user(user)
-                .title(bookDto.getTitle())
-                .coverImageUrl(bookDto.getCoverImageUrl())
-                .author(bookDto.getAuthor())
-                .isComplete(bookDto.getIsComplete())
-                .build();
+        Book book = new Book().createBook(user,bookDto);
         bookRepository.save(book);
         return book.getId();
     }
@@ -53,11 +47,6 @@ public class BookService {
     }
 
     //조회
-    //특정 유저의 모든 독후감 목록 조회
-    public List<Review> findAllReviewsOneUser(Long userSocialId) {
-        User user = userRepository.findBySocialId(userSocialId);
-        return bookRepository.findAllReviewsByUser(user);
-    }
 
     //특정 유저의 모든 책 목록 조회
     public List<Book> findAllBookOneUser(Long userSocialId) {
