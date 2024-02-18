@@ -24,8 +24,10 @@ public class ReviewController {
 
     //조회
     //공개 독후감 조회
-    @GetMapping("/all/review")
-    public CMRespDto<?> reviews(@RequestParam int page, @RequestParam int size, @RequestParam boolean isPrivate) {
+    @GetMapping("/api/review")
+    public CMRespDto<?> reviews(@RequestParam int page,
+                                @RequestParam int size,
+                                @RequestParam boolean isPrivate) {
         Pageable pageable = PageRequest.of(page, size);
         List<Review> result = reviewService.findPublicReviews(isPrivate,pageable);
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
@@ -40,22 +42,22 @@ public class ReviewController {
     }
 
     //등록
-    @PostMapping("/review")
-    public CMRespDto<?> addReview(ReviewDto reviewDto) {
-        reviewService.createReview(reviewDto);
+    @PostMapping("/api/review")
+    public CMRespDto<?> addReview(ReviewDto reviewDto, @RequestParam Long bookId, @RequestParam Long pinId) {
+        reviewService.createReview(bookId, pinId, reviewDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 추가 완료");
     }
 
 
     //수정
-    @PutMapping("/review/{id}")
+    @PutMapping("/api/review/{id}")
     public CMRespDto<?> updateReview(@PathVariable Long id, ReviewDto reviewDto) {
         reviewService.updateReview(id, reviewDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
     //삭제
-    @DeleteMapping("/review/{id}")
+    @DeleteMapping("/api/review/{id}")
     public CMRespDto<?> deleteReview(@PathVariable Long id) {
         reviewService.deleteReview(id);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");

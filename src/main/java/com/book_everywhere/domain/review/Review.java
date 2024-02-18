@@ -19,7 +19,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -54,12 +53,27 @@ public class Review {
     private Timestamp updatedAt;
 
 
-    public Review createFromDto(ReviewDto reviewDto) {
-        return Review.builder()
+    //==연관 관계 편의 메서드==//
+    public void setBook(Book book) {
+        this.book = book;
+        book.getReviews().add(this);
+    }
+    public void setPin(Pin pin) {
+        this.pin = pin;
+        pin.getReviews().add(this);
+    }
+
+    //==생성 메서드==//
+    public Review createFromDto(Book book,Pin pin, ReviewDto reviewDto) {
+
+        Review review = Review.builder()
                 .title(reviewDto.getTitle())
                 .content(reviewDto.getContent())
                 .isPrivate(reviewDto.getIsPrivate())
                 .build();
+        review.setBook(book);
+        review.setPin(pin);
+        return review;
     }
 
     //수정 폼을 알아야 할 것 같음
@@ -68,7 +82,7 @@ public class Review {
         this.content = reviewDto.getContent();
         this.isPrivate = reviewDto.getIsPrivate();
     }
-    public boolean isPrivate() {
+    public boolean getIsPrivate() {
         return isPrivate;
     }
 }

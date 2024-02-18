@@ -1,5 +1,9 @@
 package com.book_everywhere.service;
 
+import com.book_everywhere.domain.book.Book;
+import com.book_everywhere.domain.book.BookRepository;
+import com.book_everywhere.domain.pin.Pin;
+import com.book_everywhere.domain.pin.PinRepository;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.review.ReviewRepository;
 import com.book_everywhere.web.dto.review.ReviewDto;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,13 +22,20 @@ import java.util.List;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final BookRepository bookRepository;
+    private final PinRepository pinRepository;
 
     //사용자 검증에 메소드
 
     //등록
     @Transactional
-    public Long createReview(ReviewDto reviewDto) {
-        Review review = new Review().createFromDto(reviewDto);
+    public Long createReview(Long bookId, Long pinId, ReviewDto reviewDto) {
+        Book book = bookRepository.findById(bookId).orElseThrow(
+                ()-> new IllegalArgumentException("Book does not exist"));
+        Pin pin = pinRepository.findById(pinId).orElseThrow(
+                () -> new IllegalArgumentException("Pin does not exist"));
+
+        Review review = new Review().createFromDto(book, pin, reviewDto);
         reviewRepository.save(review);
         return review.getId();
     }
