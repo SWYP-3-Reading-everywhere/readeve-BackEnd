@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,22 +22,15 @@ public class ReviewController {
 
     //조회
     //공개 독후감 조회
-    @GetMapping("/api/review")
-    public CMRespDto<?> reviews(@RequestParam int page,
+    @GetMapping("/api/public/review")
+    public CMRespDto<?> publicReviews(@RequestParam int page,
                                 @RequestParam int size,
                                 @RequestParam boolean isPrivate) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Review> result = reviewService.findPublicReviews(isPrivate,pageable);
+        List<Review> result = reviewService.findPublicReviews(isPrivate, pageable);
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
 
-    //추후 예정
-    @GetMapping("/review")
-    public CMRespDto<?> userReview() {
-        //책에서 유저 아이디 값이 필요함
-
-        return null;
-    }
 
     //등록
     @PostMapping("/api/review")
