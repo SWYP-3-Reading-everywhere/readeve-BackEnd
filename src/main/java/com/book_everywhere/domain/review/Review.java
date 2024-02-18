@@ -76,12 +76,19 @@ public class Review {
         return review;
     }
 
-    //수정 폼을 알아야 할 것 같음
-    public void update(ReviewDto reviewDto) {
-        this.title = reviewDto.getTitle();
-        this.content = reviewDto.getContent();
-        this.isPrivate = reviewDto.getIsPrivate();
+
+    public void setTitle(String title) {
+        this.title = title;
     }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
     public boolean getIsPrivate() {
         return isPrivate;
     }

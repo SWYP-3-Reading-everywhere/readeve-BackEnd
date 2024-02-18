@@ -1,6 +1,5 @@
 package com.book_everywhere.domain.book;
 
-import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.user.User;
 import jakarta.persistence.CascadeType;
@@ -44,4 +43,20 @@ public class Book {
 
     @CreationTimestamp
     private Timestamp createAt;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCoverImageUrl(String coverImageUrl) {
+        this.coverImageUrl = coverImageUrl;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
+    }
 }
