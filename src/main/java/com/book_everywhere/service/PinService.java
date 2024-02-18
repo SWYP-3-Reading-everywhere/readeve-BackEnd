@@ -10,6 +10,7 @@ import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.domain.visit.Visit;
 import com.book_everywhere.web.dto.pin.PinDto;
+import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -22,7 +23,6 @@ import java.util.List;
 @Service
 public class PinService {
     private final PinRepository pinRepository;
-    private final ReviewRepository reviewRepository;
     private final TaggedRepository taggedRepository;
 
     //DTO 변환단계
@@ -37,12 +37,6 @@ public class PinService {
         return resultDto;
     }
 
-    @Transactional(readOnly = true)
-    public List<Review> 단일핀조회(Long pinId, @AuthenticationPrincipal OAuth2User oAuth2User) {
-        //단일 핀을 눌렀을때 독후감이 조회됩니다.
-        return reviewRepository.mFindReviewUserMap((Long)oAuth2User.getAttributes().get("id"),pinId);
-    }
-
     @Transactional
     public void 핀생성(PinDto pinDto){
         Pin pin = pinDto.toEntity();
@@ -50,12 +44,24 @@ public class PinService {
     }
 
     @Transactional(readOnly = true)
-    public List<Pin> 나만의지도조회(@AuthenticationPrincipal OAuth2User oAuth2User){
-        return pinRepository.mUserMap((Long)oAuth2User.getAttributes().get("id"));
+    public List<PinDto> 나만의지도조회(@AuthenticationPrincipal OAuth2User oAuth2User){
+        List<Pin> init = pinRepository.mUserMap((Long)oAuth2User.getAttributes().get("id"));
+
+        List<PinDto> resultDto = init.stream()
+                .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .toList();
+
+        return resultDto;
     }
 
     @Transactional(readOnly = true)
-    public List<Pin> 태그조회(String tagContent){
-        return taggedRepository.mFindTaggedPin(tagContent);
+    public List<PinDto> 태그조회(String tagContent){
+        List<Pin> init = taggedRepository.mFindTaggedPin(tagContent);
+
+        List<PinDto> resultDto = init.stream()
+                .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .toList();
+
+        return resultDto;
     }
 }

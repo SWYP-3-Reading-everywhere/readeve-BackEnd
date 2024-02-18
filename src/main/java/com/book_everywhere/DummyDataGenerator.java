@@ -13,6 +13,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * 테스트용 더미데이터 입니다.
+ */
 @Component
 public class DummyDataGenerator implements CommandLineRunner {
 
@@ -53,7 +56,7 @@ public class DummyDataGenerator implements CommandLineRunner {
             entityManager.persist(pin);
 
             Tag tag = Tag.builder()
-                    .content("Tag Content " + i)
+                    .content("tag" + i)
                     .build();
             entityManager.persist(tag);
 

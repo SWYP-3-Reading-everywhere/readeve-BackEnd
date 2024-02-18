@@ -42,7 +42,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 }
-
+tasks.withType(JavaCompile) {
+	options.compilerArgs += ['-parameters']
+	sourceCompatibility = '17'
+	targetCompatibility = '17'
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }

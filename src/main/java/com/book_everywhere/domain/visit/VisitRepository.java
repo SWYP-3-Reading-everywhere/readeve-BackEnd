@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface VisitRepository extends JpaRepository<Visit, Integer> {
+public interface VisitRepository extends JpaRepository<Visit, Long> {
 
     //전체핀에서 몇명이 방문했는지 알려주는 쿼리
     @Query(value ="SELECT visit.pin.id, COUNT(visit) FROM Visit visit GROUP BY visit.pin.id", nativeQuery = true)
