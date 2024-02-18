@@ -54,7 +54,7 @@ public class Review {
     private Timestamp updatedAt;
 
 
-    public Review createReview(ReviewDto reviewDto) {
+    public Review createFromDto(ReviewDto reviewDto) {
         return Review.builder()
                 .title(reviewDto.getTitle())
                 .content(reviewDto.getContent())
@@ -63,15 +63,11 @@ public class Review {
     }
 
     //수정 폼을 알아야 할 것 같음
-    public Review update(ReviewDto reviewDto) {
-        return Review.builder()
-                .id(this.id)
-                .title(reviewDto.getTitle())
-                .content(reviewDto.getContent())
-                .isPrivate(reviewDto.getIsPrivate())
-                .createdAt(this.createdAt)
-                .updatedAt(Timestamp.valueOf(LocalDateTime.now()))
-                .build();
+    public void update(ReviewDto reviewDto) {
+        this.title = reviewDto.getTitle();
+        this.content = reviewDto.getContent();
+        this.isPrivate = reviewDto.getIsPrivate();
+        this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public void setIsPrivate(boolean isPrivate) {
