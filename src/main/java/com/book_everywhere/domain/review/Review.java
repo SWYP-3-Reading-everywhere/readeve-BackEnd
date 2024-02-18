@@ -2,6 +2,7 @@ package com.book_everywhere.domain.review;
 
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.pin.Pin;
+import com.book_everywhere.web.dto.review.ReviewDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -43,21 +45,39 @@ public class Review {
     @Column(nullable = false)
     private String content;
     @Column(nullable = false)
-    private String isPrivate;
+    private boolean isPrivate;
 
     @CreationTimestamp
-    private Timestamp createAt;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
-    private Timestamp updateAt;
+    private Timestamp updatedAt;
 
 
-    public Review createReview(String title, String content, Book book) {
+    public Review createReview(ReviewDto reviewDto) {
         return Review.builder()
-                .title(title)
-                .content(content)
-                .book(book)
+                .title(reviewDto.getTitle())
+                .content(reviewDto.getContent())
+                .book(reviewDto.getBook())
+                .isPrivate(reviewDto.getIsPrivate())
                 .build();
+    }
+
+    //수정 폼을 알아야 할 것 같음
+    public Review update(ReviewDto reviewDto) {
+        return Review.builder()
+                .id(this.id)
+                .title(reviewDto.getTitle())
+                .content(reviewDto.getContent())
+                .book(reviewDto.getBook())
+                .isPrivate(reviewDto.getIsPrivate())
+                .createdAt(this.createdAt)
+                .updatedAt(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
 }
