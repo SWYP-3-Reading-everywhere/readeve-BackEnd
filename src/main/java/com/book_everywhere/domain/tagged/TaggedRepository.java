@@ -12,4 +12,7 @@ public interface TaggedRepository extends JpaRepository<Tagged,Long> {
     @Query("SELECT pin FROM Pin pin JOIN pin.tags tagged WHERE tagged.tag.content = :content")
     List<Pin> mFindTaggedPin(@Param("content") String content);
 
+
+    @Query("SELECT t FROM Tagged t WHERE t.tag.id = :tagId AND t.pin.id = :pinId")
+    Tagged mFindTagged(@Param("tagId") Long tagId, @Param("pinId") Long pinId);
 }

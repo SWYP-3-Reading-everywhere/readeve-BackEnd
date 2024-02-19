@@ -23,16 +23,20 @@ public class VisitService {
     private final VisitRepository visitRepository;
 
     @Transactional
-    public void 독후감쓰기전방문등록(Long pinId, VisitDto visitDto, @AuthenticationPrincipal OAuth2User oAuth2User) {
+    public void 독후감쓰기전방문등록(VisitDto visitDto) {
         //review가 올라가기전 visit에 등록되어있는지 확인후 없다면 visit등록
-        long socialId = (Long) oAuth2User.getAttributes().get("id");
-        User user = userRepository.findBySocialId(socialId).orElseThrow();
-        Pin pin = pinRepository.mFindByPinId(pinId);
+        User user = userRepository.findBySocialId(visitDto.getSocialId()).orElseThrow();
+        Pin pin = pinRepository.mFindByPinId(visitDto.getPinId());
 
-        Optional<Visit> visited = visitRepository.findByUserAndPin(user, pin);
+        Visit visited = visitRepository.mFindByUserAndPin(user.getId(), pin.getId());
 
-        if (visited.isEmpty()) {
-            Visit visit = visitDto.toEntity(user, pin);
+        if (visited!=null) {
+            Visit visit = Visit.builder()
+                    .user(user)
+                    .pin(pin)
+                    .isPrivate(visitDto.isPrivate())
+                    .build();
+
             visitRepository.save(visit);
         }
     }
