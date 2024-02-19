@@ -22,8 +22,8 @@ public class BookService {
 
     //등록
     @Transactional
-    public Long createBook(Long userId, BookDto bookDto) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User does not exist"));
+    public Long createBook(Long socialId, BookDto bookDto) {
+        User user = userRepository.findById(socialId).orElseThrow(() -> new IllegalArgumentException("User does not exist"));
         Book book = new Book().createBook(user,bookDto);
         bookRepository.save(book);
         return book.getId();

@@ -25,19 +25,20 @@ public class BookController {
     }
 
     @PostMapping("/api/book")
-    public CMRespDto<BookDto> addBook(BookDto bookDto) {
+    public CMRespDto<BookDto> addBook(@RequestParam Long socialId, BookDto bookDto) {
+        bookService.createBook(socialId, bookDto);
         return new CMRespDto<>(HttpStatus.OK, null, "책 등록 완료");
     }
 
     @PutMapping("/api/book/{id}")
-    public CMRespDto<BookDto> updateBook(BookDto bookDto) {
-
+    public CMRespDto<BookDto> updateBook(@PathVariable Long id, BookDto bookDto) {
+        bookService.updateBook(id,bookDto);
         return new CMRespDto<>(HttpStatus.OK, null, "책 수정 완료");
     }
 
     @DeleteMapping("/api/book/{id}")
-    public CMRespDto<BookDto> deleteBook(BookDto bookDto) {
-
+    public CMRespDto<BookDto> deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
         return new CMRespDto<>(HttpStatus.OK, null, "책 삭제 완료");
     }
 }
