@@ -55,7 +55,6 @@ public class Book {
                 .build();
         book.setUser(user);
         return book;
-
     }
 
     //update setter

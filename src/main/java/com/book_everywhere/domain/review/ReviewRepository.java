@@ -17,8 +17,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     //공유목록에서의 모든 독후감 조회
     List<Review> findByIsPrivate(boolean isPrivate, Pageable pageable);
 
-    //특정 유저의 모든 독후감 조회 //user필드를 book을 통해 간접 참조하기 때문에 socialId를 사용할 수 없음 이 경우에 대한 의논이 필요함
-    @Query("SELECT r FROM Review r WHERE r.book.id = :bookId AND r.book.user.id = :userId")
+    //특정 유저의 모든 독후감 조회
+    @Query("SELECT r FROM Review r WHERE r.book.id = :bookId AND r.book.user.socialId = :userId")
     List<Review> findReviewsByUserAndBook(@Param("userId") Long userId, @Param("bookId") Long bookId);
 
 

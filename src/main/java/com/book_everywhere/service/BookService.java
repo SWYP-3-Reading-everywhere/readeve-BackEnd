@@ -2,7 +2,6 @@ package com.book_everywhere.service;
 
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.book.BookRepository;
-import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.web.dto.book.BookDto;
@@ -24,7 +23,7 @@ public class BookService {
     @Transactional
     public Long createBook(Long socialId, BookDto bookDto) {
         User user = userRepository.findById(socialId).orElseThrow(() -> new IllegalArgumentException("User does not exist"));
-        Book book = new Book().createBook(user,bookDto);
+        Book book = new Book().createBook(user, bookDto);
         bookRepository.save(book);
         return book.getId();
     }
@@ -49,20 +48,41 @@ public class BookService {
     //조회
 
     //특정 유저의 모든 책 목록 조회
-    public List<Book> findAllBookOneUser(Long userSocialId) {
+    public List<BookDto> findAllBookOneUser(Long userSocialId) {
         User user = userRepository.findBySocialId(userSocialId);
-        return bookRepository.findAllByUser(user);
+        List<Book> init = bookRepository.findAllByUser(user);
+        return init.stream().map(book -> new BookDto(
+                book.getUser().getId(),
+                book.getTitle(),
+                book.getCoverImageUrl(),
+                book.getAuthor(),
+                book.isComplete(),
+                book.getCreateAt())).toList();
     }
 
 
     //책 한권 조회
-    public Book findOneBook(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book does not exist"));
+    public BookDto findOneBook(Long id) {
+        Book init = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book does not exist"));
+        return new BookDto(
+                init.getUser().getId(),
+                init.getTitle(),
+                init.getCoverImageUrl(),
+                init.getAuthor(),
+                init.isComplete(),
+                init.getCreateAt());
     }
 
     //등록된 모든 책 조회
-    public List<Book> findAllBook() {
-        return bookRepository.findAll();
+    public List<BookDto> findAllBook() {
+        List<Book> init = bookRepository.findAll();
+        return init.stream().map(book -> new BookDto(
+                book.getUser().getId(),
+                book.getTitle(),
+                book.getCoverImageUrl(),
+                book.getAuthor(),
+                book.isComplete(),
+                book.getCreateAt())).toList();
     }
 
 }

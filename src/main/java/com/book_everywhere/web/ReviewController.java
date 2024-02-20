@@ -1,7 +1,6 @@
 package com.book_everywhere.web;
 
 
-import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.service.ReviewService;
 import com.book_everywhere.web.dto.CMRespDto;
 import com.book_everywhere.web.dto.review.ReviewDto;
@@ -27,7 +26,7 @@ public class ReviewController {
                                 @RequestParam int size,
                                 @RequestParam boolean isPrivate) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Review> result = reviewService.findPublicReviews(isPrivate, pageable);
+        List<ReviewDto> result = reviewService.findPublicReviews(isPrivate, pageable);
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
 
@@ -47,12 +46,6 @@ public class ReviewController {
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
-    //삭제
-    @DeleteMapping("/api/review/{id}")
-    public CMRespDto<?> deleteReview(@PathVariable Long id) {
-        reviewService.deleteReview(id);
-        return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");
-    }
 
 
 }

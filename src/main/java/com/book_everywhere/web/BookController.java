@@ -32,7 +32,7 @@ public class BookController {
 
     @PutMapping("/api/book/{id}")
     public CMRespDto<BookDto> updateBook(@PathVariable Long id, BookDto bookDto) {
-        bookService.updateBook(id,bookDto);
+        bookService.updateBook(id, bookDto);
         return new CMRespDto<>(HttpStatus.OK, null, "책 수정 완료");
     }
 
