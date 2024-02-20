@@ -19,7 +19,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
-@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,12 +43,21 @@ public class Review {
     @Column(nullable = false)
     private String content;
     @Column(nullable = false)
-    private boolean isPrivate;
+    private String isPrivate;
 
     @CreationTimestamp
     private Timestamp createAt;
 
     @UpdateTimestamp
     private Timestamp updateAt;
+
+
+    public Review createReview(String title, String content, Book book) {
+        return Review.builder()
+                .title(title)
+                .content(content)
+                .book(book)
+                .build();
+    }
 
 }

@@ -23,7 +23,7 @@ public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
@@ -35,5 +35,4 @@ public class Visit {
     //최초 방문시각
     @CreationTimestamp
     private Timestamp createAt;
-
 }

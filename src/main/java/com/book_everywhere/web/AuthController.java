@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class AuthController {
 
-    /**
-     * 소셜로그인 테스트를위한 controller
-     */
-
     @GetMapping("/")
     public String test(@AuthenticationPrincipal OAuth2User oAuth2User) {
         log.info("------------------------------------------");

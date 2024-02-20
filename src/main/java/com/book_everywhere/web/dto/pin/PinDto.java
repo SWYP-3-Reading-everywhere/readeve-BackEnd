@@ -1,26 +1,22 @@
 package com.book_everywhere.web.dto.pin;
 
-import java.sql.Timestamp;
 import com.book_everywhere.domain.pin.Pin;
-import lombok.AllArgsConstructor;
+import com.book_everywhere.domain.user.User;
 import lombok.Data;
 
-
 @Data
-@AllArgsConstructor
 public class PinDto {
-    private Long id;
+    private String title;
     private double latitude;
     private double longitude;
-    private String title;
-    private String address;
-    private Timestamp createAt;
+    private String memo;
+    private boolean isPrivate;
+    private String message;
 
     public Pin toEntity(){
         return Pin.builder()
                 .title(title)
                 .latitude(latitude)
-                .address(address)
                 .longitude(longitude)
                 .build();
     }

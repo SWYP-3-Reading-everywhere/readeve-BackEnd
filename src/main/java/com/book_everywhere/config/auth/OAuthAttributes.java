@@ -14,7 +14,6 @@ import java.util.Map;
 public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
-    private long socialId;
     private String nickname;
     private String image;
 
@@ -24,13 +23,10 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
-        long socialId = ((Number) attributes.get(userNameAttributeName)).longValue(); // Change this line
-
 
         return OAuthAttributes.builder()
                 .nickname((String) properties.get("nickname"))
                 .image((String) properties.get("profile_image"))
-                .socialId(socialId)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -39,7 +35,6 @@ public class OAuthAttributes {
         return User.builder()
                 .nickname(nickname)
                 .image(image)
-                .socialId(socialId)
                 .role(Role.ROLE_MEMBER)
                 .build();
     }
