@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
 public class Review {
 
     @Id
