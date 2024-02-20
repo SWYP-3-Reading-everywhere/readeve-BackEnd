@@ -2,15 +2,10 @@ package com.book_everywhere.service;
 
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.pin.PinRepository;
-import com.book_everywhere.domain.review.Review;
-import com.book_everywhere.domain.review.ReviewRepository;
-import com.book_everywhere.domain.tag.TagRepository;
 import com.book_everywhere.domain.tagged.TaggedRepository;
-import com.book_everywhere.domain.user.User;
-import com.book_everywhere.domain.user.UserRepository;
-import com.book_everywhere.domain.visit.Visit;
 import com.book_everywhere.web.dto.pin.PinDto;
-import com.book_everywhere.web.dto.review.ReviewDto;
+import com.book_everywhere.web.dto.pin.PinRespDto;
+import com.book_everywhere.web.dto.review.ReviewRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -38,8 +33,15 @@ public class PinService {
     }
 
     @Transactional
-    public void 핀생성(PinDto pinDto){
-        Pin pin = pinDto.toEntity();
+    public void 핀생성(ReviewRespDto reviewRespDto){
+        PinRespDto pinRespDto = reviewRespDto.getPinRespDto();
+        //여기에 핀이 이미 있는지 확인하는 코드 작성해야함
+        Pin pin = Pin.builder()
+                .title(pinRespDto.getName())
+                .address(pinRespDto.getAddress())
+                .longitude(pinRespDto.getX())
+                .latitude(pinRespDto.getY())
+                .build();
         pinRepository.save(pin);
     }
 

@@ -12,6 +12,7 @@ public class PinDto {
     private Long id;
     private double latitude;
     private double longitude;
+    //개인설정이름
     private String title;
     private String address;
     private Timestamp createAt;
