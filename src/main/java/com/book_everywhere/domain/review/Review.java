@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Getter
 public class Review {
 
     @Id
@@ -42,23 +41,24 @@ public class Review {
     private boolean isPrivate;
 
     @CreationTimestamp
-    private Timestamp createdAt;
+    private Timestamp createAt;
 
     @UpdateTimestamp
-    private Timestamp updatedAt;
+    private Timestamp updateAt;
 
     //==연관 관계 편의 메서드==//
     private void setBook(Book book) {
         this.book = book;
         book.getReviews().add(this);
     }
+
     private void setPin(Pin pin) {
         this.pin = pin;
         pin.getReviews().add(this);
     }
 
     //==생성 메서드==//
-    public Review createFromDto(Book book,Pin pin, ReviewDto reviewDto) {
+    public Review createFromDto(Book book, Pin pin, ReviewDto reviewDto) {
 
         Review review = Review.builder()
                 .title(reviewDto.getTitle())
@@ -83,7 +83,5 @@ public class Review {
         this.isPrivate = isPrivate;
     }
 
-    public boolean getIsPrivate() {
-        return isPrivate;
-    }
+
 }

@@ -8,7 +8,16 @@ server:
       enabled: true
 
 #Spring
+
 spring:
+  #Cors 는 프론트와 백 연결을 위한 사용
+  application:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "GET,POST,PUT,DELETE"
+      allowed-headers: "*"
+      allow-credentials: true
+
   config:
     import: application-secret.yml
   servlet:

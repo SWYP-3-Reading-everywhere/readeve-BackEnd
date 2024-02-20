@@ -23,22 +23,22 @@ public class BookController {
         BookSearchResultDto result = kakaoBookSearchService.searchBook(title);
         return new CMRespDto<>(HttpStatus.OK, result, "책 검색 완료");
     }
-
-    @PostMapping("/api/book")
-    public CMRespDto<BookDto> addBook(@RequestParam Long socialId, BookDto bookDto) {
-        bookService.createBook(socialId, bookDto);
-        return new CMRespDto<>(HttpStatus.OK, null, "책 등록 완료");
-    }
+    //삭제 논의
+//    @PostMapping("/api/book")
+//    public CMRespDto<BookDto> addBook(@RequestParam Long socialId, BookDto bookDto) {
+//        bookService.책생성하기(socialId, bookDto);
+//        return new CMRespDto<>(HttpStatus.OK, null, "책 등록 완료");
+//    }
 
     @PutMapping("/api/book/{id}")
     public CMRespDto<BookDto> updateBook(@PathVariable Long id, BookDto bookDto) {
-        bookService.updateBook(id, bookDto);
+        bookService.책수정하기(id, bookDto);
         return new CMRespDto<>(HttpStatus.OK, null, "책 수정 완료");
     }
 
     @DeleteMapping("/api/book/{id}")
     public CMRespDto<BookDto> deleteBook(@PathVariable Long id) {
-        bookService.deleteBook(id);
+        bookService.책삭제하기(id);
         return new CMRespDto<>(HttpStatus.OK, null, "책 삭제 완료");
     }
 }

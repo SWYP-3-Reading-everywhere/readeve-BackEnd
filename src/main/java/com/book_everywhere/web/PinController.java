@@ -12,15 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "*")
 public class PinController {
 
     private final PinService pinService;
@@ -53,11 +51,12 @@ public class PinController {
         return new CMRespDto<>(HttpStatus.OK, result,"태그 조회 성공!");
     }
 
-    @PostMapping("/api/pin")
-    public CMRespDto<?> createPin(PinDto pinDto) {
-        pinService.핀생성(pinDto);
-        return new CMRespDto<>(HttpStatus.OK,null ,"핀생성완료!");
-    }
+    //삭제 논의
+//    @PostMapping("/api/pin")
+//    public CMRespDto<?> createPin(PinDto pinDto) {
+//        pinService.핀생성(pinDto);
+//        return new CMRespDto<>(HttpStatus.OK,null ,"핀생성완료!");
+//    }
 
     @GetMapping("/api/user/review")
     public CMRespDto<?> userReview(@AuthenticationPrincipal OAuth2User oAuth2User) {

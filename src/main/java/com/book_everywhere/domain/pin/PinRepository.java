@@ -22,4 +22,10 @@ public interface PinRepository extends JpaRepository<Pin, Long> {
     @Query("SELECT pin FROM Pin pin")
     List<Pin> mFindAllPin();
 
+
+    /**
+     * 추가 도로명 주소를 통한 Pin 생성 설계
+     */
+    @Query("SELECT pin FROM Pin pin WHERE pin.address = :address")
+    Pin  mFindPinByAddress(@Param("address") String address);
 }

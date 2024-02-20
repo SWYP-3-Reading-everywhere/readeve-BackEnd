@@ -42,7 +42,7 @@ public class DummyDataGenerator implements CommandLineRunner {
                     .user(user)
                     .title("Book Title " + i)
                     .coverImageUrl("http://image.url/bookcover" + i)
-                    .author("Author" + i)
+                    .isbn("Author" + i)
                     .isComplete(i % 2 == 0)
                     .build();
             entityManager.persist(book);
