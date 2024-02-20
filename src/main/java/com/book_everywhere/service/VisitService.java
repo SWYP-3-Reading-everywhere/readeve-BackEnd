@@ -6,14 +6,10 @@ import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.domain.visit.Visit;
 import com.book_everywhere.domain.visit.VisitRepository;
-import com.book_everywhere.web.dto.visit.VisitDto;
+import com.book_everywhere.web.dto.visit.VisitRespDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,18 +19,18 @@ public class VisitService {
     private final VisitRepository visitRepository;
 
     @Transactional
-    public void 독후감쓰기전방문등록(VisitDto visitDto) {
+    public void 독후감쓰기전방문등록(VisitRespDto visitRespDto) {
         //review가 올라가기전 visit에 등록되어있는지 확인후 없다면 visit등록
-        User user = userRepository.findBySocialId(visitDto.getSocialId()).orElseThrow();
-        Pin pin = pinRepository.mFindByPinId(visitDto.getPinId());
+        User user = userRepository.findBySocialId(visitRespDto.getSocialId()).orElseThrow();
+        Pin pin = pinRepository.mFindByPinId(visitRespDto.getPinId());
 
         Visit visited = visitRepository.mFindByUserAndPin(user.getId(), pin.getId());
 
-        if (visited!=null) {
+        if (visited != null) {
             Visit visit = Visit.builder()
                     .user(user)
                     .pin(pin)
-                    .isPrivate(visitDto.isPrivate())
+                    .isPrivate(visitRespDto.isPrivate())
                     .build();
 
             visitRepository.save(visit);

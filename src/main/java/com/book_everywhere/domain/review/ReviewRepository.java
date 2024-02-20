@@ -17,6 +17,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT review FROM Review review WHERE review.isPrivate = false")
     List<Review> mFindAllPublicReviews();
 
+    // socialId를 통한 모든 독후감 생성
+    @Query("SELECT r FROM Review r WHERE r.book.user.socialId = :userId")
+    List<Review> mFindReviewsByUser(@Param("userId") Long userId);
     //독후감 삭제
     @Modifying
     @Query("DELETE FROM Review WHERE id = :reviewId")

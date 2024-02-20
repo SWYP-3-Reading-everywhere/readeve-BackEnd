@@ -27,4 +27,15 @@ public class ReviewService {
 
         return resultDto;
     }
+    @Transactional(readOnly = true)
+    public List<ReviewDto> 유저모든독후감조회(@AuthenticationPrincipal OAuth2User oAuth2User) {
+        List<Review> init = reviewRepository.mFindReviewsByUser((Long)oAuth2User.getAttributes().get("id"));
+
+        List<ReviewDto> resultDto = init.stream()
+                .map(review -> new ReviewDto(review.getId(),review.getTitle(),review.getContent(),review.isPrivate(),review.getUpdateAt(),review.getCreateAt()))
+                .toList();
+
+        return resultDto;
+    }
+
 }
