@@ -13,7 +13,7 @@ public class BookDto {
     private Long userId;
     private String title;
     private String coverImageUrl;
-    private String author;
+    private String isbn;
     private boolean isComplete;
     private Timestamp createdAt;
 
@@ -25,7 +25,6 @@ public class BookDto {
         return Book.builder()
                 .title(title)
                 .coverImageUrl(coverImageUrl)
-                .author(author)
                 .build();
     }
 }

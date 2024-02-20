@@ -41,7 +41,8 @@ public class Pin {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+
+    @Column(nullable = false,unique = true)
     private String address;
 
     //최초 방문자의 생성

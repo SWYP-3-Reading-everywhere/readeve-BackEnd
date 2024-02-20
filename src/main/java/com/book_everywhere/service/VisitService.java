@@ -6,6 +6,7 @@ import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.domain.visit.Visit;
 import com.book_everywhere.domain.visit.VisitRepository;
+import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.dto.visit.VisitRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,10 @@ public class VisitService {
     private final VisitRepository visitRepository;
 
     @Transactional
-    public void 독후감쓰기전방문등록(VisitRespDto visitRespDto) {
+    public void 독후감쓰기전방문등록(ReviewRespDto reviewRespDto) {
         //review가 올라가기전 visit에 등록되어있는지 확인후 없다면 visit등록
-        User user = userRepository.findBySocialId(visitRespDto.getSocialId()).orElseThrow();
-        Pin pin = pinRepository.mFindByPinId(visitRespDto.getPinId());
+        User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow();
+        Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
         Visit visited = visitRepository.mFindByUserAndPin(user.getId(), pin.getId());
 
@@ -30,7 +31,7 @@ public class VisitService {
             Visit visit = Visit.builder()
                     .user(user)
                     .pin(pin)
-                    .isPrivate(visitRespDto.isPrivate())
+                    .isPrivate(reviewRespDto.isPrivate())
                     .build();
 
             visitRepository.save(visit);
