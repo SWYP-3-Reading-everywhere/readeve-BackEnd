@@ -14,7 +14,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
-@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -83,7 +82,4 @@ public class Review {
         this.isPrivate = isPrivate;
     }
 
-    public boolean getIsPrivate() {
-        return isPrivate;
-    }
 }

@@ -6,7 +6,6 @@ import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.pin.PinRepository;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.review.ReviewRepository;
-import com.book_everywhere.web.dto.book.BookDto;
 import org.springframework.data.domain.Pageable;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +18,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final BookRepository bookRepository;
@@ -30,7 +30,7 @@ public class ReviewService {
     @Transactional
     public Long createReview(Long bookId, Long pinId, ReviewDto reviewDto) {
         Book book = bookRepository.findById(bookId).orElseThrow(
-                ()-> new IllegalArgumentException("Book does not exist"));
+                () -> new IllegalArgumentException("Book does not exist"));
         Pin pin = pinRepository.findById(pinId).orElseThrow(
                 () -> new IllegalArgumentException("Pin does not exist"));
 
@@ -66,53 +66,70 @@ public class ReviewService {
     //공유 목록에서의 독후감 조회
     public List<ReviewDto> findPublicReviews(boolean isPrivate, Pageable pageable) {
         List<Review> init = reviewRepository.findByIsPrivate(isPrivate, pageable);
-        return init.stream().map(review -> new ReviewDto(review.getTitle(),
-                review.getContent(),
-                review.getIsPrivate(),
-                review.getCreatedAt(),
-                review.getUpdatedAt())).toList();
-    //단일 핀을 눌렀을때 독후감이 조회됩니다.
-    @Transactional(readOnly = true)
-    public List<ReviewDto> 단일핀독후감조회(Long pinId, @AuthenticationPrincipal OAuth2User oAuth2User) {
-        List<Review> init = reviewRepository.mFindReviewUserMap((Long)oAuth2User.getAttributes().get("id"),pinId);
-
-        List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(),review.getTitle(),review.getContent(),review.isPrivate(),review.getUpdateAt(),review.getCreateAt()))
-                .toList();
-
-        return resultDto;
-    }
-    @Transactional(readOnly = true)
-    public List<ReviewDto> 유저모든독후감조회(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        List<Review> init = reviewRepository.mFindReviewsByUser((Long)oAuth2User.getAttributes().get("id"));
-
-        List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(),review.getTitle(),review.getContent(),review.isPrivate(),review.getUpdateAt(),review.getCreateAt()))
-                .toList();
-
-
-
-    //리뷰 하나만 조회
-    public ReviewDto findOneReview(Long id) {
-        Review init = reviewRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Review does not exist"));
-        return new ReviewDto(init.getTitle(),
-                init.getContent(),
-                init.getIsPrivate(),
-                init.getCreatedAt(),
-                init.getUpdatedAt());
-    }
-
-    //등록된 모든 리뷰 조회
-    public List<ReviewDto> findReviews() {
-        List<Review> init = reviewRepository.findAll();
         return init.stream().map(review ->
                 new ReviewDto(
-                        review.getTitle(),
-                        review.getContent(),
-                        review.getIsPrivate(),
-                        review.getCreatedAt(),
-                        review.getUpdatedAt())).toList();
+                        review.getId(),
+                review.getTitle(),
+                review.getContent(),
+                review.isPrivate(),
+                review.getCreatedAt(),
+                review.getUpdatedAt())).toList();
     }
 
-}
+        //단일 핀을 눌렀을때 독후감이 조회됩니다.
+        @Transactional(readOnly = true)
+        public List<ReviewDto> 단일핀독후감조회 (Long pinId, @AuthenticationPrincipal OAuth2User oAuth2User){
+            List<Review> init = reviewRepository.mFindReviewUserMap((Long) oAuth2User.getAttributes().get("id"), pinId);
+
+            List<ReviewDto> resultDto = init.stream()
+                    .map(review -> new ReviewDto(
+                            review.getId(),
+                            review.getTitle(),
+                            review.getContent(),
+                            review.isPrivate(),
+                            review.getUpdatedAt(),
+                            review.getCreatedAt()))
+                    .toList();
+
+            return resultDto;
+        }
+        @Transactional(readOnly = true)
+        public List<ReviewDto> 유저모든독후감조회 (@AuthenticationPrincipal OAuth2User oAuth2User) {
+            List<Review> init = reviewRepository.mFindReviewsByUser((Long) oAuth2User.getAttributes().get("id"));
+
+            return init.stream()
+                    .map(review -> new ReviewDto(
+                            review.getId(),
+                            review.getTitle(),
+                            review.getContent(),
+                            review.isPrivate(),
+                            review.getUpdatedAt(),
+                            review.getCreatedAt()))
+                    .toList();
+        }
+            //리뷰 하나만 조회
+            public ReviewDto findOneReview (Long id){
+                Review init = reviewRepository.findById(id).orElseThrow(
+                        () -> new IllegalArgumentException("Review does not exist"));
+                return new ReviewDto(
+                        init.getId(),
+                        init.getTitle(),
+                        init.getContent(),
+                        init.isPrivate(),
+                        init.getCreatedAt(),
+                        init.getUpdatedAt());
+            }
+
+            //등록된 모든 리뷰 조회
+            public List<ReviewDto> findReviews () {
+                List<Review> init = reviewRepository.findAll();
+                return init.stream().map(review ->
+                        new ReviewDto(
+                                review.getId(),
+                                review.getTitle(),
+                                review.getContent(),
+                                review.isPrivate(),
+                                review.getCreatedAt(),
+                                review.getUpdatedAt())).toList();
+            }
+        }

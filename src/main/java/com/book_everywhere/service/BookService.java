@@ -49,7 +49,7 @@ public class BookService {
 
     //특정 유저의 모든 책 목록 조회
     public List<BookDto> findAllBookOneUser(Long userSocialId) {
-        User user = userRepository.findBySocialId(userSocialId);
+        User user = userRepository.findBySocialId(userSocialId).orElseThrow();
         List<Book> init = bookRepository.findAllByUser(user);
         return init.stream().map(book -> new BookDto(
                 book.getUser().getId(),
