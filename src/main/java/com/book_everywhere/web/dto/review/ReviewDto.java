@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 public class ReviewDto {
+    private Long id;
     private String title;
     private String content;
     private boolean isPrivate;
@@ -27,6 +28,4 @@ public class ReviewDto {
                 .isPrivate(isPrivate)
                 .build();
     }
-
-
 }

@@ -21,8 +21,21 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.book.id = :bookId AND r.book.user.socialId = :userId")
     List<Review> findReviewsByUserAndBook(@Param("userId") Long userId, @Param("bookId") Long bookId);
 
-
     // 개인지도에서 핀을 눌렀을때 독후감이 모두 뜨는 기능
+    // Entity 바뀐다면 수정 필요 -> 수정완료
     @Query("SELECT review FROM Review review WHERE review.book.user.socialId = :socialId AND review.pin.id = :pinId")
     List<Review> mFindReviewUserMap(@Param("socialId") Long socialId, @Param("pinId") Long pinId);
+
+    //모든 공유리뷰 호출
+    @Query("SELECT review FROM Review review WHERE review.isPrivate = false")
+    List<Review> mFindAllPublicReviews();
+
+    // socialId를 통한 모든 독후감 생성
+    @Query("SELECT r FROM Review r WHERE r.book.user.socialId = :userId")
+    List<Review> mFindReviewsByUser(@Param("userId") Long userId);
+    
+  //독후감 삭제
+    @Modifying
+    @Query("DELETE FROM Review WHERE id = :reviewId")
+    int mDeleteReview(@Param("reviewId") Long reviewId);
 }

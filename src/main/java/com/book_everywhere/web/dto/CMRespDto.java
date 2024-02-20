@@ -12,5 +12,4 @@ public class CMRespDto<T> {
     private HttpStatus statusCode;
     private T data;
     private String message;
-
 }

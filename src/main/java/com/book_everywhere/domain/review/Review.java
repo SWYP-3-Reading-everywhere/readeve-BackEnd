@@ -14,6 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,7 +46,6 @@ public class Review {
 
     @UpdateTimestamp
     private Timestamp updatedAt;
-
 
     //==연관 관계 편의 메서드==//
     private void setBook(Book book) {
