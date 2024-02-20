@@ -26,6 +26,7 @@ public class PinController {
     private final PinService pinService;
     private final ReviewService reviewService;
 
+
     @GetMapping("/api/pin")
     public CMRespDto<?> allPin() {
         List<PinDto> result = pinService.전체지도조회();

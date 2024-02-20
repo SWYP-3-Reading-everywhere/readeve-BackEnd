@@ -25,19 +25,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Book> books;
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Visit> visits;
 
     @Column(nullable = false, unique = true)
     private Long socialId;
+    @Column(nullable = false)
+    private Long socialId; //이메일 대신 사용하는 아이디값
     @Column(nullable = false)
     private String nickname;
     @Column(nullable = false)
