@@ -17,6 +17,7 @@ public class OAuthAttributes {
     private long socialId;
     private String nickname;
     private String image;
+    private Role role;
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
         return ofKakao("id", attributes);

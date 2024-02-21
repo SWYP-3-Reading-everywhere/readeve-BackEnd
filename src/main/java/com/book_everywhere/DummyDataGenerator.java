@@ -5,6 +5,7 @@ import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.tag.Tag;
 import com.book_everywhere.domain.tagged.Tagged;
+import com.book_everywhere.domain.user.Role;
 import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.visit.Visit;
 import jakarta.persistence.EntityManager;
@@ -48,8 +49,8 @@ public class DummyDataGenerator implements CommandLineRunner {
             entityManager.persist(book);
 
             Pin pin = Pin.builder()
-                    .latitude(37.5665 + i)
-                    .longitude(126.9780 + i)
+                    .latitude(100.5665 + i)
+                    .longitude(100.9780 + i)
                     .title("Pin Title " + i)
                     .address("Seoul " + i)
                     .build();

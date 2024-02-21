@@ -1,5 +1,6 @@
 package com.book_everywhere.config.auth;
 
+import com.book_everywhere.domain.user.Role;
 import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -55,7 +56,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      */
     private User saveOrUpdate(OAuthAttributes attributes) {
         User user = userRepository.findBySocialId(attributes.getSocialId())
-                .map(entity -> entity.update(attributes.getNickname(),attributes.getImage()))
+                .map(entity -> entity.update(attributes.getNickname(),attributes.getImage(), Role.ROLE_MEMBER))
                 .orElse(attributes.toEntity());
 
         return userRepository.save(user);

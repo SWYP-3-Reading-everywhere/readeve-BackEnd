@@ -39,15 +39,17 @@ public class User {
     private String nickname;
     @Column(nullable = false)
     private String image;
+//    @Column(nullable = false)
     @Enumerated(EnumType.STRING) // Enum 값을 문자열로 저장
     private Role role;
 
     @CreationTimestamp
     private Timestamp createAt;
 
-    public User update(String nickname,String image) {
+    public User update(String nickname,String image,Role role) {
         this.nickname = nickname;
         this.image = image;
+        this.role = role;
         return this;
     }
 }
