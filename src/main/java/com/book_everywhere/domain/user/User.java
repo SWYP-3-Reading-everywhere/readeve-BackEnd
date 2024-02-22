@@ -20,11 +20,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
