@@ -116,7 +116,7 @@ public class ReviewService {
     //리뷰 하나만 조회
     public ReviewDto 단일독후감조회(Long id) {
         Review init = reviewRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Review does not exist"));
+                () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         return new ReviewDto(
                 init.getId(),
                 init.getTitle(),

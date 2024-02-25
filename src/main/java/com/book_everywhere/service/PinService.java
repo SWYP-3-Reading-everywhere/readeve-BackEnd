@@ -26,9 +26,6 @@ public class PinService {
     @Transactional(readOnly = true)
     public List<PinDto> 전체지도조회() {
         List<Pin> init = pinRepository.mFindAllPin();
-        if(init == null) {
-            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
-        }
         List<PinDto> resultDto = init.stream()
                 .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
                 .toList();
@@ -54,9 +51,6 @@ public class PinService {
     @Transactional(readOnly = true)
     public List<PinDto> 나만의지도조회(@AuthenticationPrincipal OAuth2User oAuth2User) {
         List<Pin> init = pinRepository.mUserMap((Long) oAuth2User.getAttributes().get("id"));
-        if(init == null) {
-            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
-        }
 
         List<PinDto> resultDto = init.stream()
                 .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
@@ -68,7 +62,7 @@ public class PinService {
     @Transactional(readOnly = true)
     public List<PinDto> 태그조회(String tagContent) {
         List<Pin> init = taggedRepository.mFindTaggedPin(tagContent);
-        if(init == null) {
+        if(init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
 
