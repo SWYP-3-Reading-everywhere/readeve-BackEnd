@@ -33,8 +33,8 @@ public class ReviewController {
      * review 등록 기능
      */
     @PostMapping("/api/review")
-    public CMRespDto<?> addReview(ReviewRespDto reviewRespDto) {
-        pinService.핀생성(reviewRespDto);
+    public CMRespDto<?> addReview(@RequestBody ReviewRespDto reviewRespDto) {
+        pinService.핀생성(reviewRespDto); //null처리 완료
         bookService.책생성하기(reviewRespDto);// null처리 완료
         tagService.태그등록(reviewRespDto); // null처리 완료
         visitService.독후감쓰기전방문등록(reviewRespDto); // null처리 완료

@@ -62,17 +62,19 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasAuthority("ROLE_MEMBER")
+//                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasAuthority("ROLE_MEMBER")
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/**")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2Login ->
-                        oauth2Login
-                                .userInfoEndpoint(userInfoEndpointConfig ->
-                                        userInfoEndpointConfig.userService(customOAuth2UserService))
-                                .successHandler((request, response, authentication) -> {
-                                    // 로그인 성공 후 리다이렉션할 URL 지정
-                                    response.sendRedirect("http://localhost:3000");
-                                }))
+//                .oauth2Login(oauth2Login ->
+//                        oauth2Login
+//                                .userInfoEndpoint(userInfoEndpointConfig ->
+//                                        userInfoEndpointConfig.userService(customOAuth2UserService))
+//                                .successHandler((request, response, authentication) -> {
+//                                    // 로그인 성공 후 리다이렉션할 URL 지정
+//                                    response.sendRedirect("http://localhost:3000");
+//                                }))
         ;
         return http.build();
     }

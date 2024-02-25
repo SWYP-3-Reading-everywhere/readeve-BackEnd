@@ -28,20 +28,23 @@ public class TagService {
 
     @Transactional
     public void 태그등록(ReviewRespDto reviewRespDto) {
-        Tag tag = tagRepository.mFindTagByContent(reviewRespDto.getContent());
-        Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
-        Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
+        for (String content : reviewRespDto.getTags()) {
 
-        if (tagged != null) {
-            Tagged newTagged = Tagged.builder()
-                    .pin(pin)
-                    .tag(tag)
-                    .build();
+            Tag tag = tagRepository.mFindTagByContent(content);
+            Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
-            taggedRepository.save(newTagged);
+            Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
+
+            if (tagged != null) {
+                Tagged newTagged = Tagged.builder()
+                        .pin(pin)
+                        .tag(tag)
+                        .build();
+
+                taggedRepository.save(newTagged);
+            }
         }
-
     }
 
 }
