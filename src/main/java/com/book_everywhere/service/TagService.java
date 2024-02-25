@@ -34,7 +34,6 @@ public class TagService {
             Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
             Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
-            System.out.println(tagged +"여기까지 왔어근데");
             if (tagged == null) {
                 Tagged newTagged = Tagged.builder()
                         .pin(pin)

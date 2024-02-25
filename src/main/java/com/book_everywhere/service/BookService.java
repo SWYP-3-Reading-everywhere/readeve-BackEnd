@@ -25,11 +25,8 @@ public class BookService {
     public void 책생성하기(ReviewRespDto reviewRespDto) {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow();
         BookRespDto bookRespDto = reviewRespDto.getBookRespDto();
-
-        Book userBook = bookRepository.mFindBookByUserIdAndTitle(user.getId(), bookRespDto.getTitle());
-
+        Book userBook = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), bookRespDto.getTitle());
         if (userBook == null) {
-
             Book book = Book.builder()
                     .user(user)
                     .isbn(bookRespDto.getIsbn())
