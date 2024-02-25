@@ -35,9 +35,9 @@ public class ReviewController {
     @PostMapping("/api/review")
     public CMRespDto<?> addReview(ReviewRespDto reviewRespDto) {
         pinService.핀생성(reviewRespDto);
-        bookService.책생성하기(reviewRespDto);
-        tagService.태그등록(reviewRespDto);
-        visitService.독후감쓰기전방문등록(reviewRespDto);
+        bookService.책생성하기(reviewRespDto);// null처리 완료
+        tagService.태그등록(reviewRespDto); // null처리 완료
+        visitService.독후감쓰기전방문등록(reviewRespDto); // null처리 완료
         reviewService.독후감생성하기(reviewRespDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 추가 완료");
     }
