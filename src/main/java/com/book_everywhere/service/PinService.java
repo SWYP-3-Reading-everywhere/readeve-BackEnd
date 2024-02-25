@@ -33,21 +33,23 @@ public class PinService {
     }
 
     @Transactional
-    public void 핀생성(ReviewRespDto reviewRespDto){
+    public void 핀생성(ReviewRespDto reviewRespDto) {
         PinRespDto pinRespDto = reviewRespDto.getPinRespDto();
-        //여기에 핀이 이미 있는지 확인하는 코드 작성해야함
-        Pin pin = Pin.builder()
-                .title(pinRespDto.getName())
-                .address(pinRespDto.getAddress())
-                .longitude(pinRespDto.getX())
-                .latitude(pinRespDto.getY())
-                .build();
-        pinRepository.save(pin);
+        Pin pined = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
+        if (pined == null) {
+            Pin pin = Pin.builder()
+                    .title(pinRespDto.getName())
+                    .address(pinRespDto.getAddress())
+                    .longitude(pinRespDto.getX())
+                    .latitude(pinRespDto.getY())
+                    .build();
+            pinRepository.save(pin);
+        }
     }
 
     @Transactional(readOnly = true)
-    public List<PinDto> 나만의지도조회(@AuthenticationPrincipal OAuth2User oAuth2User){
-        List<Pin> init = pinRepository.mUserMap((Long)oAuth2User.getAttributes().get("id"));
+    public List<PinDto> 나만의지도조회(@AuthenticationPrincipal OAuth2User oAuth2User) {
+        List<Pin> init = pinRepository.mUserMap((Long) oAuth2User.getAttributes().get("id"));
 
         List<PinDto> resultDto = init.stream()
                 .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
@@ -57,7 +59,7 @@ public class PinService {
     }
 
     @Transactional(readOnly = true)
-    public List<PinDto> 태그조회(String tagContent){
+    public List<PinDto> 태그조회(String tagContent) {
         List<Pin> init = taggedRepository.mFindTaggedPin(tagContent);
 
         List<PinDto> resultDto = init.stream()

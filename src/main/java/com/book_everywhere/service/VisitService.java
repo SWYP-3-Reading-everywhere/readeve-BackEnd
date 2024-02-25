@@ -27,7 +27,7 @@ public class VisitService {
 
         Visit visited = visitRepository.mFindByUserAndPin(user.getId(), pin.getId());
 
-        if (visited != null) {
+        if (visited == null) {
             Visit visit = Visit.builder()
                     .user(user)
                     .pin(pin)

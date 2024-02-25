@@ -9,7 +9,9 @@ import com.book_everywhere.web.dto.pin.PinDto;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,12 @@ public class PinController {
     @GetMapping("/api/pin")
     public CMRespDto<?> allPin() {
         List<PinDto> result = pinService.전체지도조회();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            System.out.println("Authentication details: " + authentication.toString());
+            System.out.println("Authorities: " + authentication.getAuthorities().toString());
+        }
+
         return new CMRespDto<>(HttpStatus.OK, result,"전체 지도 조회 성공!");
     }
 

@@ -34,9 +34,14 @@ public class ReviewService {
     @Transactional
     public Long 독후감생성하기(ReviewRespDto reviewRespDto) {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow();
+        System.out.println("-------------------------------------------");
+        System.out.println(user.getSocialId()+":"+reviewRespDto.getBookRespDto().getTitle());
+        System.out.println("-------------------------------------------");
         Book book = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
         Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
-
+        System.out.println("-------------------------------------------");
+        System.out.println(book+"살려줘 여기 사람살아요");
+        System.out.println("-------------------------------------------");
         Review review = Review.builder()
                 .book(book)
                 .pin(pin)
