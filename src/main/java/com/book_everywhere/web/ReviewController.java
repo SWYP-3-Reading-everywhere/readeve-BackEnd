@@ -59,6 +59,4 @@ public class ReviewController {
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
-
-
 }

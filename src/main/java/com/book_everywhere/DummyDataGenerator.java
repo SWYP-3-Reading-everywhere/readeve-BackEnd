@@ -57,7 +57,7 @@ public class DummyDataGenerator implements CommandLineRunner {
 //            entityManager.persist(pin);
 //
             Tag tag = Tag.builder()
-                    .content("tag" + i)
+                    .name("tag" + i)
                     .build();
             entityManager.persist(tag);
 
