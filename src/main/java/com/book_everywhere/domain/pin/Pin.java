@@ -31,6 +31,9 @@ public class Pin {
     @OneToMany(mappedBy = "pin")
     private List<Tagged> tags;
 
+    @Column(nullable = false)
+    private Long placeId;
+
     //경도 x
     @Column(nullable = false)
     private double latitude;

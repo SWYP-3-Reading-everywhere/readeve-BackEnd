@@ -27,7 +27,7 @@ public class PinService {
     public List<PinDto> 전체지도조회() {
         List<Pin> init = pinRepository.mFindAllPin();
         List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -39,6 +39,7 @@ public class PinService {
         Pin pined = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
         if (pined == null) {
             Pin pin = Pin.builder()
+                    .placeId(pinRespDto.getPlaceId())
                     .title(pinRespDto.getName())
                     .address(pinRespDto.getAddress())
                     .longitude(pinRespDto.getX())
@@ -53,7 +54,7 @@ public class PinService {
         List<Pin> init = pinRepository.mUserMap((Long) oAuth2User.getAttributes().get("id"));
 
         List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -67,7 +68,7 @@ public class PinService {
         }
 
         List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
                 .toList();
 
         return resultDto;

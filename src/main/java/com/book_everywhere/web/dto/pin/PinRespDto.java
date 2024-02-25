@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class PinRespDto {
     private String name;
+    private Long placeId;
     private double y;
     private double x;
     private String address;
