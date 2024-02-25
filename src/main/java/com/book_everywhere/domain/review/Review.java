@@ -14,11 +14,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
-@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
 public class Review {
 
     @Id
@@ -82,6 +82,5 @@ public class Review {
     public void setIsPrivate(boolean isPrivate) {
         this.isPrivate = isPrivate;
     }
-
 
 }
