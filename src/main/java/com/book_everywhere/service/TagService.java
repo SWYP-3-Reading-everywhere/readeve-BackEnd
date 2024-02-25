@@ -30,13 +30,12 @@ public class TagService {
     public void 태그등록(ReviewRespDto reviewRespDto) {
 
         for (String content : reviewRespDto.getTags()) {
-
             Tag tag = tagRepository.mFindTagByContent(content);
             Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
             Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
-
-            if (tagged != null) {
+            System.out.println(tagged +"여기까지 왔어근데");
+            if (tagged == null) {
                 Tagged newTagged = Tagged.builder()
                         .pin(pin)
                         .tag(tag)
