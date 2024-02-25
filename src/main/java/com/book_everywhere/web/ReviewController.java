@@ -3,7 +3,6 @@ package com.book_everywhere.web;
 
 import com.book_everywhere.service.*;
 import com.book_everywhere.web.dto.CMRespDto;
-import com.book_everywhere.web.dto.pin.PinDto;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +55,7 @@ public class ReviewController {
     //수정
     @PutMapping("/api/review/{id}")
     public CMRespDto<?> updateReview(@PathVariable Long id, ReviewDto reviewDto) {
-        reviewService.책업데이트(id, reviewDto);
+        reviewService.독후감업데이트(id, reviewDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 

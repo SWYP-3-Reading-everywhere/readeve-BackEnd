@@ -8,7 +8,8 @@ import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.review.ReviewRepository;
 import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
-import com.book_everywhere.web.dto.book.BookDto;
+import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
+import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import org.springframework.data.domain.Pageable;
 import com.book_everywhere.web.dto.review.ReviewDto;
@@ -33,15 +34,19 @@ public class ReviewService {
     //등록
     @Transactional
     public Long 독후감생성하기(ReviewRespDto reviewRespDto) {
-        User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow();
-        System.out.println("-------------------------------------------");
-        System.out.println(user.getSocialId()+":"+reviewRespDto.getBookRespDto().getTitle());
-        System.out.println("-------------------------------------------");
+        User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
+                () -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
+
         Book book = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
+        if (book == null){
+            throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
+        }
+
         Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
-        System.out.println("-------------------------------------------");
-        System.out.println(book+"살려줘 여기 사람살아요");
-        System.out.println("-------------------------------------------");
+        if(pin == null) {
+            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+        }
+
         Review review = Review.builder()
                 .book(book)
                 .pin(pin)
@@ -56,9 +61,9 @@ public class ReviewService {
 
     //수정
     @Transactional
-    public void 책업데이트(Long id, ReviewDto reviewDto) {
+    public void 독후감업데이트(Long id, ReviewDto reviewDto) {
         Review review = reviewRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Review does not exist"));
+                () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         review.setTitle(reviewDto.getTitle());
         review.setContent(reviewDto.getContent());
         review.setIsPrivate(reviewDto.getIsPrivate());
@@ -68,6 +73,9 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public List<ReviewDto> 공유독후감조회(boolean isPrivate, Pageable pageable) {
         List<Review> init = reviewRepository.findByIsPrivate(isPrivate, pageable);
+        if(init.isEmpty()) {
+            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+        }
         return init.stream().map(review -> new ReviewDto(
                 review.getId(),
                 review.getTitle(),
@@ -81,6 +89,9 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public List<ReviewDto> 단일핀독후감조회(Long pinId, @AuthenticationPrincipal OAuth2User oAuth2User) {
         List<Review> init = reviewRepository.mFindReviewUserMap((Long) oAuth2User.getAttributes().get("id"), pinId);
+        if(init.isEmpty()) {
+            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+        }
 
         List<ReviewDto> resultDto = init.stream()
                 .map(review -> new ReviewDto(review.getId(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
