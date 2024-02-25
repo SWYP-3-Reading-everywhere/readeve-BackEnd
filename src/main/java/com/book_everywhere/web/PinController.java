@@ -56,7 +56,7 @@ public class PinController {
     @GetMapping("/api/pin/tag/{content}")
     public CMRespDto<?> taggedPin(@PathVariable String content) {
         List<PinDto> result = pinService.태그조회(content);
-        return new CMRespDto<>(HttpStatus.OK, result,"태그 조회 성공!");
+        return new CMRespDto<>(HttpStatus.OK, result,"태그 조회 성공!"); // 이 부분 논의
     }
 
     //삭제 논의
