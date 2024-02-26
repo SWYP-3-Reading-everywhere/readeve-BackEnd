@@ -17,7 +17,7 @@ public class ReviewDto {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public boolean getIsPrivate() {
+    public boolean IsPrivate() {
         return isPrivate;
     }
 

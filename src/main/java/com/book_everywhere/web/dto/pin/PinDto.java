@@ -10,6 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class PinDto {
     private Long id;
+    private Long placeId;
     private double latitude;
     private double longitude;
     //개인설정이름

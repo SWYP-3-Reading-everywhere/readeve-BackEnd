@@ -56,15 +56,8 @@ public class PinController {
     @GetMapping("/api/pin/tag/{content}")
     public CMRespDto<?> taggedPin(@PathVariable String content) {
         List<PinDto> result = pinService.태그조회(content);
-        return new CMRespDto<>(HttpStatus.OK, result,"태그 조회 성공!");
+        return new CMRespDto<>(HttpStatus.OK, result,"태그 조회 성공!"); // 이 부분 논의
     }
-
-    //삭제 논의
-//    @PostMapping("/api/pin")
-//    public CMRespDto<?> createPin(PinDto pinDto) {
-//        pinService.핀생성(pinDto);
-//        return new CMRespDto<>(HttpStatus.OK,null ,"핀생성완료!");
-//    }
 
     @GetMapping("/api/user/review")
     public CMRespDto<?> userReview(@AuthenticationPrincipal OAuth2User oAuth2User) {

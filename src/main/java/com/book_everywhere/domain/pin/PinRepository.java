@@ -4,10 +4,12 @@ import com.book_everywhere.web.dto.pin.PinDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface PinRepository extends JpaRepository<Pin, Long> {
     // 유저 아이디를 넣으면 어디에 방믄했는지 모두 가져옴 -> 나만의 지도 기능
     @Query("SELECT pin FROM Pin pin JOIN pin.visits visit WHERE visit.user.socialId = :socialId")

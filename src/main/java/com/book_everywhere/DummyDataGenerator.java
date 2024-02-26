@@ -38,50 +38,10 @@ public class DummyDataGenerator implements CommandLineRunner {
                     .image("http://image.url/user" + i)
                     .build();
             entityManager.persist(user);
-//
-//            Book book = Book.builder()
-//                    .user(user)
-//                    .title("Book Title " + i)
-//                    .coverImageUrl("http://image.url/bookcover" + i)
-//                    .isbn("Author" + i)
-//                    .isComplete(i % 2 == 0)
-//                    .build();
-//            entityManager.persist(book);
-//
-//            Pin pin = Pin.builder()
-//                    .latitude(100.5665 + i)
-//                    .longitude(100.9780 + i)
-//                    .title("Pin Title " + i)
-//                    .address("Seoul " + i)
-//                    .build();
-//            entityManager.persist(pin);
-//
             Tag tag = Tag.builder()
                     .content("tag" + i)
                     .build();
             entityManager.persist(tag);
-
-//            Tagged tagged = Tagged.builder()
-//                    .pin(pin)
-//                    .tag(tag)
-//                    .build();
-//            entityManager.persist(tagged);
-//
-//            Review review = Review.builder()
-//                    .book(book)
-//                    .pin(pin)
-//                    .title("Review Title " + i)
-//                    .content("Review Content " + i)
-//                    .isPrivate(false)
-//                    .build();
-//            entityManager.persist(review);
-//
-//            Visit visit = Visit.builder()
-//                    .user(user)
-//                    .pin(pin)
-//                    .isPrivate(false)
-//                    .build();
-//            entityManager.persist(visit);
         }
     }
 }
