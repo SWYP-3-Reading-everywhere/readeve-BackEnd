@@ -24,13 +24,14 @@ public class TagService {
 
     @Transactional
     public void 태그등록(ReviewRespDto reviewRespDto) {
-
         List<TagRespDto> tags = reviewRespDto.getTags();
+
         for (TagRespDto tagRespDto : tags) {
-            Tag tag = tagRepository.mFindTagByName(tagRespDto.getName());
+            Tag tag = tagRepository.mFindTagByName(tagRespDto.getContent());
             Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
             Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
+
             if (tagged == null && tagRespDto.isSelected()) {
 
                 Tagged newTagged = Tagged.builder()
