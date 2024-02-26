@@ -6,6 +6,8 @@ import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.domain.visit.Visit;
 import com.book_everywhere.domain.visit.VisitRepository;
+import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
+import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.dto.visit.VisitRespDto;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,9 @@ public class VisitService {
     @Transactional
     public void 독후감쓰기전방문등록(ReviewRespDto reviewRespDto) {
         //review가 올라가기전 visit에 등록되어있는지 확인후 없다면 visit등록
-        User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow();
+        User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
+                () -> new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND)
+        );
         Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
         Visit visited = visitRepository.mFindByUserAndPin(user.getId(), pin.getId());
