@@ -25,13 +25,6 @@ public class BookController {
         BookSearchResultDto result = kakaoBookSearchService.searchBook(title);
         return new CMRespDto<>(HttpStatus.OK, result, "책 검색 완료");
     }
-    //삭제 논의
-//    @PostMapping("/api/book")
-//    public CMRespDto<BookDto> addBook(@RequestParam Long socialId, BookDto bookDto) {
-//        bookService.책생성하기(socialId, bookDto);
-//        return new CMRespDto<>(HttpStatus.OK, null, "책 등록 완료");
-//    }
-
     @PutMapping("/api/book/{id}")
     public CMRespDto<?> updateBook(@PathVariable Long id, BookDto bookDto) {
         bookService.책수정하기(id, bookDto);

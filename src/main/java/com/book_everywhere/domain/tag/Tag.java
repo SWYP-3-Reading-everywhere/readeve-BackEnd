@@ -30,5 +30,5 @@ public class Tag {
     private List<Tagged> tags;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String content;
 }

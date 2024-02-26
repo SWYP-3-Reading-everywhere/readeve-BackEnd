@@ -31,12 +31,10 @@ public class TagService {
             Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
             Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
-            System.out.println(tagged +"여기까지 왔어근데");
-            if (tagged == null) {
+            if (tagged == null && tagRespDto.isSelected()) {
                 Tagged newTagged = Tagged.builder()
                         .pin(pin)
                         .tag(tag)
-                        .isSelected(tagRespDto.isSelected())
                         .build();
 
                 taggedRepository.save(newTagged);
@@ -46,7 +44,7 @@ public class TagService {
 
     public List<String> 모든태그조회() {
         List<Tag> tags = tagRepository.findAll();
-        return tags.stream().map(Tag::getName).toList();
+        return tags.stream().map(Tag::getContent).toList();
     }
 
 }

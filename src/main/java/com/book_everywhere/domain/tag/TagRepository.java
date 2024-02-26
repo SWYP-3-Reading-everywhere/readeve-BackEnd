@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
     // content를 통해 가져옴
-    @Query("SELECT tag FROM Tag tag WHERE tag.name = :name")
-    Tag mFindTagByName(@Param("name") String name);
+    @Query("SELECT tag FROM Tag tag WHERE tag.content = :content")
+    Tag mFindTagByName(@Param("content") String content);
 }
