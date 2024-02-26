@@ -32,6 +32,7 @@ public class Book {
 
     @Column(nullable = false,unique = true)
     private String isbn;
+    @Column(nullable = false,unique = true)
     private String title;
     private String coverImageUrl;
     private boolean isComplete;

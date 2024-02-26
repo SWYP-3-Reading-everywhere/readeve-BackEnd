@@ -32,6 +32,7 @@ public class TagService {
 
             Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
             if (tagged == null && tagRespDto.isSelected()) {
+
                 Tagged newTagged = Tagged.builder()
                         .pin(pin)
                         .tag(tag)
