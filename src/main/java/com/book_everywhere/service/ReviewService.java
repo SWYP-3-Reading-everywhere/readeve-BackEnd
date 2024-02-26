@@ -36,7 +36,6 @@ public class ReviewService {
     public Long 독후감생성하기(ReviewRespDto reviewRespDto) {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
-
         Book book = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
         if (book == null){
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);

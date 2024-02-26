@@ -28,10 +28,8 @@ public class BookService {
     public void 책생성하기(ReviewRespDto reviewRespDto) {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
         BookRespDto bookRespDto = reviewRespDto.getBookRespDto();
-        Book userBook = bookRepository.mFindBookByUserIdAndTitle(user.getId(), bookRespDto.getTitle());
-
+        Book userBook = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), bookRespDto.getTitle());
         if (userBook == null) {
-
             Book book = Book.builder()
                     .user(user)
                     .isbn(bookRespDto.getIsbn())
