@@ -1,7 +1,5 @@
 package com.book_everywhere.domain.review;
 
-import com.book_everywhere.domain.book.Book;
-import com.book_everywhere.domain.user.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,23 +13,15 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     //공유목록에서의 모든 독후감 조회
-    List<Review> findByIsPrivate(boolean isPrivate, Pageable pageable);
-
-    //특정 유저의 모든 독후감 조회
-    @Query("SELECT r FROM Review r WHERE r.book.id = :bookId AND r.book.user.socialId = :userId")
-    List<Review> findReviewsByUserAndBook(@Param("userId") Long userId, @Param("bookId") Long bookId);
+    List<Review> findByIsPrivateOrderByCreateAtDesc(boolean isPrivate, Pageable pageable);
 
     // 개인지도에서 핀을 눌렀을때 독후감이 모두 뜨는 기능
     // Entity 바뀐다면 수정 필요 -> 수정완료
-    @Query("SELECT review FROM Review review WHERE review.book.user.socialId = :socialId AND review.pin.id = :pinId")
+    @Query("SELECT review FROM Review review WHERE review.book.user.socialId = :socialId AND review.pin.id = :pinId ORDER BY review.createAt DESC")
     List<Review> mFindReviewUserMap(@Param("socialId") Long socialId, @Param("pinId") Long pinId);
 
-    //모든 공유리뷰 호출
-    @Query("SELECT review FROM Review review WHERE review.isPrivate = false")
-    List<Review> mFindAllPublicReviews();
-
     // socialId를 통한 모든 독후감 생성
-    @Query("SELECT r FROM Review r WHERE r.book.user.socialId = :userId")
+    @Query("SELECT r FROM Review r WHERE r.book.user.socialId = :userId ORDER BY r.createAt DESC")
     List<Review> mFindReviewsByUser(@Param("userId") Long userId);
     
   //독후감 삭제
