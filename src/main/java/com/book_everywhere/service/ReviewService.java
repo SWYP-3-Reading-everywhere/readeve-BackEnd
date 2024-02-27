@@ -71,7 +71,7 @@ public class ReviewService {
     //공유 목록에서의 독후감 조회
     @Transactional(readOnly = true)
     public List<ReviewDto> 공유독후감조회(boolean isPrivate, Pageable pageable) {
-        List<Review> init = reviewRepository.findByIsPrivate(isPrivate, pageable);
+        List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate, pageable);
         if(init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }

@@ -7,6 +7,7 @@ import com.book_everywhere.domain.tag.TagRepository;
 import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
+import com.book_everywhere.web.dto.tag.TagCountDto;
 import com.book_everywhere.web.dto.tag.TagRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,10 @@ public class TagService {
     public List<String> 모든태그조회() {
         List<Tag> tags = tagRepository.findAll();
         return tags.stream().map(Tag::getContent).toList();
+    }
+
+    public List<TagCountDto> 모든태그의개수조회() {
+        return taggedRepository.mFindPinTaggedCount();
     }
 
 }
