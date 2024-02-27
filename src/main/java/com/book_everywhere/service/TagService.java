@@ -10,9 +10,13 @@ import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.dto.tag.TagCountDto;
 import com.book_everywhere.web.dto.tag.TagRespDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -50,8 +54,14 @@ public class TagService {
         return tags.stream().map(Tag::getContent).toList();
     }
 
-    public List<TagCountDto> 모든태그의개수조회() {
-        return taggedRepository.mFindPinTaggedCount();
+    public List<Page<TagCountDto>>  핀의5개태그조회()  {
+        List<Pin> pins = pinRepository.mFindAllPin();
+        List<Page<TagCountDto>> tagFiveList = new ArrayList<>();
+        for(Pin pin : pins){
+            tagFiveList.add(taggedRepository.mFindPinTaggedTopFive(pin.getId(), PageRequest.of(0, 5)));
+        }
+
+        return tagFiveList;
     }
 
 }
