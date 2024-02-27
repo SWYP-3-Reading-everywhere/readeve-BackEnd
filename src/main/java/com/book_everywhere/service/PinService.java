@@ -50,8 +50,8 @@ public class PinService {
     }
 
     @Transactional(readOnly = true)
-    public List<PinDto> 나만의지도조회(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        List<Pin> init = pinRepository.mUserMap((Long) oAuth2User.getAttributes().get("id"));
+    public List<PinDto> 나만의지도조회(Long userId) {
+        List<Pin> init = pinRepository.mUserMap(userId);
 
         List<PinDto> resultDto = init.stream()
                 .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))

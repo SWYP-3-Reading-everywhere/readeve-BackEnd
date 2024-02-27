@@ -54,7 +54,7 @@ public class TagService {
         return tags.stream().map(Tag::getContent).toList();
     }
 
-    public List<Page<TagCountDto>>  핀의5개태그조회()  {
+    public List<Page<TagCountDto>> 핀의5개태그조회()  {
         List<Pin> pins = pinRepository.mFindAllPin();
         List<Page<TagCountDto>> tagFiveList = new ArrayList<>();
         for(Pin pin : pins){
