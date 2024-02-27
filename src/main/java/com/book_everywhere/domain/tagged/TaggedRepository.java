@@ -2,6 +2,8 @@ package com.book_everywhere.domain.tagged;
 
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.web.dto.tag.TagCountDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +22,9 @@ public interface TaggedRepository extends JpaRepository<Tagged,Long> {
     Tagged mFindTagged(@Param("tagId") Long tagId, @Param("pinId") Long pinId);
 
     //pin에 대한 모든 태그 개수 새기
-    @Query("SELECT new com.book_everywhere.web.dto.tag.TagCountDto(t.tag.content, COUNT(t) AS count) FROM Tagged t GROUP BY t.tag.id ")
-    List<TagCountDto> mFindPinTaggedCount();
+    @Query("SELECT new com.book_everywhere.web.dto.tag.TagCountDto(t.tag.content, COUNT(t) AS count) " +
+            "FROM Tagged t WHERE t.pin.id = :pinId " +
+            "GROUP BY t.tag.id " +
+            "ORDER BY count DESC")
+    Page<TagCountDto> mFindPinTaggedTopFive(@Param("pinId") Long pinId, Pageable pageable);
 }
