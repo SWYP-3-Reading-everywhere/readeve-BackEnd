@@ -27,7 +27,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       properties: # Additional native properties to set on the JPA provider.
         hibernate:
           #show-sql: true                  # System.out 으로 출력
