@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    //유저의 모든 리뷰 조회
-    List<Review> findAllReviewsByUser(User user);
 
     //유저의 모든 책 조회
     List<Book> findAllByUser(User user);

@@ -34,6 +34,8 @@ public class Tagged {
     @JoinColumn(name = "tagId")
     private Tag tag;
 
+    private int count;
+
     @CreationTimestamp
     private Timestamp createAt;
 }

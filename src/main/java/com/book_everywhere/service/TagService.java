@@ -7,18 +7,16 @@ import com.book_everywhere.domain.tag.TagRepository;
 import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
-import com.book_everywhere.web.dto.tag.TagCountDto;
 import com.book_everywhere.web.dto.tag.TagRespDto;
+import com.book_everywhere.web.dto.tag.TaggedDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -38,12 +36,21 @@ public class TagService {
             Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
 
             if (tagged == null && tagRespDto.isSelected()) {
-
                 Tagged newTagged = Tagged.builder()
                         .pin(pin)
                         .tag(tag)
+                        .count(1)
                         .build();
 
+                taggedRepository.save(newTagged);
+            } else {
+                Tagged newTagged = Tagged.builder()
+                        .pin(pin)
+                        .tag(tag)
+                        .count(tagged.getCount() + 1)
+                        .build();
+
+                taggedRepository.mDeleteTagged(tagged.getId());
                 taggedRepository.save(newTagged);
             }
         }
@@ -54,14 +61,21 @@ public class TagService {
         return tags.stream().map(Tag::getContent).toList();
     }
 
-    public List<Page<TagCountDto>> 핀의5개태그조회()  {
+    public List<Page<TaggedDto>> 핀의5개태그조회() {
         List<Pin> pins = pinRepository.mFindAllPin();
-        List<Page<TagCountDto>> tagFiveList = new ArrayList<>();
-        for(Pin pin : pins){
-            tagFiveList.add(taggedRepository.mFindPinTaggedTopFive(pin.getId(), PageRequest.of(0, 5)));
+        List<Page<TaggedDto>> tagFiveList = new ArrayList<>();
+        for (Pin pin : pins) {
+            Page<Tagged> taggeds = taggedRepository.findByPinIdOrderByCountDesc(pin.getId(), PageRequest.of(0, 5));
+            Page<TaggedDto> taggedDtos = taggeds.map(tagged -> new TaggedDto(
+                    tagged.getPin().getId(),
+                    tagged.getTag().getContent(),
+                    tagged.getCount(),
+                    tagged.getCreateAt()
+            ));
+            tagFiveList.add(taggedDtos);
         }
-
         return tagFiveList;
     }
+
 
 }
