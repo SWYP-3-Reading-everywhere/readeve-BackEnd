@@ -38,6 +38,7 @@ public class DummyDataGenerator implements CommandLineRunner {
                     .image("http://image.url/user" + i)
                     .build();
             entityManager.persist(user);
+
             Tag tag = Tag.builder()
                     .content("tag" + i)
                     .build();
