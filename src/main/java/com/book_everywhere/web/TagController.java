@@ -2,12 +2,11 @@ package com.book_everywhere.web;
 
 import com.book_everywhere.service.TagService;
 import com.book_everywhere.web.dto.CMRespDto;
-import com.book_everywhere.web.dto.tag.TagCountDto;
+import com.book_everywhere.web.dto.tag.TaggedDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class TagController {
 
     @GetMapping("/api/tags/top")
     public CMRespDto<?> findTagCount() {
-        List<Page<TagCountDto>> result = tagService.핀의5개태그조회();
+        List<Page<TaggedDto>> result = tagService.핀의5개태그조회();
         return new CMRespDto<>(HttpStatus.OK, result, "태그 개수 조회 성공");
     }
 }

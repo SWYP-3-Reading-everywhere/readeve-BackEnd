@@ -32,7 +32,7 @@ public class ReviewController {
      * 최초등록시 visit 등록기능
      * review 등록 기능
      */
-    @PostMapping("/write")
+    @PostMapping("/api/write")
     public CMRespDto<?> addReview(@RequestBody ReviewRespDto reviewRespDto) {
         pinService.핀생성(reviewRespDto);
         bookService.책생성하기(reviewRespDto);
