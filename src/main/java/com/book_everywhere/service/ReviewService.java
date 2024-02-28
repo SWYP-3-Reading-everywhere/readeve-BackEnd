@@ -57,6 +57,20 @@ public class ReviewService {
         return review.getId();
     }
 
+    //책에따른 모든 리뷰기능이 추가되었습니다.
+    @Transactional
+    public List<ReviewDto> 책에따른모든리뷰(Long bookId){
+        List<Review> init = reviewRepository.mFindReviewsByBook(bookId);
+        if(init.isEmpty()) {
+            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+        }
+
+        List<ReviewDto> resultDto = init.stream()
+                .map(review -> new ReviewDto(review.getId(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
+                .toList();
+
+        return resultDto;
+    }
 
     //수정
     @Transactional

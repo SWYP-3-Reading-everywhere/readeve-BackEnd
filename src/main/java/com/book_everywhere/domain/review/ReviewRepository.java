@@ -23,8 +23,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     // socialId를 통한 모든 독후감 생성
     @Query("SELECT r FROM Review r WHERE r.book.user.socialId = :userId ORDER BY r.createAt DESC")
     List<Review> mFindReviewsByUser(@Param("userId") Long userId);
-    
-  //독후감 삭제
+
+    @Query("SELECT r FROM Review r WHERE r.book.id = :bookId ORDER BY r.createAt DESC")
+    List<Review> mFindReviewsByBook(@Param("bookId") Long bookId);
+
+    //독후감 삭제
     @Modifying
     @Query("DELETE FROM Review WHERE id = :reviewId")
     int mDeleteReview(@Param("reviewId") Long reviewId);

@@ -1,6 +1,7 @@
 package com.book_everywhere.web;
 
 
+import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.service.*;
 import com.book_everywhere.web.dto.CMRespDto;
 import com.book_everywhere.web.dto.review.ReviewDto;
@@ -31,19 +32,19 @@ public class ReviewController {
      * 최초등록시 visit 등록기능
      * review 등록 기능
      */
-    @PostMapping("/api/review")
+    @PostMapping("/write")
     public CMRespDto<?> addReview(@RequestBody ReviewRespDto reviewRespDto) {
-        pinService.핀생성(reviewRespDto); //null처리 완료
-        bookService.책생성하기(reviewRespDto);// null처리 완료
-        tagService.태그등록(reviewRespDto); // null처리 완료
-        visitService.독후감쓰기전방문등록(reviewRespDto); // null처리 완료
+        pinService.핀생성(reviewRespDto);
+        bookService.책생성하기(reviewRespDto);
+        tagService.태그등록(reviewRespDto);
+        visitService.독후감쓰기전방문등록(reviewRespDto);
         reviewService.독후감생성하기(reviewRespDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 추가 완료");
     }
 
     //조회
     //공개 독후감 조회
-    @GetMapping("/api/public/review")
+    @GetMapping("/reviews")
     public CMRespDto<?> publicReviews(@RequestParam int page,
                                 @RequestParam int size,
                                 @RequestParam boolean isPrivate) {
@@ -51,6 +52,13 @@ public class ReviewController {
         List<ReviewDto> result = reviewService.공유독후감조회(isPrivate, pageable);
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
+
+    @GetMapping("/detail/{bookId}")
+    public CMRespDto<?> bookReviews(@PathVariable Long bookId) {
+        List<ReviewDto> result = reviewService.책에따른모든리뷰(bookId);
+        return new CMRespDto<>(HttpStatus.OK, result, "책에 따른 전체 독후감 조회");
+    }
+
 
     //수정
     @PutMapping("/api/review/{id}")
