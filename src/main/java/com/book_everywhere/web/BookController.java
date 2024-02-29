@@ -49,7 +49,7 @@ public class BookController {
     }
 
     //유저 책 조회
-    @GetMapping("/mypage/{socialId}")
+    @GetMapping("/api/mypage/{socialId}")
     public CMRespDto<?> findOneBookWithUser(@RequestParam Long socialId) {
         List<BookDto> result = bookService.findAllBookOneUser(socialId);
         return new CMRespDto<>(HttpStatus.OK, result, "유저의 책 조회 완료");

@@ -27,7 +27,7 @@ public class PinController {
     private final ReviewService reviewService;
 
 
-    @GetMapping("/map")
+    @GetMapping("/api/map")
     public CMRespDto<?> allPin() {
         List<PinDto> result = pinService.전체지도조회();
         return new CMRespDto<>(HttpStatus.OK, result,"전체 지도 조회 성공!");
@@ -41,7 +41,7 @@ public class PinController {
     }
 
     //나만의 지도 기능
-    @GetMapping("/map/{userId}")
+    @GetMapping("/api/map/{userId}")
     public CMRespDto<?> userMap(@PathVariable Long userId) {
         List<PinDto> result = pinService.나만의지도조회(userId);
         return new CMRespDto<>(HttpStatus.OK, result,"유저 독후감 조회 성공!");
@@ -54,7 +54,7 @@ public class PinController {
         return new CMRespDto<>(HttpStatus.OK, result,"태그 조회 성공!"); // 이 부분 논의
     }
 
-    @GetMapping("/mypage/아직미정")
+    @GetMapping("/api/mypage/아직미정")
     public CMRespDto<?> userReview(@AuthenticationPrincipal OAuth2User oAuth2User) {
         List<ReviewDto> result = reviewService.유저모든독후감조회(oAuth2User);
         return new CMRespDto<>(HttpStatus.OK, result,"모든 독후감 조회 성공!");
