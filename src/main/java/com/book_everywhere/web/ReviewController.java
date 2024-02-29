@@ -44,7 +44,7 @@ public class ReviewController {
 
     //조회
     //공개 독후감 조회
-    @GetMapping("/reviews")
+    @GetMapping("/api/reviews")
     public CMRespDto<?> publicReviews(@RequestParam int page,
                                 @RequestParam int size,
                                 @RequestParam boolean isPrivate) {
@@ -53,7 +53,7 @@ public class ReviewController {
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
 
-    @GetMapping("/detail/{bookId}")
+    @GetMapping("/api/detail/{bookId}")
     public CMRespDto<?> bookReviews(@PathVariable Long bookId) {
         List<ReviewDto> result = reviewService.책에따른모든리뷰(bookId);
         return new CMRespDto<>(HttpStatus.OK, result, "책에 따른 전체 독후감 조회");
