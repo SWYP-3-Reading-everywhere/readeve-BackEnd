@@ -59,11 +59,18 @@ public class ReviewController {
         return new CMRespDto<>(HttpStatus.OK, result, "책에 따른 전체 독후감 조회");
     }
 
-
     //수정
-    @PutMapping("/api/review/{id}")
-    public CMRespDto<?> updateReview(@PathVariable Long id, ReviewDto reviewDto) {
-        reviewService.독후감업데이트(id, reviewDto);
+    @GetMapping("/api/review/{reviewId}")
+    public CMRespDto<?> getReview(@PathVariable Long reviewId) {
+        reviewService.단일독후감조회(reviewId);
+        return new CMRespDto<>(HttpStatus.OK, null, "단일 독후감 조회");
+    }
+
+    
+    //수정
+    @PutMapping("/api/review/{reviewId}")
+    public CMRespDto<?> updateReview(@PathVariable Long reviewId, ReviewDto reviewDto) {
+        reviewService.독후감업데이트(reviewId, reviewDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
