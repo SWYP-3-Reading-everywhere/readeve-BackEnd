@@ -64,7 +64,7 @@ public class Review {
         Review review = Review.builder()
                 .title(reviewDto.getTitle())
                 .content(reviewDto.getContent())
-                .isPrivate(reviewDto.IsPrivate())
+                .isPrivate(reviewDto.isPrivate())
                 .build();
         review.setBook(book);
         review.setPin(pin);
