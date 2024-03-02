@@ -41,9 +41,9 @@ public class PinController {
     }
 
     //나만의 지도 기능
-    @GetMapping("/api/map/{userId}")
-    public CMRespDto<?> userMap(@PathVariable Long userId) {
-        List<PinDto> result = pinService.나만의지도조회(userId);
+    @GetMapping("/api/map/{socialId}")
+    public CMRespDto<?> userMap(@PathVariable Long socialId) {
+        List<PinDto> result = pinService.나만의지도조회(socialId);
         return new CMRespDto<>(HttpStatus.OK, result,"유저 독후감 조회 성공!");
     }
 

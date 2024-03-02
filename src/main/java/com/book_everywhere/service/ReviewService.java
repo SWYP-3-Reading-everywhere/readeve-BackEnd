@@ -80,7 +80,7 @@ public class ReviewService {
                 () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         review.setTitle(reviewDto.getTitle());
         review.setContent(reviewDto.getContent());
-        review.setIsPrivate(reviewDto.IsPrivate());
+        review.setIsPrivate(reviewDto.isPrivate());
     }
 
     //공유 목록에서의 독후감 조회
