@@ -27,7 +27,7 @@ public class PinService {
     public List<PinDto> 전체지도조회() {
         List<Pin> init = pinRepository.mFindAllPin();
         List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getUrl(), pin.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -44,6 +44,7 @@ public class PinService {
                     .address(pinRespDto.getAddress())
                     .longitude(pinRespDto.getX())
                     .latitude(pinRespDto.getY())
+                    .url(pinRespDto.getUrl())
                     .build();
             pinRepository.save(pin);
         }
@@ -54,7 +55,7 @@ public class PinService {
         List<Pin> init = pinRepository.mUserMap(userId);
 
         List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getUrl(), pin.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -63,12 +64,12 @@ public class PinService {
     @Transactional(readOnly = true)
     public List<PinDto> 태그조회(String tagContent) {
         List<Pin> init = taggedRepository.mFindTaggedPin(tagContent);
-        if(init.isEmpty()) {
+        if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
 
         List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getCreateAt()))
+                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getUrl(), pin.getCreateAt()))
                 .toList();
 
         return resultDto;

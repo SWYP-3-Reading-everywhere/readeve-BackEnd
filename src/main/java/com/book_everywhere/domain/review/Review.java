@@ -39,6 +39,7 @@ public class Review {
     private String content;
     @Column(nullable = false)
     private boolean isPrivate;
+    private String writer;
 
     @CreationTimestamp
     private Timestamp createAt;
