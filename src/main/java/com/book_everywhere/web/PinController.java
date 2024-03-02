@@ -54,7 +54,7 @@ public class PinController {
         return new CMRespDto<>(HttpStatus.OK, result,"태그 조회 성공!"); // 이 부분 논의
     }
 
-    @GetMapping("/api/mypage/아직미정")
+    @GetMapping("/api/mypage/notyet")
     public CMRespDto<?> userReview(@AuthenticationPrincipal OAuth2User oAuth2User) {
         List<ReviewDto> result = reviewService.유저모든독후감조회(oAuth2User);
         return new CMRespDto<>(HttpStatus.OK, result,"모든 독후감 조회 성공!");
