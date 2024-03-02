@@ -67,7 +67,7 @@ public class ReviewController {
     //수정
     @PutMapping("/api/review/{reviewId}")
     public CMRespDto<?> updateReview(@PathVariable Long reviewId, ReviewDto reviewDto) {
-        reviewService.독후감업데이트(reviewId, reviewDto);
+//        reviewService.독후감업데이트(reviewId, reviewDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 

@@ -74,31 +74,15 @@ public class ReviewService {
     }
 
     //수정
-    @Transactional
-    public void 독후감업데이트(Long id, ReviewDto reviewDto) {
-        Review review = reviewRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-        review.setTitle(reviewDto.getTitle());
-        review.setContent(reviewDto.getContent());
-        review.setIsPrivate(reviewDto.IsPrivate());
-    }
-
-    //공유 목록에서의 독후감 조회
-//    @Transactional(readOnly = true)
-//    public List<ReviewDto> 모든독후감조회() {
-//        List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate, pageable);
-//        if(init.isEmpty()) {
-//            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
-//        }
-//        return init.stream().map(review -> new ReviewDto(
-//                review.getId(),
-//                review.getWriter(),
-//                review.getTitle(),
-//                review.getContent(),
-//                review.isPrivate(),
-//                review.getCreateAt(),
-//                review.getUpdateAt())).toList();
+//    @Transactional
+//    public void 독후감업데이트(Long id, ReviewDto reviewDto) {
+//        Review review = reviewRepository.findById(id).orElseThrow(
+//                () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
+//        review.setTitle(reviewDto.getTitle());
+//        review.setContent(reviewDto.getContent());
+//        review.setIsPrivate(reviewDto.IsPrivate());
 //    }
+
 
     //단일 핀을 눌렀을때 독후감이 조회됩니다.
     @Transactional(readOnly = true)

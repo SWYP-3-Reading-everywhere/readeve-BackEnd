@@ -9,7 +9,6 @@ import com.book_everywhere.domain.visit.VisitRepository;
 import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
 import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
-import com.book_everywhere.web.dto.visit.VisitRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
