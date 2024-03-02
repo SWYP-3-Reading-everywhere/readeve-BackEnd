@@ -38,9 +38,9 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         // 구체적인 출처 지정
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://example.com"));
+        config.setAllowedOrigins(Arrays.asList("https://www.bookeverywhere.site"));
         // 또는 패턴을 사용하여 출처 지정
-        config.setAllowedOriginPatterns(Arrays.asList("http://localhost:*", "https://*.example.com"));
+        config.setAllowedOriginPatterns(Arrays.asList("https://*.bookeverywhere.site"));
         config.setAllowCredentials(true); // 크리덴셜 허용
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
@@ -55,8 +55,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -67,14 +66,14 @@ public class SecurityConfig {
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).permitAll()
                         .anyRequest().authenticated()
                 )
-//                .oauth2Login(oauth2Login ->
-//                        oauth2Login
-//                                .userInfoEndpoint(userInfoEndpointConfig ->
-//                                        userInfoEndpointConfig.userService(customOAuth2UserService))
-//                                .successHandler((request, response, authentication) -> {
-//                                    // 로그인 성공 후 리다이렉션할 URL 지정
-//                                    response.sendRedirect("http://localhost:3000");
-//                                }))
+                .oauth2Login(oauth2Login ->
+                        oauth2Login
+                                .userInfoEndpoint(userInfoEndpointConfig ->
+                                        userInfoEndpointConfig.userService(customOAuth2UserService))
+                                .successHandler((request, response, authentication) -> {
+                                    // 로그인 성공 후 리다이렉션할 URL 지정
+                                    response.sendRedirect("https://www.bookeverywhere.site");
+                                }))
         ;
         return http.build();
     }

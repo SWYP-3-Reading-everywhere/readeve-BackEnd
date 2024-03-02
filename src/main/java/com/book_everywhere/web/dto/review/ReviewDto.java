@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class ReviewDto {
     private Long id;
+    private String writer;
     private String title;
     private String content;
     private boolean isPrivate;
@@ -21,11 +22,4 @@ public class ReviewDto {
         return isPrivate;
     }
 
-    public Review toEntity() {
-        return Review.builder()
-                .title(title)
-                .content(content)
-                .isPrivate(isPrivate)
-                .build();
-    }
 }

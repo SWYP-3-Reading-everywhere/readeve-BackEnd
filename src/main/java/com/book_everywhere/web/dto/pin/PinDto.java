@@ -16,6 +16,7 @@ public class PinDto {
     //개인설정이름
     private String title;
     private String address;
+    private String url;
     private Timestamp createAt;
 
     public Pin toEntity(){

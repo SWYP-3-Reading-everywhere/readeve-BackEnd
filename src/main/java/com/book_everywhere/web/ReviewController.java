@@ -45,11 +45,8 @@ public class ReviewController {
     //조회
     //공개 독후감 조회
     @GetMapping("/api/reviews")
-    public CMRespDto<?> publicReviews(@RequestParam int page,
-                                @RequestParam int size,
-                                @RequestParam boolean isPrivate) {
-        Pageable pageable = PageRequest.of(page, size);
-        List<ReviewDto> result = reviewService.공유독후감조회(isPrivate, pageable);
+    public CMRespDto<?> publicReviews(){
+        List<ReviewDto> result = reviewService.모든독후감조회();
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
 

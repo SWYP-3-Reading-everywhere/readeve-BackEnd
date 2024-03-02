@@ -50,6 +50,7 @@ public class ReviewService {
                 .book(book)
                 .pin(pin)
                 .title(reviewRespDto.getTitle())
+                .writer(reviewRespDto.getWriter())
                 .content(reviewRespDto.getContent())
                 .isPrivate(reviewRespDto.isPrivate())
                 .build();
@@ -66,7 +67,7 @@ public class ReviewService {
         }
 
         List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
+                .map(review -> new ReviewDto(review.getId(),review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -83,20 +84,21 @@ public class ReviewService {
     }
 
     //공유 목록에서의 독후감 조회
-    @Transactional(readOnly = true)
-    public List<ReviewDto> 공유독후감조회(boolean isPrivate, Pageable pageable) {
-        List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate, pageable);
-        if(init.isEmpty()) {
-            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
-        }
-        return init.stream().map(review -> new ReviewDto(
-                review.getId(),
-                review.getTitle(),
-                review.getContent(),
-                review.isPrivate(),
-                review.getCreateAt(),
-                review.getUpdateAt())).toList();
-    }
+//    @Transactional(readOnly = true)
+//    public List<ReviewDto> 모든독후감조회() {
+//        List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate, pageable);
+//        if(init.isEmpty()) {
+//            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+//        }
+//        return init.stream().map(review -> new ReviewDto(
+//                review.getId(),
+//                review.getWriter(),
+//                review.getTitle(),
+//                review.getContent(),
+//                review.isPrivate(),
+//                review.getCreateAt(),
+//                review.getUpdateAt())).toList();
+//    }
 
     //단일 핀을 눌렀을때 독후감이 조회됩니다.
     @Transactional(readOnly = true)
@@ -107,7 +109,7 @@ public class ReviewService {
         }
 
         List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
+                .map(review -> new ReviewDto(review.getId(),review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -118,7 +120,7 @@ public class ReviewService {
         List<Review> init = reviewRepository.mFindReviewsByUser((Long) oAuth2User.getAttributes().get("id"));
 
         List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
+                .map(review -> new ReviewDto(review.getId(),review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -132,6 +134,7 @@ public class ReviewService {
                 () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         return new ReviewDto(
                 init.getId(),
+                init.getWriter(),
                 init.getTitle(),
                 init.getContent(),
                 init.isPrivate(),
@@ -146,6 +149,7 @@ public class ReviewService {
         return init.stream().map(review ->
                 new ReviewDto(
                         review.getId(),
+                        review.getWriter(),
                         review.getTitle(),
                         review.getContent(),
                         review.isPrivate(),

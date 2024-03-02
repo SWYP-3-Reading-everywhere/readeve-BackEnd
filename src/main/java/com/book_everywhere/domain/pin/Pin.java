@@ -3,7 +3,6 @@ package com.book_everywhere.domain.pin;
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.tagged.Tagged;
-import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.visit.Visit;
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,7 +43,8 @@ public class Pin {
     @Column(nullable = false)
     private String title;
 
-
+    @Column(nullable = false)
+    private String url;
     @Column(nullable = false,unique = true)
     private String address;
 

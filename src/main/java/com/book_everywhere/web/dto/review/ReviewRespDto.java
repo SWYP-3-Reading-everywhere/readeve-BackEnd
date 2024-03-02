@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewRespDto {
     private Long socialId;
+    //3월 2일 추가 모든 독후감 기록 페이지
+    private String writer;
     private String title;
     private boolean isPrivate;
     private PinRespDto pinRespDto;
