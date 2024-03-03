@@ -6,6 +6,8 @@ import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.pin.PinRepository;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.review.ReviewRepository;
+import com.book_everywhere.domain.tag.Tag;
+import com.book_everywhere.domain.tag.TagRepository;
 import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
 import com.book_everywhere.web.dto.book.BookRespDto;
@@ -28,7 +30,7 @@ public class WebDataService {
     private final PinRepository pinRepository;
     private final BookRepository bookRepository;
     private final TaggedRepository taggedRepository;
-    private final TagService tagService;
+    private final TagRepository tagRepository;
 
 
 
@@ -55,7 +57,7 @@ public class WebDataService {
                     book.isComplete()
             );
             List<Tagged> taggedList = taggedRepository.findAllByPinId(pin.getId());
-            List<String> tags = tagService.모든태그조회();
+            List<String> tags = tagRepository.findAll().stream().map(Tag::getContent).toList();
             List<TagRespDto> tagRespDtoList = taggedList.stream().map(tagged ->
             {
                 boolean isSelected = false;
