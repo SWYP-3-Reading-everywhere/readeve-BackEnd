@@ -60,11 +60,13 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                        .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/health")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/env")).permitAll()
 //                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasAuthority("ROLE_MEMBER")
-                        .requestMatchers(new MvcRequestMatcher(introspector, "/**")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/**")).permitAll()
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).permitAll()
-                        .anyRequest().authenticated()
+                                .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
                         oauth2Login

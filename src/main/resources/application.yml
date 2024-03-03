@@ -1,5 +1,74 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local: local, common, secret
+      blue: blue, common, secret
+      green: green, common, secret
+
+server:
+  env: blue
+
+--- ## local
+spring:
+  config:
+    activate:
+      on-profile: local
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: "http://localhost:8081/login/oauth2/code/kakao"
+
+server:
+  port: 8081
+  serverAddress: localhost
+
+serverName: local_server
+--- ## blue
+spring:
+  config:
+    activate:
+      on-profile: blue
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: "https://api.bookeverywhere.site/login/oauth2/code/kakao"
+
+server:
+  port: 8081
+  serverAddress: 43.203.40.78
+
+serverName: blue_server
+--- ## green
+spring:
+  config:
+    activate:
+      on-profile: green
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: "https://api.bookeverywhere.site/login/oauth2/code/kakao"
+
+server:
+  port: 8082
+  serverAddress: 43.203.40.78
+
+serverName: green_server
+
+--- ## common
 # Server port
 server:
+  config:
+    activate:
+      on-profile: common
+
   port: 8081
   servlet:
     context-path: /
@@ -8,7 +77,6 @@ server:
       enabled: true
 
 #Spring
-
 spring:
   #Cors 는 프론트와 백 연결을 위한 사용
   application:
@@ -28,22 +96,16 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-      properties: # Additional native properties to set on the JPA provider.
+      properties:
         hibernate:
-          #show-sql: true                  # System.out 으로 출력
-          format_sql: true                 # 로그, 콘솔의 SQL을 좀 더 이쁘게 출력합니다.
-          #highlight_sql: true             # SQL 출력을 ANSI escape codes를 사용하여 색을 부여합니다.
-          #use_sql_comments: true          # 보다 쉬운 디버깅을 위해 SQL 내부에 /* */의 주석을 추가합니다.
+          format_sql: true
 
 
 # Logging
 logging:
-  level: # 각 package 별로 로깅 레벨을 지정할 수 있다.
+  level:
     org:
       springframework:
         security: DEBUG
-    rg.hibernate.type: trace  # 콘솔차에 조건에 바인딩되는 값 및 조회 결과 출력
-
-file:
-  path: C:/workspace/bookeverywhere/upload/
+    rg.hibernate.type: trace
 

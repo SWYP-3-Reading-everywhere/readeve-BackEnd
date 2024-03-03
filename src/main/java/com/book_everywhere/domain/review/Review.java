@@ -47,7 +47,7 @@ public class Review {
     @UpdateTimestamp
     private Timestamp updateAt;
 
-    //==연관 관계 편의 메서드==//
+  //==연관 관계 편의 메서드==//
     private void setBook(Book book) {
         this.book = book;
         book.getReviews().add(this);

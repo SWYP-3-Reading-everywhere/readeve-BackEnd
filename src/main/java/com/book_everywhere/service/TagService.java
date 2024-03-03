@@ -43,7 +43,7 @@ public class TagService {
                         .build();
 
                 taggedRepository.save(newTagged);
-            } else {
+            } else if (tagged != null && tagRespDto.isSelected()) {
                 Tagged newTagged = Tagged.builder()
                         .pin(pin)
                         .tag(tag)
