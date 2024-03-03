@@ -46,19 +46,19 @@ jobs:
     steps:
       - name: Set target IP
         run: |
-          STATUS=$(curl -o /dev/null -w "%{http_code}" "https://${{ secrets.BOOKEVERYWHERE_URL }}/env" )
+          STATUS=$(curl -o /dev/null -w "%{http_code}" "https://${{ secrets.BOOKEVERYWHERE_URL }}/env")
           echo $STATUS
-          if [ $STATUS = 200 ]; then
-            CURRENT_UPSTREAM=$(curl -s "https://${{ secrets.BOOKEVERYWHERE_URL }}/env")
+          if [ "$STATUS" = "200" ]; then
+            CURRENT_UPSTREAM=$(curl -s "https://${{ secrets.BOOKEVERYWHERE_URL }}/env" | jq -r '.data')
           else
             CURRENT_UPSTREAM=green
           fi
           echo CURRENT_UPSTREAM=$CURRENT_UPSTREAM >> $GITHUB_ENV
-          if [ $CURRENT_UPSTREAM = blue ]; then
+          if [ "$CURRENT_UPSTREAM" = "blue" ]; then
             echo "CURRENT_PORT=8081" >> $GITHUB_ENV
             echo "STOPPED_PORT=8082" >> $GITHUB_ENV
             echo "TARGET_UPSTREAM=green" >> $GITHUB_ENV
-          elif [ $CURRENT_UPSTREAM = green ]; then
+          elif [ "$CURRENT_UPSTREAM" = "green" ]; then
             echo "CURRENT_PORT=8082" >> $GITHUB_ENV
             echo "STOPPED_PORT=8081" >> $GITHUB_ENV
             echo "TARGET_UPSTREAM=blue" >> $GITHUB_ENV
@@ -66,6 +66,7 @@ jobs:
             echo "error"
             exit 1
           fi
+
           
       - name: Docker compose
         uses: appleboy/ssh-action@master
