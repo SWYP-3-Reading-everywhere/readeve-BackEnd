@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class WebDataService {
+public class DataService {
 
     private final ReviewRepository reviewRepository;
     private final PinRepository pinRepository;
@@ -39,7 +39,7 @@ public class WebDataService {
     public List<ReviewRespDto> 모든공유데이터가져오기() {
         List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
 
-        List<ReviewRespDto> result = reviews.stream().map(review ->
+        return reviews.stream().map(review ->
         {
             Pin pin = pinRepository.mFindByPinId(review.getPin().getId());
             PinRespDto pinRespDto = new PinRespDto(
@@ -88,7 +88,6 @@ public class WebDataService {
                     review.getContent()
             );
         }).toList();
-        return result;
     }
 
     //태그 조회 테스트용
