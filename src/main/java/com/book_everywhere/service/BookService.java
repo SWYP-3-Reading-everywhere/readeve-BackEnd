@@ -7,7 +7,6 @@ import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.web.dto.book.BookDto;
 import com.book_everywhere.web.dto.book.BookRespDto;
 import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
-import com.book_everywhere.web.dto.exception.customs.CustomException;
 import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import lombok.RequiredArgsConstructor;
@@ -64,7 +63,7 @@ public class BookService {
     public List<BookDto> findAllBookOneUser(Long userSocialId) {
         User user = userRepository.findBySocialId(userSocialId).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
-        List<Book> init = bookRepository.findAllByUser(user);
+        List<Book> init = bookRepository.findAllByUserId(user.getId());
         if(init.isEmpty()) {
             new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }

@@ -73,15 +73,15 @@ public class ReviewService {
         return resultDto;
     }
 
-    //수정
-//    @Transactional
-//    public void 독후감업데이트(Long id, ReviewDto reviewDto) {
-//        Review review = reviewRepository.findById(id).orElseThrow(
-//                () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-//        review.setTitle(reviewDto.getTitle());
-//        review.setContent(reviewDto.getContent());
-//        review.setIsPrivate(reviewDto.IsPrivate());
-//    }
+    @Transactional
+    public void 독후감업데이트(Long id, ReviewDto reviewDto) {
+        Review review = reviewRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
+        review.setTitle(reviewDto.getTitle());
+        review.setContent(reviewDto.getContent());
+        review.setIsPrivate(reviewDto.isPrivate());
+    }
+
 
 
     //단일 핀을 눌렀을때 독후감이 조회됩니다.
