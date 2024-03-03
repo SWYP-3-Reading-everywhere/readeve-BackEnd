@@ -47,7 +47,7 @@ public class ReviewController {
     @GetMapping("/api/reviews")
     public CMRespDto<?> publicReviews(){
         List<ReviewDto> result = reviewService.모든독후감조회();
-        return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
+        return new CMRespDto<>(HttpStatus.OK, result, "전체 독후감 조회");
     }
 
     @GetMapping("/api/detail/{bookId}")
@@ -69,6 +69,19 @@ public class ReviewController {
     public CMRespDto<?> updateReview(@PathVariable Long reviewId, ReviewDto reviewDto) {
 //        reviewService.독후감업데이트(reviewId, reviewDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
+    }
+
+    @GetMapping("/api/review/public")
+    public CMRespDto<?> findPublicReviews() {
+        List<ReviewDto> result = reviewService.모든공유독후감조회();
+        return new CMRespDto<>(HttpStatus.OK, result, "모든 공유 독후감 조회 완료");
+    }
+
+    //ex) 파람 page=2&size=10&sort=createdAt,desc
+    @GetMapping("/api/review/public")
+    public CMRespDto<?> findPublicReviewsWithPage(Pageable pageable) {
+        List<ReviewDto> result = reviewService.공유독후감10개조회(pageable);
+        return new CMRespDto<>(HttpStatus.OK, result, "공유 독후감 페이지 조회 완료");
     }
 
 }
