@@ -18,13 +18,15 @@ import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.dto.tag.TagRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 //프론트 단 요청에 의해 만들어진 서비스 입니다. 이후에 삭제될 예정입니다.
 @Service
 @RequiredArgsConstructor
-public class WebDataService {
+@Transactional(readOnly = true)
+public class DataService {
 
     private final ReviewRepository reviewRepository;
     private final PinRepository pinRepository;
@@ -37,7 +39,7 @@ public class WebDataService {
     public List<ReviewRespDto> 모든공유데이터가져오기() {
         List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
 
-        List<ReviewRespDto> result = reviews.stream().map(review ->
+        return reviews.stream().map(review ->
         {
             Pin pin = pinRepository.mFindByPinId(review.getPin().getId());
             PinRespDto pinRespDto = new PinRespDto(
@@ -86,7 +88,6 @@ public class WebDataService {
                     review.getContent()
             );
         }).toList();
-        return result;
     }
 
     //태그 조회 테스트용
