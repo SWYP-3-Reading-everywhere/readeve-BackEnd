@@ -12,8 +12,11 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    //공유목록에서의 모든 독후감 조회
+    //공유 목록에서의 독후감 페이지 조회
     List<Review> findByIsPrivateOrderByCreateAtDesc(boolean isPrivate, Pageable pageable);
+
+    //공유 목록에서의 모든 독후감 조회
+    List<Review> findByIsPrivateOrderByCreateAtDesc(boolean isPrivate);
 
     // 개인지도에서 핀을 눌렀을때 독후감이 모두 뜨는 기능
     // Entity 바뀐다면 수정 필요 -> 수정완료
