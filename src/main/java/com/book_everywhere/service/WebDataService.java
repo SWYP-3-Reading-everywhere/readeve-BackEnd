@@ -18,20 +18,14 @@ import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.dto.tag.TagRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-<<<<<<< Updated upstream
-=======
 import org.springframework.transaction.annotation.Transactional;
->>>>>>> Stashed changes
 
 import java.util.List;
 
 //프론트 단 요청에 의해 만들어진 서비스 입니다. 이후에 삭제될 예정입니다.
 @Service
 @RequiredArgsConstructor
-<<<<<<< Updated upstream
-=======
 @Transactional(readOnly = true)
->>>>>>> Stashed changes
 public class WebDataService {
 
     private final ReviewRepository reviewRepository;

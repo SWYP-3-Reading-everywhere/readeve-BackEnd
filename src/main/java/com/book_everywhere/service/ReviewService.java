@@ -141,10 +141,7 @@ public class ReviewService {
                         review.getUpdateAt())).toList();
     }
 
-<<<<<<< Updated upstream
-=======
     @Transactional(readOnly = true)
->>>>>>> Stashed changes
     public List<ReviewDto> 공유독후감10개조회(Pageable pageable) {
         List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false, pageable);
         return init.stream().map(review ->
@@ -158,10 +155,7 @@ public class ReviewService {
                         review.getUpdateAt())).toList();
     }
 
-<<<<<<< Updated upstream
-=======
     @Transactional(readOnly = true)
->>>>>>> Stashed changes
     public List<ReviewDto> 모든공유독후감조회() {
         List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
         return init.stream().map(review ->
