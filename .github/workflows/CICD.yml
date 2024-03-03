@@ -12,6 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.repository == 'SWYP-3-Reading-everywhere/readeve-BackEnd'
     steps:
       - uses: actions/checkout@v3
       
