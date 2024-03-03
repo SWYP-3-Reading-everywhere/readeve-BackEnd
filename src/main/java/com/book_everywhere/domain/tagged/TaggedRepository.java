@@ -29,4 +29,7 @@ public interface TaggedRepository extends JpaRepository<Tagged,Long> {
     @Modifying
     @Query("DELETE FROM Tagged WHERE id = :taggedId")
     int mDeleteTagged(@Param("taggedId") Long taggedId);
+
+    //핀에 해당하는 모든 태그 조회하기 - WebDataService에서 사용하는 용도
+     List<Tagged> findAllByPinId(Long pinId);
 }
