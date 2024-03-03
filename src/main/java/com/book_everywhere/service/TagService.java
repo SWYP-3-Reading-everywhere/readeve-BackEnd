@@ -56,11 +56,13 @@ public class TagService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<String> 모든태그조회() {
         List<Tag> tags = tagRepository.findAll();
         return tags.stream().map(Tag::getContent).toList();
     }
 
+    @Transactional(readOnly = true)
     public List<Page<TaggedDto>> 핀의5개태그조회() {
         List<Pin> pins = pinRepository.mFindAllPin();
         List<Page<TaggedDto>> tagFiveList = new ArrayList<>();
