@@ -46,10 +46,10 @@ jobs:
     steps:
       - name: Set target IP
         run: |
-          STATUS=$(curl -o /dev/null -w "%{http_code}" "https://${{ secrets.BOOKEVERYWHERE_IP }}/env" )
+          STATUS=$(curl -o /dev/null -w "%{http_code}" "https://${{ secrets.BOOKEVERYWHERE_URL }}/env" )
           echo $STATUS
           if [ $STATUS = 200 ]; then
-            CURRENT_UPSTREAM=$(curl -s "https://${{ secrets.BOOKEVERYWHERE_IP }}/env")
+            CURRENT_UPSTREAM=$(curl -s "https://${{ secrets.BOOKEVERYWHERE_URL }}/env")
           else
             CURRENT_UPSTREAM=green
           fi
