@@ -15,7 +15,6 @@ import com.book_everywhere.web.dto.book.BookRespDto;
 import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
 import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.pin.PinRespDto;
-import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.dto.tag.TagRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,8 +36,8 @@ public class DataService {
 
 
 
-    public List<AllDataDto> 모든공유데이터가져오기() {
-        List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
+    public List<AllDataDto> 모든공유또는개인데이터가져오기(boolean isPrivate) {
+        List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate);
 
         return reviews.stream().map(review ->
         {
@@ -98,4 +97,64 @@ public class DataService {
     public List<Tagged> findAllTaggedList(Long pinId) {
         return taggedRepository.findAllByPinId(pinId);
     }
+
+
+    public List<AllDataDto> 유저독후감조회(Long userId) {
+        List<Review> reviews = reviewRepository.mFindReviewsByUser(userId);
+
+        return reviews.stream().map(review ->
+        {
+            Pin pin = pinRepository.mFindByPinId(review.getPin().getId());
+            PinRespDto pinRespDto = new PinRespDto(
+                    pin.getTitle(),
+                    pin.getPlaceId(),
+                    pin.getLatitude(),
+                    pin.getLongitude(),
+                    pin.getAddress(),
+                    review.isPrivate(),
+                    pin.getUrl());
+            Book book = bookRepository.findById(review.getBook().getId())
+                    .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));
+            BookRespDto bookRespDto = new BookRespDto(
+                    book.getIsbn(),
+                    book.getTitle(),
+                    book.getCoverImageUrl(),
+                    book.isComplete(),
+                    book.getAuthor()
+            );
+            List<Tagged> taggedList = taggedRepository.findAllByPinId(pin.getId());
+            List<String> tags = tagRepository.findAll().stream().map(Tag::getContent).toList();
+            List<TagRespDto> tagRespDtoList = taggedList.stream().map(tagged ->
+            {
+                boolean isSelected = false;
+
+                for (String tag : tags) {
+                    if (tag.equals(tagged.getTag().getContent())) {
+                        isSelected = true;
+                        break;
+                    }
+                }
+
+                return new TagRespDto(
+                        tagged.getTag().getContent(),
+                        isSelected
+                );
+            }).toList();
+
+            return new AllDataDto(
+                    review.getId(),
+                    book.getUser().getSocialId(),
+                    review.getWriter(),
+                    review.getTitle(),
+                    review.isPrivate(),
+                    pinRespDto,
+                    bookRespDto,
+                    tagRespDtoList,
+                    review.getContent(),
+                    review.getCreateAt()
+            );
+        }).toList();
+    }
+
+
 }
