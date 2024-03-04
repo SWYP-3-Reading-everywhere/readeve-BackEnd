@@ -10,4 +10,5 @@ public class BookRespDto {
     private String title;
     private String thumbnail;
     private boolean isComplete;
+    private String author;
 }

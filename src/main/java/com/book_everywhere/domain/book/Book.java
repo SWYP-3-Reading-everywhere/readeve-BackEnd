@@ -36,6 +36,7 @@ public class Book {
     private String title;
     private String coverImageUrl;
     private boolean isComplete;
+    private String author;
 
 
     @CreationTimestamp
