@@ -72,8 +72,8 @@ public class ReviewController {
     }
 
     @GetMapping("/api/review/public")
-    public CMRespDto<?> findPublicReviews(@RequestParam boolean isPrivate) {
-        List<ReviewDto> result = reviewService.모든공유독후감조회(isPrivate);
+    public CMRespDto<?> findPublicReviews() {
+        List<ReviewDto> result = reviewService.모든공유독후감조회();
         return new CMRespDto<>(HttpStatus.OK, result, "모든 공유 독후감 조회 완료");
     }
 }
