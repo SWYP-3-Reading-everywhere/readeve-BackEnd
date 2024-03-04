@@ -10,6 +10,7 @@ import com.book_everywhere.domain.tag.Tag;
 import com.book_everywhere.domain.tag.TagRepository;
 import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
+import com.book_everywhere.web.dto.AllDataDto;
 import com.book_everywhere.web.dto.book.BookRespDto;
 import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
 import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
@@ -36,7 +37,7 @@ public class DataService {
 
 
 
-    public List<ReviewRespDto> 모든공유데이터가져오기() {
+    public List<AllDataDto> 모든공유데이터가져오기() {
         List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
 
         return reviews.stream().map(review ->
@@ -56,7 +57,8 @@ public class DataService {
                     book.getIsbn(),
                     book.getTitle(),
                     book.getCoverImageUrl(),
-                    book.isComplete()
+                    book.isComplete(),
+                    book.getAuthor()
             );
             List<Tagged> taggedList = taggedRepository.findAllByPinId(pin.getId());
             List<String> tags = tagRepository.findAll().stream().map(Tag::getContent).toList();
@@ -77,7 +79,8 @@ public class DataService {
                 );
             }).toList();
 
-            return new ReviewRespDto(
+            return new AllDataDto(
+                    review.getId(),
                     book.getUser().getSocialId(),
                     review.getWriter(),
                     review.getTitle(),
@@ -85,7 +88,8 @@ public class DataService {
                     pinRespDto,
                     bookRespDto,
                     tagRespDtoList,
-                    review.getContent()
+                    review.getContent(),
+                    review.getCreateAt()
             );
         }).toList();
     }
