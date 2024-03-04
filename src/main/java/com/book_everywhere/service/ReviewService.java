@@ -156,8 +156,8 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReviewDto> 모든공유독후감조회() {
-        List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
+    public List<ReviewDto> 모든공유독후감조회(boolean isPrivate) {
+        List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate);
         return init.stream().map(review ->
                 new ReviewDto(
                         review.getId(),
