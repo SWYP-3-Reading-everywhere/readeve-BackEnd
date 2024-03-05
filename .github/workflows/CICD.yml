@@ -80,12 +80,33 @@ jobs:
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bookeverywhere:latest
             sudo docker-compose -f docker-compose-${{env.TARGET_UPSTREAM}}.yml up -d
 
-      - name: Check deploy server URL
-        uses: jtalk/url-health-check-action@v3
-        with:
-          url: https://${{ secrets.BOOKEVERYWHERE_URL }}/env #:${{env.STOPPE}}
-          max-attempts: 5
-          retry-delay: 10s
+      - name: Check deploy server URL and validate CURRENT_UPSTREAM
+        env:
+          URL: ${{ secrets.BOOKEVERYWHERE_URL }}
+          EXPECTED_UPSTREAM: CURRENT_UPSTREAM
+        run: |
+          max_attempts=7
+          attempt=0
+          success=false
+          while [ $attempt -lt $max_attempts ]; do
+            echo "Attempt $((attempt+1)) of $max_attempts"
+            response=$(curl -s "https://${URL}/env")
+            current_upstream_re=$(echo $response | jq -r '.data')
+            if [ $current_upstream_re == $EXPECTED_UPSTREAM ]; then
+              echo "Success: CURRENT_UPSTREAM matches expected value."
+              success=true
+              break
+            else
+              echo "Retrying in 10 seconds... (CURRENT_UPSTREAM does not match)"
+              sleep 10s
+            fi
+            attempt=$((attempt+1))
+          done
+          if [ $success != true ]; then
+            echo "Failed: CURRENT_UPSTREAM does not match expected value after $max_attempts attempts."
+            exit 1
+          fi
+
 
       - name: Change nginx upstream
         uses: appleboy/ssh-action@master
