@@ -13,8 +13,8 @@ import java.util.List;
 public class ReviewRespDto {
     private Long socialId;
     //3월 2일 추가 모든 독후감 기록 페이지
-    private String writer;
     private String title;
+    private String writer;
     private boolean isPrivate;
     private PinRespDto pinRespDto;
     private BookRespDto bookRespDto;
