@@ -75,8 +75,8 @@ jobs:
           host: ${{ secrets.BOOKEVERYWHERE_IP }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo docker stop ${{env.TARGET_UPSTREAM}}
-            sudo docker rm ${{env.TARGET_UPSTREAM}}
+            sudo docker stop ${{env.TARGET_UPSTREAM}} || true
+            sudo docker rm ${{env.TARGET_UPSTREAM}} || true
           
       - name: Docker compose
         uses: appleboy/ssh-action@master
