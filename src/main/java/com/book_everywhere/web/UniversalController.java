@@ -30,7 +30,7 @@ public class UniversalController {
         responseData.put("serverAddress", serverAddress);
         responseData.put("serverPort", serverPort);
         responseData.put("env", env);
-        return new CMRespDto<>(HttpStatus.OK, null, "통신 성공");
+        return new CMRespDto<>(HttpStatus.OK, env, "통신 성공");
     }
 
     @GetMapping("/health")

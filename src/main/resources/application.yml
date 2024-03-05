@@ -49,6 +49,7 @@ spring:
   config:
     activate:
       on-profile: green
+
   security:
     oauth2:
       client:
