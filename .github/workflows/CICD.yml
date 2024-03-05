@@ -80,7 +80,7 @@ jobs:
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bookeverywhere:latest
             sudo docker-compose -f docker-compose-${{env.TARGET_UPSTREAM}}.yml up -d
 
-      - name: Check deploy server URL and validate CURRENT_UPSTREAM
+      - name: Update NGINX upstream and validate CURRENT_UPSTREAM
         env:
           URL: ${{ secrets.BOOKEVERYWHERE_URL }}
           EXPECTED_UPSTREAM: CURRENT_UPSTREAM
@@ -89,34 +89,25 @@ jobs:
           attempt=0
           success=false
           while [ $attempt -lt $max_attempts ]; do
-            echo "Attempt $((attempt+1)) of $max_attempts"
+            echo "Attempt $((attempt+1)) of $max_attempts to update and verify NGINX upstream"
+            ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ubuntu@${{ secrets.BOOKEVERYWHERE_IP }} "sudo docker exec -i nginxserver bash -c 'echo \"set \$service_url ${TARGET_UPSTREAM};\" > /etc/nginx/conf.d/service-env.inc && nginx -s reload'"
             response=$(curl -s "https://${URL}/env")
-            current_upstream_re=$(echo $response | jq -r '.data')
-            if [ $current_upstream_re == $EXPECTED_UPSTREAM ]; then
+            current_upstream_new=$(echo $response | jq -r '.data')
+            if [[ "$current_upstream_new" == "$EXPECTED_UPSTREAM" ]]; then
               echo "Success: CURRENT_UPSTREAM matches expected value."
               success=true
               break
             else
-              echo "Retrying in 10 seconds... (CURRENT_UPSTREAM does not match)"
+              echo "NGINX upstream update or CURRENT_UPSTREAM verification failed, retrying in 10 seconds..."
               sleep 10s
             fi
             attempt=$((attempt+1))
           done
-          if [ $success != true ]; then
-            echo "Failed: CURRENT_UPSTREAM does not match expected value after $max_attempts attempts."
+          if [[ "$success" != true ]]; then
+            echo "Failed: Unable to match CURRENT_UPSTREAM with expected value after $max_attempts attempts."
             exit 1
           fi
 
-
-      - name: Change nginx upstream
-        uses: appleboy/ssh-action@master
-        with:
-          username: ubuntu
-          host: ${{ secrets.BOOKEVERYWHERE_IP }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script_stop: true
-          script: |
-            sudo docker exec -i nginxserver bash -c 'echo "set \$service_url ${{ env.TARGET_UPSTREAM }};" > /etc/nginx/conf.d/service-env.inc && nginx -s reload' 
 
       - name: Stop current server
         uses: appleboy/ssh-action@master
