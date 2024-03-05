@@ -74,7 +74,6 @@ jobs:
           username: ubuntu
           host: ${{ secrets.BOOKEVERYWHERE_IP }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          script_stop: true
           script: |
             sudo docker stop ${{env.TARGET_UPSTREAM}}
             sudo docker rm ${{env.TARGET_UPSTREAM}}
