@@ -35,6 +35,7 @@ public class BookService {
                     .coverImageUrl(bookRespDto.getThumbnail())
                     .title(bookRespDto.getTitle())
                     .isComplete(bookRespDto.isComplete())
+                    .author(bookRespDto.getAuthor())
                     .build();
 
             bookRepository.save(book);
