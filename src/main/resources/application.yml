@@ -89,7 +89,7 @@ spring:
     import: application-secret.yml
   servlet:
     multipart:
-      enabled: create
+      enabled: true
       max-file-size: 10MB
   jpa:
     show-sql: true
