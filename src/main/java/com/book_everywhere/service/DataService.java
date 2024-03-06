@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //프론트 단 요청에 의해 만들어진 서비스 입니다. 이후에 삭제될 예정입니다.
@@ -124,22 +125,15 @@ public class DataService {
             );
             List<Tagged> taggedList = taggedRepository.findAllByPinId(pin.getId());
             List<String> tags = tagRepository.findAll().stream().map(Tag::getContent).toList();
-            List<TagRespDto> tagRespDtoList = taggedList.stream().map(tagged ->
-            {
-                boolean isSelected = false;
-
-                for (String tag : tags) {
+            List<TagRespDto> tagRespDtoList = tags.stream().map(tag -> {
+                for (Tagged tagged : taggedList) {
                     if (tag.equals(tagged.getTag().getContent())) {
-                        isSelected = true;
-                        break;
+                        return new TagRespDto(tag, true);
                     }
                 }
-
-                return new TagRespDto(
-                        tagged.getTag().getContent(),
-                        isSelected
-                );
+                return new TagRespDto(tag, false);
             }).toList();
+
 
             return new AllDataDto(
                     review.getId(),
