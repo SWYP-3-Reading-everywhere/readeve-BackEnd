@@ -31,7 +31,7 @@ public class Pin {
     private List<Tagged> tags;
 
     @Column(nullable = false)
-    private Long placeId;
+    private double placeId;
 
     //경도 x
     @Column(nullable = false)
