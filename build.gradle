@@ -32,8 +32,19 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-}
 
+	//테스트를위한
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+}
+tasks.withType(JavaCompile) {
+	options.compilerArgs += ['-parameters']
+	sourceCompatibility = '17'
+	targetCompatibility = '17'
+}
 tasks.named('test') {
 	useJUnitPlatform()
+}
+jar {
+	enabled = false;
 }

@@ -1,0 +1,111 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local: local, common, secret
+      blue: blue, common, secret
+      green: green, common, secret
+
+server:
+  env: blue
+
+--- ## local
+spring:
+  config:
+    activate:
+      on-profile: local
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: "http://localhost:8081/login/oauth2/code/kakao"
+
+server:
+  port: 8081
+  serverAddress: localhost
+
+serverName: local_server
+--- ## blue
+spring:
+  config:
+    activate:
+      on-profile: blue
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: "https://api.bookeverywhere.site/login/oauth2/code/kakao"
+
+server:
+  port: 8081
+  serverAddress: 43.203.40.78
+
+serverName: blue_server
+--- ## green
+spring:
+  config:
+    activate:
+      on-profile: green
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: "https://api.bookeverywhere.site/login/oauth2/code/kakao"
+
+server:
+  port: 8082
+  serverAddress: 43.203.40.78
+
+serverName: green_server
+
+--- ## common
+# Server port
+server:
+  config:
+    activate:
+      on-profile: common
+
+  servlet:
+    context-path: /
+    encoding:
+      charset: utf-8
+      enabled: true
+
+#Spring
+spring:
+  #Cors 는 프론트와 백 연결을 위한 사용
+  application:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "GET,POST,PUT,DELETE"
+      allowed-headers: "*"
+      allow-credentials: true
+
+  config:
+    import: application-secret.yml
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          format_sql: true
+
+
+# Logging
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+    rg.hibernate.type: trace
+
