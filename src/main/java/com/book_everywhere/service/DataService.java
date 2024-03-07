@@ -110,7 +110,7 @@ public class DataService {
         return reviews.stream().map(review ->
         {
             Pin pin = pinRepository.mFindByPinId(review.getPin().getId());
-            Visit visit = visitRepository.mFindByUserAndPin(userId, review.getPin().getId());
+            Visit visit = visitRepository.mFindByUserAndPin(review.getBook().getUser().getId(), review.getPin().getId());
             PinRespDto pinRespDto = new PinRespDto(
                     pin.getTitle(),
                     pin.getPlaceId(),
