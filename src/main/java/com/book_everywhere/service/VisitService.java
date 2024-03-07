@@ -34,7 +34,7 @@ public class VisitService {
             Visit visit = Visit.builder()
                     .user(user)
                     .pin(pin)
-                    .isPrivate(reviewRespDto.isPrivate())
+                    .isPinPrivate(reviewRespDto.getPinRespDto().isPrivate())
                     .build();
 
             visitRepository.save(visit);

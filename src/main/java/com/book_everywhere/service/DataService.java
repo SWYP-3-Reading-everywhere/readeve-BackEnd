@@ -10,6 +10,8 @@ import com.book_everywhere.domain.tag.Tag;
 import com.book_everywhere.domain.tag.TagRepository;
 import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
+import com.book_everywhere.domain.visit.Visit;
+import com.book_everywhere.domain.visit.VisitRepository;
 import com.book_everywhere.web.dto.AllDataDto;
 import com.book_everywhere.web.dto.book.BookRespDto;
 import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
@@ -34,6 +36,7 @@ public class DataService {
     private final BookRepository bookRepository;
     private final TaggedRepository taggedRepository;
     private final TagRepository tagRepository;
+    private final VisitRepository visitRepository;
 
 
 
@@ -43,13 +46,14 @@ public class DataService {
         return reviews.stream().map(review ->
         {
             Pin pin = pinRepository.mFindByPinId(review.getPin().getId());
+            Visit visit = visitRepository.mFindByUserAndPin(review.getBook().getUser().getId(), review.getPin().getId());
             PinRespDto pinRespDto = new PinRespDto(
                     pin.getTitle(),
                     pin.getPlaceId(),
                     pin.getLatitude(),
                     pin.getLongitude(),
                     pin.getAddress(),
-                    review.isPrivate(),
+                    visit.isPinPrivate(),
                     pin.getUrl());
             Book book = bookRepository.findById(review.getBook().getId())
                     .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));

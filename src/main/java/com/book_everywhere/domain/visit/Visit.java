@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -19,6 +20,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
 public class Visit {
 
     @Id
@@ -31,7 +33,7 @@ public class Visit {
     @JoinColumn(name = "pinId")
     private Pin pin;
 
-    private boolean isPrivate;
+    private boolean isPinPrivate;
     //최초 방문시각
     @CreationTimestamp
     private Timestamp createAt;
