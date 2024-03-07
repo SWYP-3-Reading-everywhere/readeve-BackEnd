@@ -110,13 +110,14 @@ public class DataService {
         return reviews.stream().map(review ->
         {
             Pin pin = pinRepository.mFindByPinId(review.getPin().getId());
+            Visit visit = visitRepository.mFindByUserAndPin(userId, review.getPin().getId());
             PinRespDto pinRespDto = new PinRespDto(
                     pin.getTitle(),
                     pin.getPlaceId(),
                     pin.getLatitude(),
                     pin.getLongitude(),
                     pin.getAddress(),
-                    review.isPrivate(),
+                    visit.isPinPrivate(),
                     pin.getUrl());
             Book book = bookRepository.findById(review.getBook().getId())
                     .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));
