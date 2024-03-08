@@ -1,14 +1,9 @@
 package com.book_everywhere.domain.tag;
 
 import com.book_everywhere.domain.book.Book;
+import com.book_everywhere.domain.category.Category;
 import com.book_everywhere.domain.tagged.Tagged;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +24,11 @@ public class Tag {
     @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
     private List<Tagged> tags;
 
+    @ManyToOne
+    @JoinColumn(name = "tagId")
+    private Category category;
+
     @Column(nullable = false, unique = true)
     private String content;
+
 }
