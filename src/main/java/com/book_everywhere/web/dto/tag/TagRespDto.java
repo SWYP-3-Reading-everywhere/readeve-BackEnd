@@ -9,4 +9,5 @@ import lombok.Data;
 public class TagRespDto {
     private String content;
     private boolean isSelected; // tagged 컬럼에 사용됨
+    private String category;
 }
