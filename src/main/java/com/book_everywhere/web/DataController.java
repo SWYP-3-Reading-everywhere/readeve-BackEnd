@@ -21,7 +21,7 @@ public class DataController {
 
     @GetMapping("/api/data/all")
     public CMRespDto<?> findAllData(@RequestParam Boolean isPrivate) {
-        List<AllDataDto> result = dataService.모든공유또는개인데이터가져오기(isPrivate);
+        List<AllDataDto> result = dataService.모든공유또는개인데이터조회(isPrivate);
         return new CMRespDto<>(HttpStatus.OK, result,"모든 데이터 조회 성공");
     }
 

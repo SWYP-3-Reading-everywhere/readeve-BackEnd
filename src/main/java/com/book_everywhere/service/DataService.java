@@ -2,7 +2,6 @@ package com.book_everywhere.service;
 
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.book.BookRepository;
-import com.book_everywhere.domain.category.CategoryRepository;
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.pin.PinRepository;
 import com.book_everywhere.domain.review.Review;
@@ -40,7 +39,7 @@ public class DataService {
 
 
 
-    public List<AllDataDto> 모든공유또는개인데이터가져오기(boolean isPrivate) {
+    public List<AllDataDto> 모든공유또는개인데이터조회(boolean isPrivate) {
         List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate);
 
         return reviews.stream().map(review ->

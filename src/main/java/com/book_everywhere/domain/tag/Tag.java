@@ -25,7 +25,7 @@ public class Tag {
     private List<Tagged> tags;
 
     @ManyToOne
-    @JoinColumn(name = "tagId")
+    @JoinColumn(name = "categoryId")
     private Category category;
 
     @Column(nullable = false, unique = true)

@@ -25,6 +25,9 @@ public interface TaggedRepository extends JpaRepository<Tagged,Long> {
 // Tagged 엔티티의 Repository 인터페이스 내에 메소드 추가
     Page<Tagged> findByPinIdOrderByCountDesc(Long pinId, Pageable pageable);
 
+    @Query("SELECT t FROM Tagged t WHERE t.pin.id = :pinId ORDER BY t.count DESC")
+    List<Tagged> mFindPinWithTagCount(@Param("pinId") Long pinId, Pageable pageable);
+
 
     @Modifying
     @Query("DELETE FROM Tagged WHERE id = :taggedId")
