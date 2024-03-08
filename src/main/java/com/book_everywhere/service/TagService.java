@@ -7,6 +7,7 @@ import com.book_everywhere.domain.tag.TagRepository;
 import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
+import com.book_everywhere.web.dto.tag.TagDto;
 import com.book_everywhere.web.dto.tag.TagRespDto;
 import com.book_everywhere.web.dto.tag.TaggedDto;
 import lombok.RequiredArgsConstructor;
@@ -57,9 +58,9 @@ public class TagService {
     }
 
     @Transactional(readOnly = true)
-    public List<String> 모든태그조회() {
+    public List<TagDto> 모든태그조회() {
         List<Tag> tags = tagRepository.findAll();
-        return tags.stream().map(Tag::getContent).toList();
+        return tags.stream().map(tag -> new TagDto(tag.getContent(), false,tag.getCategory().getName())).toList();
     }
 
     @Transactional(readOnly = true)
