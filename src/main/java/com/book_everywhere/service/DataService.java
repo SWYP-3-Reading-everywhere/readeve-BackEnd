@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //프론트 단 요청에 의해 만들어진 서비스 입니다. 이후에 삭제될 예정입니다.
@@ -40,7 +39,7 @@ public class DataService {
 
 
 
-    public List<AllDataDto> 모든공유또는개인데이터가져오기(boolean isPrivate) {
+    public List<AllDataDto> 모든공유또는개인데이터조회(boolean isPrivate) {
         List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate);
 
         return reviews.stream().map(review ->
@@ -65,22 +64,15 @@ public class DataService {
                     book.getAuthor()
             );
             List<Tagged> taggedList = taggedRepository.findAllByPinId(pin.getId());
-            List<String> tags = tagRepository.findAll().stream().map(Tag::getContent).toList();
-            List<TagRespDto> tagRespDtoList = taggedList.stream().map(tagged ->
-            {
-                boolean isSelected = false;
-
-                for (String tag : tags) {
-                    if (tag.equals(tagged.getTag().getContent())) {
-                        isSelected = true;
-                        break;
+            List<Tag> tagObjects = tagRepository.findAll();
+            List<TagRespDto> tagRespDtoList = tagObjects.stream().map(tag -> {
+                String name = tag.getCategory().getName();
+                for (Tagged tagged : taggedList) {
+                    if (tag.getContent().equals(tagged.getTag().getContent())) {
+                        return new TagRespDto(tag.getContent(), true, name);
                     }
                 }
-
-                return new TagRespDto(
-                        tagged.getTag().getContent(),
-                        isSelected
-                );
+                return new TagRespDto(tag.getContent(), false, name);
             }).toList();
 
             return new AllDataDto(
@@ -129,14 +121,15 @@ public class DataService {
                     book.getAuthor()
             );
             List<Tagged> taggedList = taggedRepository.findAllByPinId(pin.getId());
-            List<String> tags = tagRepository.findAll().stream().map(Tag::getContent).toList();
-            List<TagRespDto> tagRespDtoList = tags.stream().map(tag -> {
+            List<Tag> tagObjects = tagRepository.findAll();
+            List<TagRespDto> tagRespDtoList = tagObjects.stream().map(tag -> {
+                String name = tag.getCategory().getName();
                 for (Tagged tagged : taggedList) {
-                    if (tag.equals(tagged.getTag().getContent())) {
-                        return new TagRespDto(tag, true);
+                    if (tag.getContent().equals(tagged.getTag().getContent())) {
+                        return new TagRespDto(tag.getContent(), true, name);
                     }
                 }
-                return new TagRespDto(tag, false);
+                return new TagRespDto(tag.getContent(), false, name);
             }).toList();
 
 

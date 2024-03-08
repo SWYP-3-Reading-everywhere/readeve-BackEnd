@@ -2,15 +2,17 @@ package com.book_everywhere.service;
 
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.pin.PinRepository;
+import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
 import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
 import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.pin.PinDto;
 import com.book_everywhere.web.dto.pin.PinRespDto;
+import com.book_everywhere.web.dto.pin.PinWithTagCountRespDto;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
+import com.book_everywhere.web.dto.tag.TagCountRespDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,5 +75,30 @@ public class PinService {
                 .toList();
 
         return resultDto;
+    }
+
+    @Transactional(readOnly = true)
+    public List<PinWithTagCountRespDto> 핀의상위5개태그개수와함께조회() {
+        List<Pin> pins = pinRepository.findAll();
+        return pins.stream().map(pin -> {
+            PageRequest pageRequest = PageRequest.of(0, 5);
+            List<Tagged> taggeds = taggedRepository.mFindPinWithTagCount(pin.getId(), pageRequest);
+            List<TagCountRespDto> tagCountRespDtos = taggeds.stream()
+                    .map(tagged -> new TagCountRespDto(
+                            tagged.getTag().getContent(),
+                            tagged.getCount())).toList();
+
+            return new PinWithTagCountRespDto(
+                    pin.getId(),
+                    pin.getPlaceId(),
+                    pin.getLatitude(),
+                    pin.getLongitude(),
+                    pin.getTitle(),
+                    pin.getAddress(),
+                    pin.getUrl(),
+                    pin.getCreateAt(),
+                    tagCountRespDtos
+            );
+        }).toList();
     }
 }

@@ -6,6 +6,7 @@ import com.book_everywhere.service.PinService;
 import com.book_everywhere.service.ReviewService;
 import com.book_everywhere.web.dto.CMRespDto;
 import com.book_everywhere.web.dto.pin.PinDto;
+import com.book_everywhere.web.dto.pin.PinWithTagCountRespDto;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,12 @@ public class PinController {
     public CMRespDto<?> allPin() {
         List<PinDto> result = pinService.전체지도조회();
         return new CMRespDto<>(HttpStatus.OK, result,"전체 지도 조회 성공!");
+    }
+
+    @GetMapping("/api/map/tag/count")
+    public CMRespDto<?> allPinWithTagCount() {
+        List<PinWithTagCountRespDto> result = pinService.핀의상위5개태그개수와함께조회();
+        return new CMRespDto<>(HttpStatus.OK, result, "전체 지도 상위 5개 태그와 함께 조회 성공");
     }
 
     //핀을 눌렀을때 핀에 해당하는 독후감 정보 조회
