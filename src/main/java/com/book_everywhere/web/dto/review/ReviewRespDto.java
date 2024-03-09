@@ -18,6 +18,6 @@ public class ReviewRespDto {
     private boolean isPrivate;
     private PinRespDto pinRespDto;
     private BookRespDto bookRespDto;
-    private List<TagRespDto> tags;
+    private List<String> tags;
     private String content;
 }

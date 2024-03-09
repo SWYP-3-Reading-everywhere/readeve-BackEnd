@@ -28,15 +28,15 @@ public class TagService {
 
     @Transactional
     public void 태그등록(ReviewRespDto reviewRespDto) {
-        List<TagRespDto> tags = reviewRespDto.getTags();
+        List<String> tags = reviewRespDto.getTags();
 
-        for (TagRespDto tagRespDto : tags) {
-            Tag tag = tagRepository.mFindTagByName(tagRespDto.getContent());
+        for (String tagResp : tags) {
+            Tag tag = tagRepository.mFindTagByName(tagResp);
             Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
 
             Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
 
-            if (tagged == null && tagRespDto.isSelected()) {
+            if (tagged == null) {
                 Tagged newTagged = Tagged.builder()
                         .pin(pin)
                         .tag(tag)
@@ -44,7 +44,7 @@ public class TagService {
                         .build();
 
                 taggedRepository.save(newTagged);
-            } else if (tagged != null && tagRespDto.isSelected()) {
+            } else {
                 Tagged newTagged = Tagged.builder()
                         .pin(pin)
                         .tag(tag)
@@ -60,7 +60,10 @@ public class TagService {
     @Transactional(readOnly = true)
     public List<TagDto> 모든태그조회() {
         List<Tag> tags = tagRepository.findAll();
-        return tags.stream().map(tag -> new TagDto(tag.getContent(), false,tag.getCategory().getName())).toList();
+        return tags.stream().map(tag -> new TagDto(
+                tag.getContent(),
+                false,
+                tag.getCategory().getName())).toList();
     }
 
     @Transactional(readOnly = true)
