@@ -10,15 +10,18 @@
 - 로그인
 - 지도 기능 
 - 독서 기록 기능
-- 타이머 기능
 - 내 기록 공유기능
-- 독서 총 시간 기록 기능
 
 ### API 사용
 - 소셜 로그인 : 카카오 API 사용
 - 지도 API : 카카오 API 사용
 - 책 Search API : 네이버 API 사용
 
+## 클라우드 아키텍처
+![클라우드 아키텍쳐](https://github.com/dltjdgh0428/readeve-BackEnd/assets/33485494/f25f5eda-dc66-478e-b1ba-e54f79d4e3c4)
+
+## ERD
+![book_everywhere_ERD](https://github.com/dltjdgh0428/readeve-BackEnd/assets/33485494/c322024e-1a1e-4816-b460-8aa08d6ca880)
 
 ## 📋 협업 규칙
 ### 브랜치 전략
@@ -68,3 +71,6 @@
 - 변경 사항을 커밋합니다 (git commit -am 'Add some YourFeature').
 - 브랜치에 Push합니다 (git push origin feature/YourFeature).
 - 새로운 Pull Request를 요청합니다.
+
+## addReview의 시퀀스 다이어그램
+![ReviewController_addReview](https://github.com/dltjdgh0428/readeve-BackEnd/assets/33485494/25193272-d817-4908-9e6a-fe675bc2c128)
