@@ -23,16 +23,6 @@ public class UniversalController {
     @Value("${serverName}")
     private String serverName;
 
-    @GetMapping
-    public CMRespDto<?> handleRequest() {
-        Map<String, String> responseData = new TreeMap<>();
-        responseData.put("serverName", serverName);
-        responseData.put("serverAddress", serverAddress);
-        responseData.put("serverPort", serverPort);
-        responseData.put("env", env);
-        return new CMRespDto<>(HttpStatus.OK, env, "통신 성공");
-    }
-
     @GetMapping("/health")
     public CMRespDto<?> checkRequest() {
         Map<String, String> responseData = new TreeMap<>();
