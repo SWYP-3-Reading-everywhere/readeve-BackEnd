@@ -33,6 +33,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 	//테스트를위한
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 

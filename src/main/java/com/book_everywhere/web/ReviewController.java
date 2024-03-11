@@ -6,6 +6,11 @@ import com.book_everywhere.service.*;
 import com.book_everywhere.web.dto.CMRespDto;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,22 +22,25 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ReviewController {
+
+
     private final PinService pinService;
     private final TagService tagService;
     private final VisitService visitService;
     private final BookService bookService;
     private final ReviewService reviewService;
 
-    // 리뷰 등록 !!! 가장 중요 코드
-
-    /**
-     * pin 생성/등록기능
-     * 최초등록시 book 등록기능
-     * tagged 등록기능
-     * 최초등록시 visit 등록기능
-     * review 등록 기능
-     */
     @PostMapping("/api/write")
+    @Operation(summary = "독후감 추가", description = "독후감을 새로 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "독후감 추가 완료",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CMRespDto.class))}),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "서버 에러",
+                    content = @Content)
+    })
     public CMRespDto<?> addReview(@RequestBody ReviewRespDto reviewRespDto) {
         pinService.핀생성(reviewRespDto);
         bookService.책생성하기(reviewRespDto);
