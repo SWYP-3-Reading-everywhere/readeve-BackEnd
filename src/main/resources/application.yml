@@ -100,6 +100,14 @@ spring:
         hibernate:
           format_sql: true
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+  server:
+    - url: https://api.bookeverywhere.site
+      description: Generated server url
 
 # Logging
 logging:
