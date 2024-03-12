@@ -62,7 +62,8 @@
 ## 🛠 기술 스택
 - Backend: Java17, Spring Boot 3.2.2
 - Database: MariaDB
-- ORM: spring data JPA
+- ORM: Spring Data JPA
+- DevOps: Docker, Docker-compose, AWS EC2, ALB, ACM, NginX, GitHub-Actions
 - 인증: OAuth 소셜 로그인
 
 ## 🤝 기여 방법
