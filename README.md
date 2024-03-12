@@ -73,5 +73,5 @@
 - 브랜치에 Push합니다 (git push origin feature/YourFeature).
 - 새로운 Pull Request를 요청합니다.
 
-## addReview의 시퀀스 다이어그램
+## addReview 메소드의 시퀀스 다이어그램
 ![ReviewController_addReview](https://github.com/dltjdgh0428/readeve-BackEnd/assets/33485494/25193272-d817-4908-9e6a-fe675bc2c128)
