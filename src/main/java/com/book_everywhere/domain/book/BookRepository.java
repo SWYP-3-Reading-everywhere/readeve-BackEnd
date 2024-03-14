@@ -17,7 +17,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     /**
      * 추가 user.id 와 book.title을 통해 일치하는 북 가져오기
      */
-    @Query("SELECT book FROM Book book WHERE book.user.socialId = :userId AND book.title = :title")
-    Book mFindBookByUserIdAndTitle(@Param("userId") Long userId , @Param("title") String title);
+    @Query("SELECT book FROM Book book WHERE book.user.socialId = :socialId AND book.title = :title")
+    Book mFindBookByUserIdAndTitle(@Param("socialId") Long socialId , @Param("title") String title);
 
 }
