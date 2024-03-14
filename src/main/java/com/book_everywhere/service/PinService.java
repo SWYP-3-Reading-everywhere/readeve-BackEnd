@@ -36,18 +36,11 @@ public class PinService {
     }
 
     @Transactional
-    public void 핀생성(ReviewRespDto reviewRespDto) {
+    public void 핀생성또는수정(ReviewRespDto reviewRespDto) {
         PinRespDto pinRespDto = reviewRespDto.getPinRespDto();
         Pin pined = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
         if (pined == null) {
-            Pin pin = Pin.builder()
-                    .placeId(pinRespDto.getPlaceId())
-                    .title(pinRespDto.getName())
-                    .address(pinRespDto.getAddress())
-                    .longitude(pinRespDto.getX())
-                    .latitude(pinRespDto.getY())
-                    .url(pinRespDto.getUrl())
-                    .build();
+            Pin pin = pinRespDto.toEntity();
             pinRepository.save(pin);
         }
     }
