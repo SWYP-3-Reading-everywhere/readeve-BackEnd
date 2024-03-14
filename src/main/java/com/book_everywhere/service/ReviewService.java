@@ -46,6 +46,8 @@ public class ReviewService {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
 
+
+
         Review review = Review.builder()
                 .book(book)
                 .pin(pin)
@@ -71,15 +73,6 @@ public class ReviewService {
                 .toList();
 
         return resultDto;
-    }
-
-    @Transactional
-    public void 독후감업데이트(Long id, ReviewDto reviewDto) {
-        Review review = reviewRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-        review.setTitle(reviewDto.getTitle());
-        review.setContent(reviewDto.getContent());
-        review.setIsPrivate(reviewDto.isPrivate());
     }
 
 
@@ -167,5 +160,12 @@ public class ReviewService {
                         review.isPrivate(),
                         review.getCreateAt(),
                         review.getUpdateAt())).toList();
+    }
+
+    @Transactional
+    public void 독후감수정(Long reviewId, ReviewRespDto reviewRespDto) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
+        review.changeReview(reviewRespDto);
     }
 }
