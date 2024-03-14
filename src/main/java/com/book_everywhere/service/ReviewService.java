@@ -8,9 +8,10 @@ import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.review.ReviewRepository;
 import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
-import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
-import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
+import com.book_everywhere.web.exception.customs.CustomErrorCode;
+import com.book_everywhere.web.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
+import com.book_everywhere.web.exception.customs.PropertyBadRequestException;
 import org.springframework.data.domain.Pageable;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
@@ -45,9 +46,6 @@ public class ReviewService {
         if(pin == null) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
-
-
-
         Review review = Review.builder()
                 .book(book)
                 .pin(pin)
@@ -167,5 +165,26 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         review.changeReview(reviewRespDto);
+    }
+
+    public void 등록또는수정전예외처리(ReviewRespDto reviewRespDto) {
+        if(reviewRespDto.getTitle() == null || reviewRespDto.getTitle().isEmpty()) {
+            throw new PropertyBadRequestException(CustomErrorCode.TITLE_IS_NOT_BLANK);
+        }
+        if(reviewRespDto.getTitle().length() > 20) {
+            throw new PropertyBadRequestException(CustomErrorCode.TITLE_IS_NOT_OVER_20);
+        }
+        if(reviewRespDto.getContent() == null || reviewRespDto.getContent().isEmpty()) {
+            throw new PropertyBadRequestException(CustomErrorCode.CONTENT_IS_NOT_BLANK);
+        }
+        if(reviewRespDto.getContent().length() > 1500) {
+            throw new PropertyBadRequestException(CustomErrorCode.CONTENT_IS_NOT_OVER_1500);
+        }
+        if(reviewRespDto.getBookRespDto() == null) {
+            throw new PropertyBadRequestException(CustomErrorCode.BOOK_IS_NOT_NULL);
+        }
+        if(reviewRespDto.getPinRespDto().getAddress() == null || reviewRespDto.getPinRespDto().getAddress().isEmpty()) {
+            throw new PropertyBadRequestException(CustomErrorCode.ADDRESS_IS_NOT_NULL);
+        }
     }
 }

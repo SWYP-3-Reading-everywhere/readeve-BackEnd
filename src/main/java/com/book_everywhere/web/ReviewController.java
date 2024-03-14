@@ -39,6 +39,7 @@ public class ReviewController {
                     content = @Content)
     })
     public CMRespDto<?> addReview(@RequestBody ReviewRespDto reviewRespDto) {
+        reviewService.등록또는수정전예외처리(reviewRespDto);
         pinService.핀생성또는수정(reviewRespDto);
         bookService.책생성또는수정(reviewRespDto);
         tagService.태그등록또는수정(reviewRespDto);
@@ -79,6 +80,7 @@ public class ReviewController {
     @PutMapping("/api/write/{reviewId}")
     @Operation(summary = "독후감 수정", description = "독후감을 수정합니다.")
     public CMRespDto<?> updateReview(@PathVariable Long reviewId,@RequestBody ReviewRespDto reviewRespDto) {
+        reviewService.등록또는수정전예외처리(reviewRespDto);
         pinService.핀생성또는수정(reviewRespDto);
         bookService.책생성또는수정(reviewRespDto);
         tagService.태그등록또는수정(reviewRespDto);
