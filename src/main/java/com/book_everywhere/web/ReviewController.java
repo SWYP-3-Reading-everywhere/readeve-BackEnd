@@ -1,7 +1,6 @@
 package com.book_everywhere.web;
 
 
-import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.service.*;
 import com.book_everywhere.web.dto.CMRespDto;
 import com.book_everywhere.web.dto.review.ReviewDto;
@@ -12,8 +11,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,10 +39,10 @@ public class ReviewController {
                     content = @Content)
     })
     public CMRespDto<?> addReview(@RequestBody ReviewRespDto reviewRespDto) {
-        pinService.핀생성(reviewRespDto);
-        bookService.책생성하기(reviewRespDto);
-        tagService.태그등록(reviewRespDto);
-        visitService.독후감쓰기전방문등록(reviewRespDto);
+        pinService.핀생성또는수정(reviewRespDto);
+        bookService.책생성또는수정(reviewRespDto);
+        tagService.태그등록또는수정(reviewRespDto);
+        visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
         reviewService.독후감생성하기(reviewRespDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 추가 완료");
     }
@@ -72,10 +69,21 @@ public class ReviewController {
     }
 
     
-    //수정
-    @PutMapping("/api/review/{reviewId}")
-    public CMRespDto<?> updateReview(@PathVariable Long reviewId, ReviewDto reviewDto) {
-//        reviewService.독후감업데이트(reviewId, reviewDto);
+    //수정 - 오류로 인한 변경
+//    @PutMapping("/api/review/{reviewId}")
+//    public CMRespDto<?> updateReview(@PathVariable Long reviewId, ReviewDto reviewDto) {
+////        reviewService.독후감업데이트(reviewId, reviewDto);
+//        return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
+//    }
+
+    @PutMapping("/api/write/{reviewId}")
+    @Operation(summary = "독후감 수정", description = "독후감을 수정합니다.")
+    public CMRespDto<?> updateReview(@PathVariable Long reviewId,@RequestBody ReviewRespDto reviewRespDto) {
+        pinService.핀생성또는수정(reviewRespDto);
+        bookService.책생성또는수정(reviewRespDto);
+        tagService.태그등록또는수정(reviewRespDto);
+        visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
+        reviewService.독후감수정(reviewId, reviewRespDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
