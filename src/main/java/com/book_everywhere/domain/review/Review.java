@@ -3,6 +3,7 @@ package com.book_everywhere.domain.review;
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.web.dto.review.ReviewDto;
+import com.book_everywhere.web.dto.review.ReviewRespDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,30 +59,13 @@ public class Review {
         pin.getReviews().add(this);
     }
 
-    //==생성 메서드==//
-    public Review createFromDto(Book book, Pin pin, ReviewDto reviewDto) {
-
-        Review review = Review.builder()
-                .title(reviewDto.getTitle())
-                .content(reviewDto.getContent())
-                .isPrivate(reviewDto.isPrivate())
-                .build();
-        review.setBook(book);
-        review.setPin(pin);
-        return review;
+    //==수정 메서드==//
+    public void changeReview(ReviewRespDto reviewRespDto) {
+        this.title = reviewRespDto.getTitle();
+        this.content = reviewRespDto.getContent();
+        this.isPrivate = reviewRespDto.isPrivate();
+        this.writer = reviewRespDto.getWriter();
+        setBook(reviewRespDto.getBookRespDto().toEntity());
+        setPin(reviewRespDto.getPinRespDto().toEntity());
     }
-
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setIsPrivate(boolean isPrivate) {
-        this.isPrivate = isPrivate;
-    }
-
 }

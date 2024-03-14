@@ -2,6 +2,7 @@ package com.book_everywhere.domain.tagged;
 
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.tag.Tag;
+import com.book_everywhere.web.dto.review.ReviewRespDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,4 +39,21 @@ public class Tagged {
 
     @CreationTimestamp
     private Timestamp createAt;
+
+    //==연관 관계 편의 메서드==//
+    private void setPin(Pin pin) {
+        this.pin = pin;
+        pin.getTags().add(this);
+    }
+    private void setTag(Tag tag) {
+        this.tag = tag;
+        tag.getTags().add(this);
+    }
+
+    //==수정 메서드==//
+    public void changeTagged(Pin pin, Tag tag, int count) {
+        setPin(pin);
+        setTag(tag);
+        this.count = count;
+    }
 }
