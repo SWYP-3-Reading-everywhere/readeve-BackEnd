@@ -8,7 +8,6 @@ import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.dto.tag.TagDto;
-import com.book_everywhere.web.dto.tag.TagRespDto;
 import com.book_everywhere.web.dto.tag.TaggedDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +26,7 @@ public class TagService {
     private final PinRepository pinRepository;
 
     @Transactional
-    public void 태그등록(ReviewRespDto reviewRespDto) {
+    public void 태그등록또는수정(ReviewRespDto reviewRespDto) {
         List<String> tags = reviewRespDto.getTags();
 
         for (String tagResp : tags) {
@@ -45,14 +44,7 @@ public class TagService {
 
                 taggedRepository.save(newTagged);
             } else {
-                Tagged newTagged = Tagged.builder()
-                        .pin(pin)
-                        .tag(tag)
-                        .count(tagged.getCount() + 1)
-                        .build();
-
-                taggedRepository.mDeleteTagged(tagged.getId());
-                taggedRepository.save(newTagged);
+                tagged.changeTagged(pin, tag, tagged.getCount()+1);
             }
         }
     }
@@ -82,6 +74,5 @@ public class TagService {
         }
         return tagFiveList;
     }
-
 
 }

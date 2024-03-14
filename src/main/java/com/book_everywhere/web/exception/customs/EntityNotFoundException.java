@@ -1,4 +1,4 @@
-package com.book_everywhere.web.dto.exception.customs;
+package com.book_everywhere.web.exception.customs;
 
 public class EntityNotFoundException extends CustomException {
     public EntityNotFoundException(CustomErrorCode errorCode) {

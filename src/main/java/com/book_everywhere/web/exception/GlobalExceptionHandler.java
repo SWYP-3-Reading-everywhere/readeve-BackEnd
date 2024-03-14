@@ -1,9 +1,9 @@
-package com.book_everywhere.web.dto.exception;
+package com.book_everywhere.web.exception;
 
 
 import com.book_everywhere.web.dto.CMRespDto;
-import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
-import com.book_everywhere.web.dto.exception.customs.CustomException;
+import com.book_everywhere.web.exception.customs.CustomErrorCode;
+import com.book_everywhere.web.exception.customs.CustomException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

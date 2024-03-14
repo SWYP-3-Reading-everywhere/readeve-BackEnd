@@ -38,4 +38,19 @@ public class Visit {
     @CreationTimestamp
     private Timestamp createAt;
 
+    //==연관 관계 편의 메서드==//
+    private void setUser(User user) {
+        this.user = user;
+        user.getVisits().add(this);
+    }
+    private void setPin(Pin pin) {
+        this.pin = pin;
+        pin.getVisits().add(this);
+    }
+    //==수정 메서드==//
+    public void changeVisit(User user, Pin pin, boolean isPinPrivate) {
+        setUser(user);
+        setPin(pin);
+        this.isPinPrivate = isPinPrivate;
+    }
 }

@@ -4,8 +4,8 @@ import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.pin.PinRepository;
 import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.tagged.TaggedRepository;
-import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
-import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
+import com.book_everywhere.web.exception.customs.CustomErrorCode;
+import com.book_everywhere.web.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.pin.PinDto;
 import com.book_everywhere.web.dto.pin.PinRespDto;
 import com.book_everywhere.web.dto.pin.PinWithTagCountRespDto;
@@ -36,18 +36,11 @@ public class PinService {
     }
 
     @Transactional
-    public void 핀생성(ReviewRespDto reviewRespDto) {
+    public void 핀생성또는수정(ReviewRespDto reviewRespDto) {
         PinRespDto pinRespDto = reviewRespDto.getPinRespDto();
         Pin pined = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
         if (pined == null) {
-            Pin pin = Pin.builder()
-                    .placeId(pinRespDto.getPlaceId())
-                    .title(pinRespDto.getName())
-                    .address(pinRespDto.getAddress())
-                    .longitude(pinRespDto.getX())
-                    .latitude(pinRespDto.getY())
-                    .url(pinRespDto.getUrl())
-                    .build();
+            Pin pin = pinRespDto.toEntity();
             pinRepository.save(pin);
         }
     }

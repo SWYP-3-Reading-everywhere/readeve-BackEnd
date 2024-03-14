@@ -6,8 +6,8 @@ import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.domain.visit.Visit;
 import com.book_everywhere.domain.visit.VisitRepository;
-import com.book_everywhere.web.dto.exception.customs.CustomErrorCode;
-import com.book_everywhere.web.dto.exception.customs.EntityNotFoundException;
+import com.book_everywhere.web.exception.customs.CustomErrorCode;
+import com.book_everywhere.web.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class VisitService {
     private final VisitRepository visitRepository;
 
     @Transactional
-    public void 독후감쓰기전방문등록(ReviewRespDto reviewRespDto) {
+    public void 독후감쓰기전방문등록또는수정(ReviewRespDto reviewRespDto) {
         //review가 올라가기전 visit에 등록되어있는지 확인후 없다면 visit등록
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND)
@@ -38,7 +38,8 @@ public class VisitService {
                     .build();
 
             visitRepository.save(visit);
+        } else {
+            visited.changeVisit(user, pin, reviewRespDto.getPinRespDto().isPrivate());
         }
     }
-
 }
