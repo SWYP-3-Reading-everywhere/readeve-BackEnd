@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,7 +23,7 @@ public class Tag {
     private Long id;
 
     @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
-    private List<Tagged> tags;
+    private List<Tagged> tags = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "categoryId")

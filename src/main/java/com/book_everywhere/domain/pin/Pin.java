@@ -9,6 +9,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Builder
@@ -22,13 +23,13 @@ public class Pin {
     private Long id;
 
     @OneToMany(mappedBy = "pin")
-    private List<Visit> visits;
+    private List<Visit> visits = new ArrayList<>();
 
     @OneToMany(mappedBy = "pin")
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "pin")
-    private List<Tagged> tags;
+    private List<Tagged> tags = new ArrayList<>();
 
     @Column(nullable = false)
     private double placeId;

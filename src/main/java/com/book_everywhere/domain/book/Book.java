@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -28,7 +29,7 @@ public class Book {
     private User user;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     @Column(nullable = false)
     private String isbn;
@@ -41,17 +42,6 @@ public class Book {
 
     @CreationTimestamp
     private Timestamp createAt;
-
-    //==생성 메서드==//
-    public Book createBook(User user, BookDto bookDto) {
-        Book book = Book.builder()
-                .title(bookDto.getTitle())
-                .coverImageUrl(bookDto.getCoverImageUrl())
-                .isComplete(bookDto.getIsComplete())
-                .build();
-        book.setUser(user);
-        return book;
-    }
 
     //update setter
     public void setTitle(String title) {
