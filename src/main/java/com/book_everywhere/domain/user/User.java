@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -31,7 +32,7 @@ public class User {
     private Long id;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Visit> visits;
+    private List<Visit> visits = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
     private Long socialId;
