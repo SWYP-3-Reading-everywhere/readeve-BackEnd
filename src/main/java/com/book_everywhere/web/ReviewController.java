@@ -88,4 +88,12 @@ public class ReviewController {
         List<ReviewDto> result = reviewService.모든공유독후감조회();
         return new CMRespDto<>(HttpStatus.OK, result, "모든 공유 독후감 조회 완료");
     }
+
+    @DeleteMapping("/api/review/delete/{reviewId}")
+    public CMRespDto<?> deleteReview(@PathVariable Long reviewId) {
+        reviewService.독후감삭제(reviewId);
+        reviewService.유저독후감개수검증후책삭제(reviewId);
+        reviewService.독후감개수검증후핀삭제(reviewId);
+        return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");
+    }
 }

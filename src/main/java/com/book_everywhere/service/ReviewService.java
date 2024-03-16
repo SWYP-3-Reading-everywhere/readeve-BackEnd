@@ -178,6 +178,12 @@ public class ReviewService {
             pinRepository.delete(review.getPin());
         }
     }
+    
+    @Transactional
+    public void 독후감삭제(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
+        reviewRepository.delete(review);
+    }
 
     public void 등록또는수정전예외처리(ReviewRespDto reviewRespDto) {
         if (reviewRespDto.getTitle() == null || reviewRespDto.getTitle().isEmpty()) {
@@ -199,5 +205,4 @@ public class ReviewService {
             throw new PropertyBadRequestException(CustomErrorCode.ADDRESS_IS_NOT_NULL);
         }
     }
-
 }
