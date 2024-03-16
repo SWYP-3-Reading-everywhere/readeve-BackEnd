@@ -23,7 +23,7 @@ public class Tag {
     private Long id;
 
     @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
-    private List<Tagged> tags = new ArrayList<>();
+    private List<Tagged> tags;
 
     @ManyToOne
     @JoinColumn(name = "categoryId")
@@ -32,4 +32,11 @@ public class Tag {
     @Column(nullable = false, unique = true)
     private String content;
 
+    @Builder
+    public Tag(Long id, Category category, String content) {
+        this.id = id;
+        this.tags = new ArrayList<>();
+        this.category = category;
+        this.content = content;
+    }
 }

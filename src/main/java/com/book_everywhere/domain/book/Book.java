@@ -29,7 +29,7 @@ public class Book {
     private User user;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews;
 
     @Column(nullable = false)
     private String isbn;
@@ -43,20 +43,16 @@ public class Book {
     @CreationTimestamp
     private Timestamp createAt;
 
-    //update setter
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setCoverImageUrl(String coverImageUrl) {
-        this.coverImageUrl = coverImageUrl;
-    }
-
-    public void setComplete(boolean complete) {
-        isComplete = complete;
-    }
-
-    private void setUser(User user) {
+    @Builder
+    public Book(Long id, User user, String isbn, String title, String coverImageUrl, boolean isComplete, String author, Timestamp createAt) {
+        this.id = id;
         this.user = user;
+        this.isbn = isbn;
+        this.title = title;
+        this.coverImageUrl = coverImageUrl;
+        this.isComplete = isComplete;
+        this.author = author;
+        this.createAt = createAt;
+        this.reviews = new ArrayList<>(); // reviews 필드를 직접 초기화
     }
 }

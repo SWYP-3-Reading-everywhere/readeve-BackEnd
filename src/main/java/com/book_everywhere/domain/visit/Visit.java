@@ -40,10 +40,16 @@ public class Visit {
 
     //==연관 관계 편의 메서드==//
     private void setUser(User user) {
+        if(this.user != null) {
+            this.user.getVisits().remove(this);
+        }
         this.user = user;
         user.getVisits().add(this);
     }
     private void setPin(Pin pin) {
+        if(this.pin != null) {
+            this.pin.getVisits().remove(this);
+        }
         this.pin = pin;
         pin.getVisits().add(this);
     }

@@ -50,11 +50,17 @@ public class Review {
 
   //==연관 관계 편의 메서드==//
     private void setBook(Book book) {
+        if(this.book != null) {
+            this.book.getReviews().remove(this);
+        }
         this.book = book;
         book.getReviews().add(this);
     }
 
     private void setPin(Pin pin) {
+        if(this.pin != null) {
+            this.pin.getReviews().remove(this);
+        }
         this.pin = pin;
         pin.getReviews().add(this);
     }
