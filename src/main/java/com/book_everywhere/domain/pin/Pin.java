@@ -22,14 +22,17 @@ public class Pin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "pin")
-    private List<Visit> visits;
+    private List<Visit> visits = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "pin")
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "pin")
-    private List<Tagged> tags;
+    private List<Tagged> tags = new ArrayList<>();
 
     @Column(nullable = false)
     private double placeId;
@@ -52,19 +55,4 @@ public class Pin {
     //최초 방문자의 생성
     @CreationTimestamp
     private Timestamp createAt;
-
-    @Builder
-    public Pin(Long id, double placeId, double latitude, double longitude, String title, String url, String address, Timestamp createAt) {
-        this.id = id;
-        this.visits = new ArrayList<>();
-        this.reviews = new ArrayList<>();
-        this.tags = new ArrayList<>();
-        this.placeId = placeId;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.title = title;
-        this.url = url;
-        this.address = address;
-        this.createAt = createAt;
-    }
 }
