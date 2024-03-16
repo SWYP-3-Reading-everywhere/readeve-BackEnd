@@ -42,10 +42,16 @@ public class Tagged {
 
     //==연관 관계 편의 메서드==//
     private void setPin(Pin pin) {
+        if(this.pin != null) {
+            this.pin.getTags().remove(this);
+        }
         this.pin = pin;
         pin.getTags().add(this);
     }
     private void setTag(Tag tag) {
+        if(this.tag != null) {
+            this.tag.getTags().remove(this);
+        }
         this.tag = tag;
         tag.getTags().add(this);
     }

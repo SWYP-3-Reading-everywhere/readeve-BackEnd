@@ -22,7 +22,14 @@ public class Category {
     private Long id;
 
     @OneToMany(mappedBy = "category")
-    private List<Tag> tag = new ArrayList<>();
+    private List<Tag> tag;
 
     private String name;
+
+    @Builder
+    public Category(Long id, String name) {
+        this.id = id;
+        this.tag = new ArrayList<>();
+        this.name = name;
+    }
 }

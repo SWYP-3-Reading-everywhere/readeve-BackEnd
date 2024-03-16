@@ -23,13 +23,13 @@ public class Pin {
     private Long id;
 
     @OneToMany(mappedBy = "pin")
-    private List<Visit> visits = new ArrayList<>();
+    private List<Visit> visits;
 
     @OneToMany(mappedBy = "pin")
-    private List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews;
 
     @OneToMany(mappedBy = "pin")
-    private List<Tagged> tags = new ArrayList<>();
+    private List<Tagged> tags;
 
     @Column(nullable = false)
     private double placeId;
@@ -53,4 +53,18 @@ public class Pin {
     @CreationTimestamp
     private Timestamp createAt;
 
+    @Builder
+    public Pin(Long id, double placeId, double latitude, double longitude, String title, String url, String address, Timestamp createAt) {
+        this.id = id;
+        this.visits = new ArrayList<>();
+        this.reviews = new ArrayList<>();
+        this.tags = new ArrayList<>();
+        this.placeId = placeId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.title = title;
+        this.url = url;
+        this.address = address;
+        this.createAt = createAt;
+    }
 }
