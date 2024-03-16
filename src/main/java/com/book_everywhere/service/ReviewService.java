@@ -166,17 +166,12 @@ public class ReviewService {
 
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
 
-        Book book = bookRepository.mFindBookByUserIdAndTitle(reviewRespDto.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
-
         review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getWriter());
         Book newBook = reviewRespDto.getBookRespDto().toEntity(user);
+        bookRepository.save(newBook);
         Pin newPin = reviewRespDto.getPinRespDto().toEntity();
-        if(book == null) {
-            bookRepository.save(newBook);
-            review.setBook(newBook);
-        } else {
-            review.setBook(newBook);
-        }
+        pinRepository.save(newPin);
+        review.setBook(newBook);
         review.setPin(newPin);
 
         reviewRepository.save(review);
