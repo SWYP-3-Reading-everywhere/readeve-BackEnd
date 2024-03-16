@@ -2,13 +2,7 @@ package com.book_everywhere.domain.tagged;
 
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.tag.Tag;
-import com.book_everywhere.web.dto.review.ReviewRespDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

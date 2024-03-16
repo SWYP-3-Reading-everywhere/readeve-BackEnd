@@ -1,6 +1,5 @@
 package com.book_everywhere.domain.tag;
 
-import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.category.Category;
 import com.book_everywhere.domain.tagged.Tagged;
 import jakarta.persistence.*;

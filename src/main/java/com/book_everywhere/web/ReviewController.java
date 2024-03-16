@@ -69,14 +69,6 @@ public class ReviewController {
         return new CMRespDto<>(HttpStatus.OK, null, "단일 독후감 조회");
     }
 
-    
-    //수정 - 오류로 인한 변경
-//    @PutMapping("/api/review/{reviewId}")
-//    public CMRespDto<?> updateReview(@PathVariable Long reviewId, ReviewDto reviewDto) {
-////        reviewService.독후감업데이트(reviewId, reviewDto);
-//        return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
-//    }
-
     @PutMapping("/api/write/{reviewId}")
     @Operation(summary = "독후감 수정", description = "독후감을 수정합니다.")
     public CMRespDto<?> updateReview(@PathVariable Long reviewId,@RequestBody ReviewRespDto reviewRespDto) {

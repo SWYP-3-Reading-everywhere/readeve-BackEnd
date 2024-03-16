@@ -1,13 +1,11 @@
 package com.book_everywhere.domain.pin;
 
-import com.book_everywhere.web.dto.pin.PinDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface PinRepository extends JpaRepository<Pin, Long> {
