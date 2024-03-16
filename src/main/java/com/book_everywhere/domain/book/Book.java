@@ -2,7 +2,6 @@ package com.book_everywhere.domain.book;
 
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.user.User;
-import com.book_everywhere.web.dto.book.BookDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +28,7 @@ public class Book {
     private User user;
 
     @Builder.Default
-    @OneToMany(mappedBy = "book", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     @Column(nullable = false)
@@ -44,5 +43,7 @@ public class Book {
     @CreationTimestamp
     private Timestamp createAt;
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

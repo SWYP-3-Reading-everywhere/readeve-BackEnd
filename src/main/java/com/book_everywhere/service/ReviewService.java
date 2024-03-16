@@ -12,7 +12,6 @@ import com.book_everywhere.web.exception.customs.CustomErrorCode;
 import com.book_everywhere.web.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.exception.customs.PropertyBadRequestException;
-import org.springframework.data.domain.Pageable;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -132,20 +131,6 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReviewDto> 공유독후감10개조회(Pageable pageable) {
-        List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false, pageable);
-        return init.stream().map(review ->
-                new ReviewDto(
-                        review.getId(),
-                        review.getWriter(),
-                        review.getTitle(),
-                        review.getContent(),
-                        review.isPrivate(),
-                        review.getCreateAt(),
-                        review.getUpdateAt())).toList();
-    }
-
-    @Transactional(readOnly = true)
     public List<ReviewDto> 모든공유독후감조회() {
         List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
         return init.stream().map(review ->
@@ -163,16 +148,41 @@ public class ReviewService {
     public void 독후감수정(Long reviewId, ReviewRespDto reviewRespDto) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-
-        User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
-
         Book newBook = bookRepository.mFindBookByUserIdAndTitle(reviewRespDto.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
         Pin newPin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
+        if(newBook == null) {
+            throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
+        }
+        if(newPin == null) {
+            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+        }
         review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getWriter());
         review.setBook(newBook);
         review.setPin(newPin);
-
         reviewRepository.save(review);
+    }
+    @Transactional
+    public void 유저독후감개수검증후책삭제(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
+        List<Review> reviews = review.getBook().getReviews();
+        if(reviews.isEmpty()) {
+            bookRepository.delete(review.getBook());
+        }
+    }
+
+    @Transactional
+    public void 독후감개수검증후핀삭제(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
+        List<Review> reviews = review.getPin().getReviews();
+        if(reviews.isEmpty()) {
+            pinRepository.delete(review.getPin());
+        }
+    }
+    
+    @Transactional
+    public void 독후감삭제(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
+        reviewRepository.delete(review);
     }
 
     public void 등록또는수정전예외처리(ReviewRespDto reviewRespDto) {
@@ -195,6 +205,4 @@ public class ReviewService {
             throw new PropertyBadRequestException(CustomErrorCode.ADDRESS_IS_NOT_NULL);
         }
     }
-
-
 }

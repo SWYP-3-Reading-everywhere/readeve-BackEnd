@@ -2,13 +2,13 @@ package com.book_everywhere.domain.review;
 
 import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.pin.Pin;
-import com.book_everywhere.web.dto.review.ReviewDto;
-import com.book_everywhere.web.dto.review.ReviewRespDto;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 
 import java.sql.Timestamp;
 

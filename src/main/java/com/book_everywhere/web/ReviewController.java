@@ -69,14 +69,6 @@ public class ReviewController {
         return new CMRespDto<>(HttpStatus.OK, null, "단일 독후감 조회");
     }
 
-    
-    //수정 - 오류로 인한 변경
-//    @PutMapping("/api/review/{reviewId}")
-//    public CMRespDto<?> updateReview(@PathVariable Long reviewId, ReviewDto reviewDto) {
-////        reviewService.독후감업데이트(reviewId, reviewDto);
-//        return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
-//    }
-
     @PutMapping("/api/write/{reviewId}")
     @Operation(summary = "독후감 수정", description = "독후감을 수정합니다.")
     public CMRespDto<?> updateReview(@PathVariable Long reviewId,@RequestBody ReviewRespDto reviewRespDto) {
@@ -86,6 +78,8 @@ public class ReviewController {
         tagService.태그등록또는수정(reviewRespDto);
         visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
         reviewService.독후감수정(reviewId, reviewRespDto);
+        reviewService.유저독후감개수검증후책삭제(reviewId);
+        reviewService.독후감개수검증후핀삭제(reviewId);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
@@ -93,5 +87,13 @@ public class ReviewController {
     public CMRespDto<?> findPublicReviews() {
         List<ReviewDto> result = reviewService.모든공유독후감조회();
         return new CMRespDto<>(HttpStatus.OK, result, "모든 공유 독후감 조회 완료");
+    }
+
+    @DeleteMapping("/api/review/delete/{reviewId}")
+    public CMRespDto<?> deleteReview(@PathVariable Long reviewId) {
+        reviewService.독후감삭제(reviewId);
+        reviewService.유저독후감개수검증후책삭제(reviewId);
+        reviewService.독후감개수검증후핀삭제(reviewId);
+        return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");
     }
 }

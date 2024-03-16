@@ -6,9 +6,9 @@ import com.book_everywhere.domain.user.User;
 import com.book_everywhere.domain.user.UserRepository;
 import com.book_everywhere.web.dto.book.BookDto;
 import com.book_everywhere.web.dto.book.BookRespDto;
+import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.exception.customs.CustomErrorCode;
 import com.book_everywhere.web.exception.customs.EntityNotFoundException;
-import com.book_everywhere.web.dto.review.ReviewRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,13 +32,6 @@ public class BookService {
             Book book = bookRespDto.toEntity(user);
             bookRepository.save(book);
         }
-    }
-
-    //삭제
-    @Transactional
-    public void 책삭제하기(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));
-        bookRepository.delete(book);
     }
 
     //조회

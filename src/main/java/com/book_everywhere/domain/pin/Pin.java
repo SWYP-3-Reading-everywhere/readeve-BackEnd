@@ -1,11 +1,13 @@
 package com.book_everywhere.domain.pin;
 
-import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.visit.Visit;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;

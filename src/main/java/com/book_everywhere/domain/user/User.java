@@ -1,16 +1,7 @@
 package com.book_everywhere.domain.user;
 
-import com.book_everywhere.domain.book.Book;
 import com.book_everywhere.domain.visit.Visit;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +23,7 @@ public class User {
     private Long id;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Visit> visits = new ArrayList<>();
 
     @Column(nullable = false, unique = true)

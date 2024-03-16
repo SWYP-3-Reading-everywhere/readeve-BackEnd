@@ -1,7 +1,5 @@
 package com.book_everywhere.web;
 
-import com.book_everywhere.domain.pin.Pin;
-import com.book_everywhere.domain.review.Review;
 import com.book_everywhere.service.PinService;
 import com.book_everywhere.service.ReviewService;
 import com.book_everywhere.web.dto.CMRespDto;
@@ -10,12 +8,12 @@ import com.book_everywhere.web.dto.pin.PinWithTagCountRespDto;
 import com.book_everywhere.web.dto.review.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
