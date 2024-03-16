@@ -40,8 +40,8 @@ public class ReviewController {
     })
     public CMRespDto<?> addReview(@RequestBody ReviewRespDto reviewRespDto) {
         reviewService.등록또는수정전예외처리(reviewRespDto);
-        pinService.핀생성또는수정(reviewRespDto);
-        bookService.책생성또는수정(reviewRespDto);
+        pinService.핀생성(reviewRespDto);
+        bookService.책생성(reviewRespDto);
         tagService.태그등록또는수정(reviewRespDto);
         visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
         reviewService.독후감생성하기(reviewRespDto);
@@ -73,13 +73,11 @@ public class ReviewController {
     @Operation(summary = "독후감 수정", description = "독후감을 수정합니다.")
     public CMRespDto<?> updateReview(@PathVariable Long reviewId,@RequestBody ReviewRespDto reviewRespDto) {
         reviewService.등록또는수정전예외처리(reviewRespDto);
-        pinService.핀생성또는수정(reviewRespDto);
-        bookService.책생성또는수정(reviewRespDto);
+        pinService.핀생성(reviewRespDto);
+        bookService.책생성(reviewRespDto);
         tagService.태그등록또는수정(reviewRespDto);
         visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
         reviewService.독후감수정(reviewId, reviewRespDto);
-        reviewService.유저독후감개수검증후책삭제(reviewId);
-        reviewService.독후감개수검증후핀삭제(reviewId);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
@@ -92,8 +90,6 @@ public class ReviewController {
     @DeleteMapping("/api/review/delete/{reviewId}")
     public CMRespDto<?> deleteReview(@PathVariable Long reviewId) {
         reviewService.독후감삭제(reviewId);
-        reviewService.유저독후감개수검증후책삭제(reviewId);
-        reviewService.독후감개수검증후핀삭제(reviewId);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");
     }
 }
