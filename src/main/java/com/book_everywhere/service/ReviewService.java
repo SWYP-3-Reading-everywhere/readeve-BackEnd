@@ -38,12 +38,12 @@ public class ReviewService {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
         Book book = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
-        if (book == null){
+        if (book == null) {
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }
 
         Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
-        if(pin == null) {
+        if (pin == null) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
         Review review = Review.builder()
@@ -60,31 +60,30 @@ public class ReviewService {
 
     //책에따른 모든 리뷰기능이 추가되었습니다.
     @Transactional
-    public List<ReviewDto> 책에따른모든리뷰(Long bookId){
+    public List<ReviewDto> 책에따른모든리뷰(Long bookId) {
         List<Review> init = reviewRepository.mFindReviewsByBook(bookId);
-        if(init.isEmpty()) {
+        if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
 
         List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(),review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
+                .map(review -> new ReviewDto(review.getId(), review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
                 .toList();
 
         return resultDto;
     }
 
 
-
     //단일 핀을 눌렀을때 독후감이 조회됩니다.
     @Transactional(readOnly = true)
     public List<ReviewDto> 단일핀독후감조회(Long pinId, @AuthenticationPrincipal OAuth2User oAuth2User) {
         List<Review> init = reviewRepository.mFindReviewUserMap((Long) oAuth2User.getAttributes().get("id"), pinId);
-        if(init.isEmpty()) {
+        if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
 
         List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(),review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
+                .map(review -> new ReviewDto(review.getId(), review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -95,7 +94,7 @@ public class ReviewService {
         List<Review> init = reviewRepository.mFindReviewsByUser((Long) oAuth2User.getAttributes().get("id"));
 
         List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(),review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
+                .map(review -> new ReviewDto(review.getId(), review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
                 .toList();
 
         return resultDto;
@@ -160,31 +159,49 @@ public class ReviewService {
                         review.getUpdateAt())).toList();
     }
 
+    //    public void changeReview(ReviewRespDto reviewRespDto) {
+//        this.title = reviewRespDto.getTitle();
+//        this.content = reviewRespDto.getContent();
+//        this.isPrivate = reviewRespDto.isPrivate();
+//        this.writer = reviewRespDto.getWriter();
+//        setBook(reviewRespDto.getBookRespDto().toEntity());
+//        setPin(reviewRespDto.getPinRespDto().toEntity());
+//    }
     @Transactional
     public void 독후감수정(Long reviewId, ReviewRespDto reviewRespDto) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-        review.changeReview(reviewRespDto);
+
+        User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
+
+        review.setTitle(reviewRespDto.getTitle());
+        review.setContent(reviewRespDto.getContent());
+        review.setPrivate(reviewRespDto.isPrivate());
+        review.setWriter(reviewRespDto.getWriter());
+
+        review.setBook(reviewRespDto.getBookRespDto().toEntity(user));
+        review.setPin(reviewRespDto.getPinRespDto().toEntity());
+
         reviewRepository.save(review);
     }
 
     public void 등록또는수정전예외처리(ReviewRespDto reviewRespDto) {
-        if(reviewRespDto.getTitle() == null || reviewRespDto.getTitle().isEmpty()) {
+        if (reviewRespDto.getTitle() == null || reviewRespDto.getTitle().isEmpty()) {
             throw new PropertyBadRequestException(CustomErrorCode.TITLE_IS_NOT_BLANK);
         }
-        if(reviewRespDto.getTitle().length() > 20) {
+        if (reviewRespDto.getTitle().length() > 20) {
             throw new PropertyBadRequestException(CustomErrorCode.TITLE_IS_NOT_OVER_20);
         }
-        if(reviewRespDto.getContent() == null || reviewRespDto.getContent().isEmpty()) {
+        if (reviewRespDto.getContent() == null || reviewRespDto.getContent().isEmpty()) {
             throw new PropertyBadRequestException(CustomErrorCode.CONTENT_IS_NOT_BLANK);
         }
-        if(reviewRespDto.getContent().length() > 1500) {
+        if (reviewRespDto.getContent().length() > 1500) {
             throw new PropertyBadRequestException(CustomErrorCode.CONTENT_IS_NOT_OVER_1500);
         }
-        if(reviewRespDto.getBookRespDto() == null) {
+        if (reviewRespDto.getBookRespDto() == null) {
             throw new PropertyBadRequestException(CustomErrorCode.BOOK_IS_NOT_NULL);
         }
-        if(reviewRespDto.getPinRespDto().getAddress() == null || reviewRespDto.getPinRespDto().getAddress().isEmpty()) {
+        if (reviewRespDto.getPinRespDto().getAddress() == null || reviewRespDto.getPinRespDto().getAddress().isEmpty()) {
             throw new PropertyBadRequestException(CustomErrorCode.ADDRESS_IS_NOT_NULL);
         }
     }
