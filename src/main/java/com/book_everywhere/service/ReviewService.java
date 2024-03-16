@@ -174,13 +174,14 @@ public class ReviewService {
 
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
 
+        review.setBook(reviewRespDto.getBookRespDto().toEntity(user));
+        review.setPin(reviewRespDto.getPinRespDto().toEntity());
+
         review.setTitle(reviewRespDto.getTitle());
         review.setContent(reviewRespDto.getContent());
         review.setPrivate(reviewRespDto.isPrivate());
         review.setWriter(reviewRespDto.getWriter());
 
-        review.setBook(reviewRespDto.getBookRespDto().toEntity(user));
-        review.setPin(reviewRespDto.getPinRespDto().toEntity());
 
         reviewRepository.save(review);
     }
