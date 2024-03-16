@@ -174,15 +174,17 @@ public class ReviewService {
 
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
 
-        review.setTitle(reviewRespDto.getTitle());
-        review.setContent(reviewRespDto.getContent());
-        review.setPrivate(reviewRespDto.isPrivate());
-        review.setWriter(reviewRespDto.getWriter());
+        Book book = bookRepository.mFindBookByUserIdAndTitle(reviewRespDto.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
 
-        review.setBook(reviewRespDto.getBookRespDto().toEntity(user));
+
+        review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getWriter());
+
+        if(book == null) {
+            review.setBook(reviewRespDto.getBookRespDto().toEntity(user));
+        } else {
+            review.setBook(book);
+        }
         review.setPin(reviewRespDto.getPinRespDto().toEntity());
-
-        reviewRepository.save(review);
     }
 
     public void 등록또는수정전예외처리(ReviewRespDto reviewRespDto) {
