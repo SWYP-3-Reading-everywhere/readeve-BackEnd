@@ -165,6 +165,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         review.changeReview(reviewRespDto);
+        reviewRepository.save(review);
     }
 
     public void 등록또는수정전예외처리(ReviewRespDto reviewRespDto) {
