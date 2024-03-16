@@ -17,7 +17,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Entity
 @Getter
-@Setter
 public class Review {
 
     @Id
@@ -47,21 +46,21 @@ public class Review {
     private Timestamp updateAt;
 
   //==연관 관계 편의 메서드==//
-//    public void setBook(Book book) {
-//        if(this.book != null) {
-//            this.book.getReviews().remove(this);
-//        }
-//        this.book = book;
-//        book.getReviews().add(this);
-//    }
-//
-//    public void setPin(Pin pin) {
-//        if(this.pin != null) {
-//            this.pin.getReviews().remove(this);
-//        }
-//        this.pin = pin;
-//        pin.getReviews().add(this);
-//    }
+    public void setBook(Book book) {
+        if(this.book != null) {
+            this.book.getReviews().remove(this);
+        }
+        this.book = book;
+        book.getReviews().add(this);
+    }
+
+    public void setPin(Pin pin) {
+        if(this.pin != null) {
+            this.pin.getReviews().remove(this);
+        }
+        this.pin = pin;
+        pin.getReviews().add(this);
+    }
 
     //==수정 메서드==//
     public void changeReview(String title, String content, boolean isPrivate, String writer) {
