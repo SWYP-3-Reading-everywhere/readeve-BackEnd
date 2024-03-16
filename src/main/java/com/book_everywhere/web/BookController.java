@@ -19,12 +19,6 @@ public class BookController {
 
     private final BookService bookService;
 
-    @DeleteMapping("/api/book/{id}")
-    public CMRespDto<?> deleteBook(@PathVariable Long id) {
-        bookService.책삭제하기(id);
-        return new CMRespDto<>(HttpStatus.OK, null, "책 삭제 완료");
-    }
-
     @GetMapping("/api/book")
     public CMRespDto<?> findAllBook() {
         List<BookDto> result = bookService.모든책조회();

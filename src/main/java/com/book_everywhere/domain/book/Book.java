@@ -28,7 +28,7 @@ public class Book {
     private User user;
 
     @Builder.Default
-    @OneToMany(mappedBy = "book", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     @Column(nullable = false)
@@ -43,5 +43,7 @@ public class Book {
     @CreationTimestamp
     private Timestamp createAt;
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -34,13 +34,6 @@ public class BookService {
         }
     }
 
-    //삭제
-    @Transactional
-    public void 책삭제하기(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));
-        bookRepository.delete(book);
-    }
-
     //조회
     //특정 유저의 모든 책 목록 조회
     @Transactional
