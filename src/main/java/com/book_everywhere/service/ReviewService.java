@@ -159,14 +159,6 @@ public class ReviewService {
                         review.getUpdateAt())).toList();
     }
 
-    //    public void changeReview(ReviewRespDto reviewRespDto) {
-//        this.title = reviewRespDto.getTitle();
-//        this.content = reviewRespDto.getContent();
-//        this.isPrivate = reviewRespDto.isPrivate();
-//        this.writer = reviewRespDto.getWriter();
-//        setBook(reviewRespDto.getBookRespDto().toEntity());
-//        setPin(reviewRespDto.getPinRespDto().toEntity());
-//    }
     @Transactional
     public void 독후감수정(Long reviewId, ReviewRespDto reviewRespDto) {
         Review review = reviewRepository.findById(reviewId)
@@ -174,16 +166,16 @@ public class ReviewService {
 
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
 
-        review.setBook(reviewRespDto.getBookRespDto().toEntity(user));
+        Book book = bookRepository.mFindBookByUserIdAndTitle(reviewRespDto.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
+
+        review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getWriter());
+
+        if(book == null) {
+            review.setBook(reviewRespDto.getBookRespDto().toEntity(user));
+        } else {
+            review.setBook(book);
+        }
         review.setPin(reviewRespDto.getPinRespDto().toEntity());
-
-        review.setTitle(reviewRespDto.getTitle());
-        review.setContent(reviewRespDto.getContent());
-        review.setPrivate(reviewRespDto.isPrivate());
-        review.setWriter(reviewRespDto.getWriter());
-
-
-        reviewRepository.save(review);
     }
 
     public void 등록또는수정전예외처리(ReviewRespDto reviewRespDto) {
