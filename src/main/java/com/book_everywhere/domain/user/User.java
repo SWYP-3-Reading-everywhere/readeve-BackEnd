@@ -32,7 +32,7 @@ public class User {
     private Long id;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
     private List<Visit> visits = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
