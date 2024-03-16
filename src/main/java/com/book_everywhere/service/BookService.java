@@ -29,7 +29,7 @@ public class BookService {
         BookRespDto bookRespDto = reviewRespDto.getBookRespDto();
         Book userBook = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), bookRespDto.getTitle());
         if (userBook == null) {
-            Book book = bookRespDto.toEntity();
+            Book book = bookRespDto.toEntity(user);
             bookRepository.save(book);
         }
     }
