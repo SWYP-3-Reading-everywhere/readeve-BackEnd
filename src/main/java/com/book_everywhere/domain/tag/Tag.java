@@ -23,7 +23,7 @@ public class Tag {
     private Long id;
 
     @Builder.Default
-    @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tag",cascade = CascadeType.PERSIST)
     private List<Tagged> tags = new ArrayList<>();
 
     @ManyToOne
