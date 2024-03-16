@@ -159,14 +159,6 @@ public class ReviewService {
                         review.getUpdateAt())).toList();
     }
 
-    //    public void changeReview(ReviewRespDto reviewRespDto) {
-//        this.title = reviewRespDto.getTitle();
-//        this.content = reviewRespDto.getContent();
-//        this.isPrivate = reviewRespDto.isPrivate();
-//        this.writer = reviewRespDto.getWriter();
-//        setBook(reviewRespDto.getBookRespDto().toEntity());
-//        setPin(reviewRespDto.getPinRespDto().toEntity());
-//    }
     @Transactional
     public void 독후감수정(Long reviewId, ReviewRespDto reviewRespDto) {
         Review review = reviewRepository.findById(reviewId)
@@ -175,7 +167,6 @@ public class ReviewService {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
 
         Book book = bookRepository.mFindBookByUserIdAndTitle(reviewRespDto.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
-
 
         review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getWriter());
 
