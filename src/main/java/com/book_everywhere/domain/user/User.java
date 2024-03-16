@@ -31,8 +31,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Visit> visits;
+    private List<Visit> visits = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
     private Long socialId;
@@ -52,16 +53,5 @@ public class User {
         this.image = image;
         this.role = role;
         return this;
-    }
-
-    @Builder
-    public User(Long id, Long socialId, String nickname, String image, Role role, Timestamp createAt) {
-        this.id = id;
-        this.visits = new ArrayList<>();
-        this.socialId = socialId;
-        this.nickname = nickname;
-        this.image = image;
-        this.role = role;
-        this.createAt = createAt;
     }
 }

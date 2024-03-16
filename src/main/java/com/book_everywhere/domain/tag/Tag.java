@@ -22,8 +22,9 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
-    private List<Tagged> tags;
+    private List<Tagged> tags = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "categoryId")
@@ -31,12 +32,4 @@ public class Tag {
 
     @Column(nullable = false, unique = true)
     private String content;
-
-    @Builder
-    public Tag(Long id, Category category, String content) {
-        this.id = id;
-        this.tags = new ArrayList<>();
-        this.category = category;
-        this.content = content;
-    }
 }

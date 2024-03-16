@@ -21,15 +21,11 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "category")
-    private List<Tag> tag;
+    private List<Tag> tag = new ArrayList<>();
 
     private String name;
 
-    @Builder
-    public Category(Long id, String name) {
-        this.id = id;
-        this.tag = new ArrayList<>();
-        this.name = name;
-    }
+
 }
