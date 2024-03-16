@@ -168,9 +168,7 @@ public class ReviewService {
 
         review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getWriter());
         Book newBook = reviewRespDto.getBookRespDto().toEntity(user);
-        bookRepository.save(newBook);
         Pin newPin = reviewRespDto.getPinRespDto().toEntity();
-        pinRepository.save(newPin);
         review.setBook(newBook);
         review.setPin(newPin);
 
