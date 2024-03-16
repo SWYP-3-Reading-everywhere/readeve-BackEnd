@@ -169,13 +169,17 @@ public class ReviewService {
         Book book = bookRepository.mFindBookByUserIdAndTitle(reviewRespDto.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
 
         review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getWriter());
-
+        Book newBook = reviewRespDto.getBookRespDto().toEntity(user);
+        Pin newPin = reviewRespDto.getPinRespDto().toEntity();
         if(book == null) {
-            review.setBook(reviewRespDto.getBookRespDto().toEntity(user));
+            bookRepository.save(newBook);
+            review.setBook(newBook);
         } else {
-            review.setBook(book);
+            review.setBook(newBook);
         }
-        review.setPin(reviewRespDto.getPinRespDto().toEntity());
+        review.setPin(newPin);
+
+        reviewRepository.save(review);
     }
 
     public void 등록또는수정전예외처리(ReviewRespDto reviewRespDto) {
