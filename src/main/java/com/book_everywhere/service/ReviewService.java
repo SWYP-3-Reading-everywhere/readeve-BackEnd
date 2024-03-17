@@ -162,23 +162,23 @@ public class ReviewService {
         reviewRepository.save(review);
     }
     @Transactional
-    public void 유저독후감개수검증후책삭제(Long reviewId) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-        List<Review> reviews = review.getBook().getReviews();
+    public void 유저독후감개수검증후책삭제(Long socialId, String title) {
+        Book book = bookRepository.mFindBookByUserIdAndTitle(socialId, title);
+        List<Review> reviews = reviewRepository.mFindReviewsByBook(book.getId());
         if(reviews.isEmpty()) {
-            bookRepository.delete(review.getBook());
+            bookRepository.delete(book);
         }
     }
 
     @Transactional
-    public void 독후감개수검증후핀삭제(Long reviewId) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-        List<Review> reviews = review.getPin().getReviews();
+    public void 독후감개수검증후핀삭제(String address) {
+        Pin pin = pinRepository.mFindPinByAddress(address);
+        List<Review> reviews = reviewRepository.mFindReviewsByPin(pin.getId());
         if(reviews.isEmpty()) {
-            pinRepository.delete(review.getPin());
+            pinRepository.delete(pin);
         }
     }
-    
+
     @Transactional
     public void 독후감삭제(Long reviewId) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));

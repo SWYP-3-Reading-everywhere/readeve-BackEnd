@@ -28,7 +28,7 @@ public class Book {
     private User user;
 
     @Builder.Default
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     @Column(nullable = false)

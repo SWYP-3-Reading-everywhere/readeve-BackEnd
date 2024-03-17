@@ -36,7 +36,7 @@ public class PinService {
     }
 
     @Transactional
-    public void 핀생성또는수정(ReviewRespDto reviewRespDto) {
+    public void 핀생성(ReviewRespDto reviewRespDto) {
         PinRespDto pinRespDto = reviewRespDto.getPinRespDto();
         Pin pined = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
         if (pined == null) {
@@ -76,6 +76,30 @@ public class PinService {
         return pins.stream().map(pin -> {
             PageRequest pageRequest = PageRequest.of(0, 5);
             List<Tagged> taggeds = taggedRepository.mFindPinWithTagCount(pin.getId(), pageRequest);
+            List<TagCountRespDto> tagCountRespDtos = taggeds.stream()
+                    .map(tagged -> new TagCountRespDto(
+                            tagged.getTag().getContent(),
+                            tagged.getCount())).toList();
+
+            return new PinWithTagCountRespDto(
+                    pin.getId(),
+                    pin.getPlaceId(),
+                    pin.getLatitude(),
+                    pin.getLongitude(),
+                    pin.getTitle(),
+                    pin.getAddress(),
+                    pin.getUrl(),
+                    pin.getCreateAt(),
+                    tagCountRespDtos
+            );
+        }).toList();
+    }
+    @Transactional(readOnly = true)
+    public List<PinWithTagCountRespDto> 공유또는개인핀의상위5개태그개수와함께조회(boolean pinIsPrivate) {
+        List<Pin> pins = pinRepository.findAll();
+        return pins.stream().map(pin -> {
+            PageRequest pageRequest = PageRequest.of(0, 5);
+            List<Tagged> taggeds = taggedRepository.mFindPinAndIsPrivateWithTagCount(pin.getId(),pinIsPrivate,pageRequest);
             List<TagCountRespDto> tagCountRespDtos = taggeds.stream()
                     .map(tagged -> new TagCountRespDto(
                             tagged.getTag().getContent(),

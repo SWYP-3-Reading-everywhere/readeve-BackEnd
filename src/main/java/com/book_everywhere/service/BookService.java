@@ -24,7 +24,7 @@ public class BookService {
 
     //등록 혹은 수정
     @Transactional
-    public void 책생성또는수정(ReviewRespDto reviewRespDto) {
+    public void 책생성(ReviewRespDto reviewRespDto) {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
         BookRespDto bookRespDto = reviewRespDto.getBookRespDto();
         Book userBook = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), bookRespDto.getTitle());
