@@ -96,10 +96,10 @@ public class PinService {
     }
     @Transactional(readOnly = true)
     public List<PinWithTagCountRespDto> 공유또는개인핀의상위5개태그개수와함께조회(boolean pinIsPrivate) {
-        List<Pin> pins = pinRepository.findAll();
+        List<Pin> pins = pinRepository.mFindPinByIsPrivate(pinIsPrivate);
         return pins.stream().map(pin -> {
             PageRequest pageRequest = PageRequest.of(0, 5);
-            List<Tagged> taggeds = taggedRepository.mFindPinAndIsPrivateWithTagCount(pin.getId(),pinIsPrivate,pageRequest);
+            List<Tagged> taggeds = taggedRepository.mFindPinWithTagCount(pin.getId(),pageRequest);
             List<TagCountRespDto> tagCountRespDtos = taggeds.stream()
                     .map(tagged -> new TagCountRespDto(
                             tagged.getTag().getContent(),
