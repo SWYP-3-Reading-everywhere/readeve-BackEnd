@@ -75,4 +75,16 @@ public class TagService {
         return tagFiveList;
     }
 
+    @Transactional
+    public void 태그삭제(List<String> tags, String address) {
+        //태그를 찾고
+        for (String tagResp:
+             tags) {
+            Tag tag = tagRepository.mFindTagByName(tagResp);
+            Pin pin = pinRepository.mFindPinByAddress(address);
+            Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
+            taggedRepository.delete(tagged);
+        }
+    }
+
 }

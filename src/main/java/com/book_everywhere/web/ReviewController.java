@@ -69,7 +69,7 @@ public class ReviewController {
         return new CMRespDto<>(HttpStatus.OK, null, "단일 독후감 조회");
     }
 
-    @PutMapping("/api/write/{reviewId}")
+    @PutMapping("/api/review/edit/{reviewId}")
     @Operation(summary = "독후감 수정", description = "독후감을 수정합니다.")
     public CMRespDto<?> updateReview(@PathVariable Long reviewId,@RequestBody ReviewRespDto reviewRespDto) {
         reviewService.등록또는수정전예외처리(reviewRespDto);
@@ -88,8 +88,15 @@ public class ReviewController {
     }
 
     @DeleteMapping("/api/review/delete/{reviewId}")
-    public CMRespDto<?> deleteReview(@PathVariable Long reviewId) {
+    public CMRespDto<?> deleteReview(@PathVariable Long reviewId,
+                                     @RequestParam Long socialId,
+                                     @RequestParam String bookTitle,
+                                     @RequestParam String address,
+                                     @RequestParam List<String> tags) {
         reviewService.독후감삭제(reviewId);
+        reviewService.유저독후감개수검증후책삭제(socialId, bookTitle);
+        reviewService.독후감개수검증후핀삭제(address);
+        tagService.태그삭제(tags, address);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");
     }
 }
