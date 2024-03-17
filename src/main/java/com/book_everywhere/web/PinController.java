@@ -34,11 +34,11 @@ public class PinController {
         List<PinWithTagCountRespDto> result = pinService.핀의상위5개태그개수와함께조회();
         return new CMRespDto<>(HttpStatus.OK, result, "전체 지도 상위 5개 태그와 함께 조회 성공");
     }
-//    @GetMapping("/api/map/tag/count/{isPrivate}")
-//    public CMRespDto<?> allPublicPinWithTagCount(@PathVariable boolean isPrivate) {
-//        List<PinWithTagCountRespDto> result = pinService.공유또는개인핀의상위5개태그개수와함께조회(isPrivate);
-//        return new CMRespDto<>(HttpStatus.OK, result, "공유/개인 지도 상위 5개 태그와 함께 조회 성공");
-//    }
+    @GetMapping("/api/map/tag/count/{isPrivate}")
+    public CMRespDto<?> allPublicPinWithTagCount(@PathVariable boolean isPrivate) {
+        List<PinWithTagCountRespDto> result = pinService.공유또는개인핀의상위5개태그개수와함께조회(isPrivate);
+        return new CMRespDto<>(HttpStatus.OK, result, "공유/개인 지도 상위 5개 태그와 함께 조회 성공");
+    }
 
     //핀을 눌렀을때 핀에 해당하는 독후감 정보 조회
     @GetMapping("/api/pin/{pinId}")
