@@ -29,7 +29,7 @@ public interface TaggedRepository extends JpaRepository<Tagged,Long> {
     List<Tagged> mFindPinWithTagCount(@Param("pinId") Long pinId, Pageable pageable);
 
     //isPrivate 추가
-    @Query("SELECT t FROM Tagged t WHERE t.pin.id = :pinId AND t.pin.visit.isPinPrivate = :isPrivate ORDER BY t.count DESC")
+    @Query("SELECT t FROM Tagged t WHERE t.pin.id = :pinId ORDER BY t.count DESC")
     List<Tagged> mFindPinAndIsPrivateWithTagCount(@Param("pinId") Long pinId, @Param("isPrivate") boolean isPrivate, Pageable pageable);
 
 
