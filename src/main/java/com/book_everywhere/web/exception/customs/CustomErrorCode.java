@@ -10,6 +10,7 @@ public enum CustomErrorCode {
     BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "BOOK NOT FOUND"),
     PIN_NOT_FOUND(HttpStatus.NOT_FOUND, "PIN NOT FOUND"),
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW NOT FOUND"),
+    TAG_NOT_FOUND(HttpStatus.NOT_FOUND, "TAG NOT FOUND"),
     ADDRESS_IS_NOT_NULL(HttpStatus.BAD_REQUEST, "주소는 공백이 될 수 없습니다."),
     BOOK_IS_NOT_NULL(HttpStatus.BAD_REQUEST, "책 정보는 공백이 될 수 없습니다."),
     TITLE_IS_NOT_BLANK(HttpStatus.BAD_REQUEST, "제목은 공백이 될 수 없습니다."),

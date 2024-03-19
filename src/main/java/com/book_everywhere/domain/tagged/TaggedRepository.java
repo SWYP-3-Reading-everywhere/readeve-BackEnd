@@ -34,4 +34,7 @@ public interface TaggedRepository extends JpaRepository<Tagged,Long> {
 
     //핀에 해당하는 모든 태그 조회하기 - WebDataService에서 사용하는 용도
      List<Tagged> findAllByPinId(Long pinId);
+
+     @Query("SELECT t FROM Tagged t JOIN t.pin.visits v WHERE t.pin.id = :pinId AND v.user.socialId = :socialId")
+     List<Tagged> mFindAllByPinAndUser(@Param("pinId") Long pinId, @Param("socialId") Long socialId);
 }
