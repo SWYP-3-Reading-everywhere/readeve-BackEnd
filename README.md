@@ -6,6 +6,13 @@
 - [@dltjdgh0428](https://github.com/dltjdgh0428)
 - [@kf3907](https://github.com/kf3907)
 
+## 🛠 기술 스택
+- Backend: Java17, Spring Boot 3.2.2
+- Database: MariaDB
+- ORM: Spring Data JPA
+- DevOps: Docker, Docker-compose, AWS EC2, ALB, ACM, NginX, GitHub-Actions
+- 인증: OAuth 소셜 로그인
+
 ## 📌주요기능
 - 로그인
 - 지도 기능 
@@ -57,14 +64,6 @@
 1. feature 브랜치에서 작업 → 
 2. develop 브랜치로 PR 보내기 → 
 3. 서로의 PR을 코드 리뷰 하고 반영이 되면 merge합니다.
-
-
-## 🛠 기술 스택
-- Backend: Java17, Spring Boot 3.2.2
-- Database: MariaDB
-- ORM: Spring Data JPA
-- DevOps: Docker, Docker-compose, AWS EC2, ALB, ACM, NginX, GitHub-Actions
-- 인증: OAuth 소셜 로그인
 
 ## 🤝 기여 방법
 - 프로젝트를 Fork합니다.
