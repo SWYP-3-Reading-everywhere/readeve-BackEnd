@@ -4,6 +4,7 @@ import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.service.DataService;
 import com.book_everywhere.web.dto.AllDataDto;
 import com.book_everywhere.web.dto.CMRespDto;
+import com.book_everywhere.web.dto.tag.TagRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

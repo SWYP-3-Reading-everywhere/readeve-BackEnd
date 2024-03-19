@@ -96,8 +96,8 @@ public class DataService {
     }
 
 
-    public List<AllDataDto> 유저독후감조회(Long userId) {
-        List<Review> reviews = reviewRepository.mFindReviewsByUser(userId);
+    public List<AllDataDto> 유저독후감조회(Long socialId) {
+        List<Review> reviews = reviewRepository.mFindReviewsByUser(socialId);
 
         return reviews.stream().map(review ->
         {
@@ -120,7 +120,7 @@ public class DataService {
                     book.isComplete(),
                     book.getAuthor()
             );
-            List<Tagged> taggedList = taggedRepository.findAllByPinId(pin.getId());
+            List<Tagged> taggedList = taggedRepository.mFindAllByPinAndUser(pin.getId(),socialId);
             List<Tag> tagObjects = tagRepository.findAll();
             List<TagRespDto> tagRespDtoList = tagObjects.stream().map(tag -> {
                 String name = tag.getCategory().getName();
@@ -146,6 +146,13 @@ public class DataService {
                     review.getCreateAt()
             );
         }).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TagRespDto> mFindAllByPinAndReview테스트(Long pinId, Long socialId) {
+        List<Tagged> init = taggedRepository.mFindAllByPinAndUser(pinId, socialId);
+
+        return init.stream().map(tagged -> new TagRespDto(tagged.getTag().getContent(), false, tagged.getTag().getCategory().getName())).toList();
     }
 
 
