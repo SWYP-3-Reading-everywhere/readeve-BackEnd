@@ -28,4 +28,5 @@ public class TagController {
         List<Page<TaggedDto>> result = tagService.핀의5개태그조회();
         return new CMRespDto<>(HttpStatus.OK, result, "태그 개수 조회 성공");
     }
+
 }
