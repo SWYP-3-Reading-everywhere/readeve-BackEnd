@@ -16,7 +16,8 @@ public enum CustomErrorCode {
     TITLE_IS_NOT_BLANK(HttpStatus.BAD_REQUEST, "제목은 공백이 될 수 없습니다."),
     CONTENT_IS_NOT_BLANK(HttpStatus.BAD_REQUEST, "내용은 공백이 될 수 없습니다."),
     TITLE_IS_NOT_OVER_20(HttpStatus.BAD_REQUEST, "제목은 20자 이상이 될 수 없습니다."),
-    CONTENT_IS_NOT_OVER_1500(HttpStatus.BAD_REQUEST, "내용은 1500자 이상이 될 수 없습니다.");
+    CONTENT_IS_NOT_OVER_1500(HttpStatus.BAD_REQUEST, "내용은 1500자 이상이 될 수 없습니다."),
+    PIN_HAS_TAGS(HttpStatus.INTERNAL_SERVER_ERROR, "핀에 태그가 있어 삭제 할 수 없습니다.");
 
 
     private HttpStatus code;

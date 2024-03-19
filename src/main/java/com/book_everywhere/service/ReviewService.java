@@ -13,6 +13,7 @@ import com.book_everywhere.web.exception.customs.EntityNotFoundException;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.exception.customs.PropertyBadRequestException;
 import com.book_everywhere.web.dto.review.ReviewDto;
+import com.book_everywhere.web.exception.customs.SQLException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -178,6 +179,9 @@ public class ReviewService {
         Pin pin = pinRepository.mFindPinByAddress(address);
         if(pin == null) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+        }
+        if(!pin.getTags().isEmpty()) {
+            return;
         }
         List<Review> reviews = reviewRepository.mFindReviewsByPin(pin.getId());
         if(reviews.isEmpty()) {

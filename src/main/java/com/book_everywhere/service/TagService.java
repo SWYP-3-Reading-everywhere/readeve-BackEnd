@@ -110,12 +110,13 @@ public class TagService {
         if(taggeds.isEmpty()) {
             return;
         }
-        taggeds.forEach(tagged -> {
+        for (Tagged tagged: taggeds) {
             Tag tag = tagRepository.findById(tagged.getTag().getId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.TAG_NOT_FOUND));
-            if(tagged.getCount()-1 == 0) {
+            if((tagged.getCount() - 1) == 0) {
                 taggedRepository.delete(tagged);
             }
-            tagged.changeTagged(pin, tag, tagged.getCount()-1);
-        });
+            tagged.changeTagged(pin, tag, tagged.getCount() - 1);
+            taggedRepository.save(tagged);
+        }
     }
 }
