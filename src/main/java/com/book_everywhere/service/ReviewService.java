@@ -164,6 +164,9 @@ public class ReviewService {
     @Transactional
     public void 유저독후감개수검증후책삭제(Long socialId, String title) {
         Book book = bookRepository.mFindBookByUserIdAndTitle(socialId, title);
+        if(book == null) {
+            throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
+        }
         List<Review> reviews = reviewRepository.mFindReviewsByBook(book.getId());
         if(reviews.isEmpty()) {
             bookRepository.delete(book);
@@ -173,6 +176,9 @@ public class ReviewService {
     @Transactional
     public void 독후감개수검증후핀삭제(String address) {
         Pin pin = pinRepository.mFindPinByAddress(address);
+        if(pin == null) {
+            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+        }
         List<Review> reviews = reviewRepository.mFindReviewsByPin(pin.getId());
         if(reviews.isEmpty()) {
             pinRepository.delete(pin);

@@ -25,7 +25,7 @@ public class Pin {
     private Long id;
 
     @Builder.Default
-    @OneToMany(mappedBy = "pin")
+    @OneToMany(mappedBy = "pin", cascade = CascadeType.ALL)
     private List<Visit> visits = new ArrayList<>();
 
     @Builder.Default
@@ -33,7 +33,7 @@ public class Pin {
     private List<Review> reviews = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "pin")
+    @OneToMany(mappedBy = "pin", cascade = CascadeType.ALL)
     private List<Tagged> tags = new ArrayList<>();
 
     @Column(nullable = false)

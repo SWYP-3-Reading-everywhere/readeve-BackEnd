@@ -9,6 +9,8 @@ import com.book_everywhere.domain.tagged.TaggedRepository;
 import com.book_everywhere.web.dto.review.ReviewRespDto;
 import com.book_everywhere.web.dto.tag.TagDto;
 import com.book_everywhere.web.dto.tag.TaggedDto;
+import com.book_everywhere.web.exception.customs.CustomErrorCode;
+import com.book_everywhere.web.exception.customs.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +30,9 @@ public class TagService {
     @Transactional
     public void 태그등록또는수정(ReviewRespDto reviewRespDto) {
         List<String> tags = reviewRespDto.getTags();
-
+        if(tags.isEmpty()) {
+            return;
+        }
         for (String tagResp : tags) {
             Tag tag = tagRepository.mFindTagByName(tagResp);
             Pin pin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
@@ -77,14 +81,41 @@ public class TagService {
 
     @Transactional
     public void 태그삭제(List<String> tags, String address) {
+        if(tags == null) {
+            return;
+        }
         //태그를 찾고
         for (String tagResp:
              tags) {
             Tag tag = tagRepository.mFindTagByName(tagResp);
             Pin pin = pinRepository.mFindPinByAddress(address);
+            if(pin == null) {
+                throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+            }
             Tagged tagged = taggedRepository.mFindTagged(tag.getId(), pin.getId());
-            taggedRepository.delete(tagged);
+            if(tagged.getCount()-1 == 0) {
+                taggedRepository.delete(tagged);
+            }
+            tagged.changeTagged(pin, tag, tagged.getCount()-1);
         }
     }
 
+    @Transactional
+    public void 태그검증(Long socialId, String address) {
+        Pin pin = pinRepository.mFindPinByAddress(address);
+        if(pin == null) {
+            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
+        }
+        List<Tagged> taggeds = taggedRepository.mFindAllByPinAndUser(pin.getId(), socialId);
+        if(taggeds.isEmpty()) {
+            return;
+        }
+        taggeds.stream().forEach(tagged -> {
+            Tag tag = tagRepository.findById(tagged.getTag().getId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.TAG_NOT_FOUND));
+            if(tagged.getCount()-1 == 0) {
+                taggedRepository.delete(tagged);
+            }
+            tagged.changeTagged(pin, tag, tagged.getCount()-1);
+        });
+    }
 }
