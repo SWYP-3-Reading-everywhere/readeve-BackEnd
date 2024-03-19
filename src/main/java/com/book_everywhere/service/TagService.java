@@ -110,7 +110,7 @@ public class TagService {
         if(taggeds.isEmpty()) {
             return;
         }
-        taggeds.stream().forEach(tagged -> {
+        taggeds.forEach(tagged -> {
             Tag tag = tagRepository.findById(tagged.getTag().getId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.TAG_NOT_FOUND));
             if(tagged.getCount()-1 == 0) {
                 taggedRepository.delete(tagged);
