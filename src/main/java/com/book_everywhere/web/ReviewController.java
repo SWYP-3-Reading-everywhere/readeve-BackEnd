@@ -100,9 +100,9 @@ public class ReviewController {
                                      @RequestParam String address,
                                      @RequestParam(required = false) List<String> tags) {
         reviewService.독후감삭제(reviewId);
-        tagService.태그삭제(tags, address);
-        reviewService.유저독후감개수검증후책삭제(socialId, bookTitle);
-        reviewService.독후감개수검증후핀삭제(address);
+//        tagService.태그삭제(tags, address);
+//        reviewService.유저독후감개수검증후책삭제(socialId, bookTitle);
+//        reviewService.독후감개수검증후핀삭제(address);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");
     }
 }
