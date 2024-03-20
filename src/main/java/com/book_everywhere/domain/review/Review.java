@@ -33,7 +33,7 @@ public class Review {
 
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1500)
     private String content;
     @Column(nullable = false)
     private boolean isPrivate;

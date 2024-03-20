@@ -11,6 +11,7 @@ import com.book_everywhere.web.dto.tag.TagDto;
 import com.book_everywhere.web.dto.tag.TaggedDto;
 import com.book_everywhere.web.exception.customs.CustomErrorCode;
 import com.book_everywhere.web.exception.customs.EntityNotFoundException;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,7 @@ public class TagService {
     private final TagRepository tagRepository;
     private final TaggedRepository taggedRepository;
     private final PinRepository pinRepository;
+    private final EntityManager em;
 
     @Transactional
     public void 태그등록또는수정(ReviewRespDto reviewRespDto) {
@@ -110,12 +112,18 @@ public class TagService {
         if(taggeds.isEmpty()) {
             return;
         }
-        taggeds.forEach(tagged -> {
+        for (Tagged tagged: taggeds) {
             Tag tag = tagRepository.findById(tagged.getTag().getId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.TAG_NOT_FOUND));
-            if(tagged.getCount()-1 == 0) {
+            int count = tagged.getCount() - 1;
+            if(count == 0) {
                 taggedRepository.delete(tagged);
+                em.flush();
             }
-            tagged.changeTagged(pin, tag, tagged.getCount()-1);
-        });
+            else {
+                System.out.println("0이 아닙니다.");
+                tagged.changeTagged(pin, tag, count);
+                em.flush();
+            }
+        }
     }
 }
