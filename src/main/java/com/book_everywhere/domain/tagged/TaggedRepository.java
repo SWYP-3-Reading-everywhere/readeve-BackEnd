@@ -18,7 +18,7 @@ public interface TaggedRepository extends JpaRepository<Tagged,Long> {
     Tagged mFindTagged(@Param("tagId") Long tagId, @Param("pinId") Long pinId);
 
     //pin에 tag들에 대한 count개수 상위 5개
-    @Query("SELECT t.tag.content, COUNT(tagged) FROM tagged t  WHERE t.pin.id = :pinId GROUP BY t.tag.content ORDER BY count DESC")
+    @Query("SELECT t.tag.content, COUNT(t) FROM Tagged t WHERE t.pin.id = :pinId GROUP BY t.tag.content ORDER BY COUNT(t) DESC")
     Page<Object[]> mCountByPinId(@Param("pinId") Long pinId, Pageable pageable);
 
     //핀에 해당하는 모든 태그 조회하기 - WebDataService에서 사용하는 용도
@@ -26,4 +26,8 @@ public interface TaggedRepository extends JpaRepository<Tagged,Long> {
 
      @Query("SELECT t FROM Tagged t WHERE t.pin.id = :pinId AND t.user.socialId = :socialId")
      List<Tagged> mFindAllByPinAndUser(@Param("pinId") Long pinId, @Param("socialId") Long socialId);
+
+    @Modifying
+    @Query("DELETE FROM Tagged t WHERE t.pin.id = :pinId AND t.user.socialId = :socialId")
+    void deleteAllByPinAndUser(@Param("pinId") Long pinId, @Param("socialId") Long socialId);
 }

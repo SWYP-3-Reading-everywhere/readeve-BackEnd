@@ -65,9 +65,6 @@ public class TaggedService {
         if(pin == null) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
-        List<Tagged> taggeds = taggedRepository.mFindAllByPinAndUser(pin.getId(), socialId);
-        for (Tagged tagged : taggeds) {
-            taggedRepository.delete(tagged);
-        }
+        taggedRepository.deleteAllByPinAndUser(pin.getId(), socialId);
     }
 }
