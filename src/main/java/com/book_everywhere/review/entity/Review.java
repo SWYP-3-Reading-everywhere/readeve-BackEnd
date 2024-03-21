@@ -62,6 +62,14 @@ public class Review {
         book.getReviews().add(this);
     }
 
+    public void setUser(User user) {
+        if(this.user != null) {
+            this.user.getReviews().remove(this);
+        }
+        this.user = user;
+        user.getReviews().add(this);
+    }
+
     public void setPin(Pin pin) {
         if(this.pin != null) {
             this.pin.getReviews().remove(this);

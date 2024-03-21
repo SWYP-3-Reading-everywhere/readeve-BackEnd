@@ -50,6 +50,7 @@ public class ReviewService {
         Review review = Review.builder()
                 .book(book)
                 .pin(pin)
+                .user(user)
                 .title(reviewRespDto.getTitle())
                 .writer(reviewRespDto.getWriter())
                 .content(reviewRespDto.getContent())
@@ -153,6 +154,7 @@ public class ReviewService {
                 .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         Book newBook = bookRepository.mFindBookByUserIdAndTitle(reviewRespDto.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
         Pin newPin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
+        User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
         if(newBook == null) {
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }
@@ -160,6 +162,7 @@ public class ReviewService {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
         review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getBookRespDto().isComplete(),reviewRespDto.getWriter());
+        review.setUser(user);
         review.setBook(newBook);
         review.setPin(newPin);
         reviewRepository.save(review);
@@ -182,11 +185,11 @@ public class ReviewService {
         if(pin == null) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
-        if(!pin.getTags().isEmpty()) {
-            taggedService.태그삭제(address, socialId);
-        }
         List<Review> reviews = reviewRepository.mFindReviewsByPin(pin.getId());
         if(reviews.isEmpty()) {
+            if(!pin.getTags().isEmpty()) {
+                taggedService.태그삭제(address, socialId);
+            }
             pinRepository.delete(pin);
         }
     }
