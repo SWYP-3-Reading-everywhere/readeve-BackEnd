@@ -90,11 +90,6 @@ public class DataService {
         }).toList();
     }
 
-    //태그 조회 테스트용
-    public List<Tagged> findAllTaggedList(Long pinId) {
-        return taggedRepository.findAllByPinId(pinId);
-    }
-
 
     public List<AllDataDto> 유저독후감조회(Long socialId) {
         List<Review> reviews = reviewRepository.mFindReviewsByUser(socialId);
