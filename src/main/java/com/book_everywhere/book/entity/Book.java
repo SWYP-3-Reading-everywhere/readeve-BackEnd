@@ -23,10 +23,6 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;
-
     @Builder.Default
     @OneToMany(mappedBy = "book", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
@@ -36,14 +32,9 @@ public class Book {
     @Column(nullable = false)
     private String title;
     private String coverImageUrl;
-    private boolean isComplete;
     private String author;
 
 
     @CreationTimestamp
     private Timestamp createAt;
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

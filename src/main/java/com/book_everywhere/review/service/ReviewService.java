@@ -54,6 +54,7 @@ public class ReviewService {
                 .writer(reviewRespDto.getWriter())
                 .content(reviewRespDto.getContent())
                 .isPrivate(reviewRespDto.isPrivate())
+                .isBookComplete(reviewRespDto.getBookRespDto().isComplete())
                 .build();
         reviewRepository.save(review);
         return review.getId();
@@ -158,7 +159,7 @@ public class ReviewService {
         if(newPin == null) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
-        review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getWriter());
+        review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getBookRespDto().isComplete(),reviewRespDto.getWriter());
         review.setBook(newBook);
         review.setPin(newPin);
         reviewRepository.save(review);

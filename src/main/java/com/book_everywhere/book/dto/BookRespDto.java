@@ -14,14 +14,12 @@ public class BookRespDto {
     private boolean isComplete;
     private String author;
 
-    public Book toEntity(User user) {
+    public Book toEntity() {
         return Book.builder()
-                .user(user)
                 .author(author)
                 .title(title)
                 .coverImageUrl(thumbnail)
                 .isbn(isbn)
-                .isComplete(isComplete)
                 .build();
     }
 }
