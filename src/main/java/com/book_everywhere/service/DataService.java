@@ -90,11 +90,6 @@ public class DataService {
         }).toList();
     }
 
-    //태그 조회 테스트용
-    public List<Tagged> findAllTaggedList(Long pinId) {
-        return taggedRepository.findAllByPinId(pinId);
-    }
-
 
     public List<AllDataDto> 유저독후감조회(Long socialId) {
         List<Review> reviews = reviewRepository.mFindReviewsByUser(socialId);
@@ -146,13 +141,6 @@ public class DataService {
                     review.getCreateAt()
             );
         }).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<TagRespDto> mFindAllByPinAndReview테스트(Long pinId, Long socialId) {
-        List<Tagged> init = taggedRepository.mFindAllByPinAndUser(pinId, socialId);
-
-        return init.stream().map(tagged -> new TagRespDto(tagged.getTag().getContent(), false, tagged.getTag().getCategory().getName())).toList();
     }
 
 
