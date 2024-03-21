@@ -16,10 +16,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     /**
      * book.title을 통해 일치하는 북 가져오기
      */
-    @Query("SELECT book FROM Book book AND book.isbn = :isbn")
+    @Query("SELECT book FROM Book book WHERE book.isbn = :isbn")
     Book mFindBookIsbn(@Param("isbn") String isbn);
 
-    @Query("SELECT b FROM Book b AND b.title = :title")
+    @Query("SELECT b FROM Book b WHERE b.title = :title")
     Book mFindBookTitle(@Param("title") String title);
 
 }
