@@ -148,12 +148,5 @@ public class DataService {
         }).toList();
     }
 
-    @Transactional(readOnly = true)
-    public List<TagRespDto> mFindAllByPinAndReview테스트(Long pinId, Long socialId) {
-        List<Tagged> init = taggedRepository.mFindAllByPinAndUser(pinId, socialId);
-
-        return init.stream().map(tagged -> new TagRespDto(tagged.getTag().getContent(), false, tagged.getTag().getCategory().getName())).toList();
-    }
-
 
 }

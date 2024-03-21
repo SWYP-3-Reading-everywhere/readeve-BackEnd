@@ -12,6 +12,7 @@ import com.book_everywhere.web.dto.tag.TagCountRespDto;
 import com.book_everywhere.web.exception.customs.CustomErrorCode;
 import com.book_everywhere.web.exception.customs.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,7 +59,7 @@ public class PinService {
 
     @Transactional(readOnly = true)
     public List<PinDto> 태그조회(String tagContent) {
-        List<Pin> init = taggedRepository.mFindTaggedPin(tagContent);
+        List<Pin> init = pinRepository.mFindTaggedPin(tagContent);
         if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
@@ -75,11 +76,11 @@ public class PinService {
         List<Pin> pins = pinRepository.findAll();
         return pins.stream().map(pin -> {
             PageRequest pageRequest = PageRequest.of(0, 5);
-            List<Tagged> taggeds = taggedRepository.mFindPinWithTagCount(pin.getId(), pageRequest);
+            Page<Object[]> taggeds = taggedRepository.mCountByPinId(pin.getId(), pageRequest);
             List<TagCountRespDto> tagCountRespDtos = taggeds.stream()
                     .map(tagged -> new TagCountRespDto(
-                            tagged.getTag().getContent(),
-                            tagged.getCount())).toList();
+                            (String) tagged[0],
+                            (Integer) tagged[1])).toList();
 
             return new PinWithTagCountRespDto(
                     pin.getId(),
@@ -99,11 +100,11 @@ public class PinService {
         List<Pin> pins = pinRepository.mFindPinByIsPrivate(pinIsPrivate);
         return pins.stream().map(pin -> {
             PageRequest pageRequest = PageRequest.of(0, 5);
-            List<Tagged> taggeds = taggedRepository.mFindPinWithTagCount(pin.getId(),pageRequest);
+            Page<Object[]> taggeds = taggedRepository.mCountByPinId(pin.getId(),pageRequest);
             List<TagCountRespDto> tagCountRespDtos = taggeds.stream()
                     .map(tagged -> new TagCountRespDto(
-                            tagged.getTag().getContent(),
-                            tagged.getCount())).toList();
+                            (String) tagged[0],
+                            (Integer) tagged[1])).toList();
 
             return new PinWithTagCountRespDto(
                     pin.getId(),

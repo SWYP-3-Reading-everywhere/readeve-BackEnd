@@ -32,4 +32,7 @@ public interface PinRepository extends JpaRepository<Pin, Long> {
     //공유/개인 핀 조회
     @Query("SELECT p FROM Pin p JOIN p.visits v WHERE v.isPinPrivate = :isPrivate")
     List<Pin> mFindPinByIsPrivate(@Param("isPrivate") boolean isPrivate);
+
+    @Query("SELECT pin FROM Pin pin JOIN pin.tags tagged WHERE tagged.tag.content = :content")
+    List<Pin> mFindTaggedPin(@Param("content") String content);
 }

@@ -22,7 +22,7 @@ public class ReviewController {
 
 
     private final PinService pinService;
-    private final TagService tagService;
+    private final TaggedService taggedService;
     private final VisitService visitService;
     private final BookService bookService;
     private final ReviewService reviewService;
@@ -42,7 +42,7 @@ public class ReviewController {
         reviewService.등록또는수정전예외처리(reviewRespDto);
         pinService.핀생성(reviewRespDto);
         bookService.책생성(reviewRespDto);
-        tagService.태그등록또는수정(reviewRespDto);
+        taggedService.태그등록(reviewRespDto);
         visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
         reviewService.독후감생성하기(reviewRespDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 추가 완료");
@@ -78,12 +78,12 @@ public class ReviewController {
         reviewService.등록또는수정전예외처리(reviewRespDto);
         pinService.핀생성(reviewRespDto);
         bookService.책생성(reviewRespDto);
-        tagService.태그검증(reviewRespDto.getSocialId(), prevAddress);
-        tagService.태그등록또는수정(reviewRespDto);
+        taggedService.태그삭제(reviewRespDto.getPinRespDto().getAddress(), reviewRespDto.getSocialId());
+        taggedService.태그등록(reviewRespDto);
         visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
         reviewService.독후감수정(reviewId, reviewRespDto);
         reviewService.유저독후감개수검증후책삭제(reviewRespDto.getSocialId(),prevBookTitle);
-        reviewService.독후감개수검증후핀삭제(prevAddress);
+        reviewService.독후감개수검증후핀삭제(prevAddress, reviewRespDto.getSocialId());
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
@@ -97,12 +97,11 @@ public class ReviewController {
     public CMRespDto<?> deleteReview(@PathVariable Long reviewId,
                                      @RequestParam Long socialId,
                                      @RequestParam String bookTitle,
-                                     @RequestParam String address,
-                                     @RequestParam(required = false) List<String> tags) {
+                                     @RequestParam String address) {
         reviewService.독후감삭제(reviewId);
-//        tagService.태그삭제(tags, address);
-//        reviewService.유저독후감개수검증후책삭제(socialId, bookTitle);
-//        reviewService.독후감개수검증후핀삭제(address);
+        taggedService.태그삭제(address, socialId);
+        reviewService.유저독후감개수검증후책삭제(socialId, bookTitle);
+        reviewService.독후감개수검증후핀삭제(address, socialId);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");
     }
 }

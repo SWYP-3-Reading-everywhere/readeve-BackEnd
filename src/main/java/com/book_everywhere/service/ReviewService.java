@@ -29,6 +29,7 @@ public class ReviewService {
     private final BookRepository bookRepository;
     private final PinRepository pinRepository;
     private final UserRepository userRepository;
+    private final TaggedService taggedService;
 
 
     //사용자 검증에 메소드
@@ -175,13 +176,13 @@ public class ReviewService {
     }
 
     @Transactional
-    public void 독후감개수검증후핀삭제(String address) {
+    public void 독후감개수검증후핀삭제(String address, Long socialId) {
         Pin pin = pinRepository.mFindPinByAddress(address);
         if(pin == null) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
         if(!pin.getTags().isEmpty()) {
-            return;
+            taggedService.태그삭제(address, socialId);
         }
         List<Review> reviews = reviewRepository.mFindReviewsByPin(pin.getId());
         if(reviews.isEmpty()) {
