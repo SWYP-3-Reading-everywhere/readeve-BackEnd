@@ -1,5 +1,6 @@
 package com.book_everywhere.auth.entity;
 
+import com.book_everywhere.review.entity.Review;
 import com.book_everywhere.tag.entity.Tagged;
 import com.book_everywhere.pin.entity.Visit;
 import jakarta.persistence.*;
@@ -30,6 +31,10 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<Tagged> taggeds = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
     private Long socialId;

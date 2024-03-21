@@ -13,19 +13,16 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    //공유 목록에서의 독후감 페이지 조회
-    List<Review> findByIsPrivateOrderByCreateAtDesc(boolean isPrivate, Pageable pageable);
-
     //공유 목록에서의 모든 독후감 조회
     List<Review> findByIsPrivateOrderByCreateAtDesc(boolean isPrivate);
 
     // 개인지도에서 핀을 눌렀을때 독후감이 모두 뜨는 기능
     // Entity 바뀐다면 수정 필요 -> 수정완료
-    @Query("SELECT review FROM Review review WHERE review.book.user.socialId = :socialId AND review.pin.id = :pinId ORDER BY review.createAt DESC")
+    @Query("SELECT review FROM Review review WHERE review.user.socialId = :socialId AND review.pin.id = :pinId ORDER BY review.createAt DESC")
     List<Review> mFindReviewUserMap(@Param("socialId") Long socialId, @Param("pinId") Long pinId);
 
     // socialId를 통한 모든 독후감 생성
-    @Query("SELECT r FROM Review r WHERE r.book.user.socialId = :socialId ORDER BY r.createAt DESC")
+    @Query("SELECT r FROM Review r WHERE r.user.socialId = :socialId ORDER BY r.createAt DESC")
     List<Review> mFindReviewsByUser(@Param("socialId") Long socialId);
 
     @Query("SELECT r FROM Review r WHERE r.book.id = :bookId ORDER BY r.createAt DESC")
@@ -33,9 +30,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("SELECT r FROM Review r WHERE r.pin.id = :pinId ORDER BY r.createAt DESC")
     List<Review> mFindReviewsByPin(@Param("pinId") Long pinId);
-
-    //독후감 삭제
-    @Modifying
-    @Query("DELETE FROM Review WHERE id = :reviewId")
-    int mDeleteReview(@Param("reviewId") Long reviewId);
 }

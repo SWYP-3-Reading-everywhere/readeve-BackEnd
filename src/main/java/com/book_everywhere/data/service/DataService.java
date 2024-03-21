@@ -45,7 +45,7 @@ public class DataService {
         return reviews.stream().map(review ->
         {
             Pin pin = pinRepository.mFindByPinId(review.getPin().getId());
-            Visit visit = visitRepository.mFindByUserAndPin(review.getBook().getUser().getId(), review.getPin().getId());
+            Visit visit = visitRepository.mFindByUserAndPin(review.getUser().getId(), review.getPin().getId());
             PinRespDto pinRespDto = new PinRespDto(
                     pin.getTitle(),
                     pin.getPlaceId(),
@@ -60,7 +60,7 @@ public class DataService {
                     book.getIsbn(),
                     book.getTitle(),
                     book.getCoverImageUrl(),
-                    book.isComplete(),
+                    review.isBookComplete(),
                     book.getAuthor()
             );
             List<Tagged> taggedList = taggedRepository.findAllByPinId(pin.getId());
@@ -77,7 +77,7 @@ public class DataService {
 
             return new AllDataDto(
                     review.getId(),
-                    book.getUser().getSocialId(),
+                    review.getUser().getSocialId(),
                     review.getWriter(),
                     review.getTitle(),
                     review.isPrivate(),
@@ -97,7 +97,7 @@ public class DataService {
         return reviews.stream().map(review ->
         {
             Pin pin = pinRepository.mFindByPinId(review.getPin().getId());
-            Visit visit = visitRepository.mFindByUserAndPin(review.getBook().getUser().getId(), review.getPin().getId());
+            Visit visit = visitRepository.mFindByUserAndPin(review.getUser().getId(), review.getPin().getId());
             PinRespDto pinRespDto = new PinRespDto(
                     pin.getTitle(),
                     pin.getPlaceId(),
@@ -112,7 +112,7 @@ public class DataService {
                     book.getIsbn(),
                     book.getTitle(),
                     book.getCoverImageUrl(),
-                    book.isComplete(),
+                    review.isBookComplete(),
                     book.getAuthor()
             );
             List<Tagged> taggedList = taggedRepository.mFindAllByPinAndUser(pin.getId(),socialId);
@@ -130,7 +130,7 @@ public class DataService {
 
             return new AllDataDto(
                     review.getId(),
-                    book.getUser().getSocialId(),
+                    review.getUser().getSocialId(),
                     review.getWriter(),
                     review.getTitle(),
                     review.isPrivate(),

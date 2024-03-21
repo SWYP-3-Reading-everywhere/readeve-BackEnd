@@ -29,7 +29,7 @@ public class BookService {
         BookRespDto bookRespDto = reviewRespDto.getBookRespDto();
         Book userBook = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), bookRespDto.getTitle());
         if (userBook == null) {
-            Book book = bookRespDto.toEntity(user);
+            Book book = bookRespDto.toEntity();
             bookRepository.save(book);
         }
     }
@@ -40,16 +40,14 @@ public class BookService {
     public List<BookDto> findAllBookOneUser(Long userSocialId) {
         User user = userRepository.findBySocialId(userSocialId).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
-        List<Book> init = bookRepository.findAllByUserId(user.getId());
+        List<Book> init = bookRepository.mFindBookByUserId(user.getId());
         if(init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }
         return init.stream().map(book -> new BookDto(
-                book.getUser().getId(),
                 book.getTitle(),
                 book.getCoverImageUrl(),
                 book.getIsbn(),
-                book.isComplete(),
                 book.getCreateAt())).toList();
     }
 
@@ -59,11 +57,9 @@ public class BookService {
     public BookDto 단일책조회(Long id) {
         Book init = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));
         return new BookDto(
-                init.getUser().getId(),
                 init.getTitle(),
                 init.getCoverImageUrl(),
                 init.getIsbn(),
-                init.isComplete(),
                 init.getCreateAt());
     }
 
@@ -73,11 +69,9 @@ public class BookService {
         List<Book> init = bookRepository.findAll();
 
         return init.stream().map(book -> new BookDto(
-                book.getUser().getId(),
                 book.getTitle(),
                 book.getCoverImageUrl(),
                 book.getIsbn(),
-                book.isComplete(),
                 book.getCreateAt())).toList();
     }
 

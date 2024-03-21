@@ -1,5 +1,6 @@
 package com.book_everywhere.review.entity;
 
+import com.book_everywhere.auth.entity.User;
 import com.book_everywhere.book.entity.Book;
 import com.book_everywhere.pin.entity.Pin;
 import jakarta.persistence.*;
@@ -31,13 +32,20 @@ public class Review {
     @JoinColumn(name = "pinId")
     private Pin pin;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
     @Column(nullable = false)
     private String title;
     @Column(nullable = false, length = 1500)
     private String content;
     @Column(nullable = false)
     private boolean isPrivate;
+    @Column(nullable = false)
     private String writer;
+    @Column(nullable = false)
+    private boolean isBookComplete;
 
     @CreationTimestamp
     private Timestamp createAt;
@@ -63,10 +71,11 @@ public class Review {
     }
 
     //==수정 메서드==//
-    public void changeReview(String title, String content, boolean isPrivate, String writer) {
+    public void changeReview(String title, String content, boolean isPrivate, boolean isBookComplete, String writer) {
         this.title = title;
         this.content = content;
         this.isPrivate = isPrivate;
+        this.isBookComplete = isBookComplete;
         this.writer = writer;
     }
 }

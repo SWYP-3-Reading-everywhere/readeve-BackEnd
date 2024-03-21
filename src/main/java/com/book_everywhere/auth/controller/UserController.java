@@ -1,7 +1,6 @@
 package com.book_everywhere.auth.controller;
 
 import com.book_everywhere.common.dto.CMRespDto;
-import com.book_everywhere.web.dto.user.UserJoinDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,9 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "*")
 public class UserController {
-    @GetMapping("/api/user")
-    public CMRespDto<?> publicReviews(UserJoinDto userJoinDto){
-        return new CMRespDto<>(HttpStatus.OK, userJoinDto, "회원 가입 성공!");
-    }
 
 }
