@@ -2,6 +2,7 @@ package com.book_everywhere.domain.tagged;
 
 import com.book_everywhere.domain.pin.Pin;
 import com.book_everywhere.domain.tag.Tag;
+import com.book_everywhere.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +30,9 @@ public class Tagged {
     @JoinColumn(name = "tagId")
     private Tag tag;
 
-    private int count;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
 
     @CreationTimestamp
     private Timestamp createAt;
@@ -50,10 +53,15 @@ public class Tagged {
         tag.getTags().add(this);
     }
 
+    private void setUser(User user) {
+        this.user = user;
+    }
+
+
     //==수정 메서드==//
-    public void changeTagged(Pin pin, Tag tag, int count) {
+    public void changeTagged(Pin pin, Tag tag, User user) {
         setPin(pin);
         setTag(tag);
-        this.count = count;
+        setUser(user);
     }
 }

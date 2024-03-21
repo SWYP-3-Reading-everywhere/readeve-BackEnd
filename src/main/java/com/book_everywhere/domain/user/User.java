@@ -1,5 +1,6 @@
 package com.book_everywhere.domain.user;
 
+import com.book_everywhere.domain.tagged.Tagged;
 import com.book_everywhere.domain.visit.Visit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,10 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Visit> visits = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<Tagged> taggeds = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
     private Long socialId;
