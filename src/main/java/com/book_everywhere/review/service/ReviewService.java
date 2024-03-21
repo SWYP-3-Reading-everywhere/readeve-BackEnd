@@ -38,7 +38,7 @@ public class ReviewService {
     public Long 독후감생성하기(ReviewRespDto reviewRespDto) {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
-        Book book = bookRepository.mFindBookByUserIdAndTitle(user.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
+        Book book = bookRepository.mFindBookIsbn(reviewRespDto.getBookRespDto().getIsbn());
         if (book == null) {
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }
@@ -152,24 +152,18 @@ public class ReviewService {
     public void 독후감수정(Long reviewId, ReviewRespDto reviewRespDto) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-        Book newBook = bookRepository.mFindBookByUserIdAndTitle(reviewRespDto.getSocialId(), reviewRespDto.getBookRespDto().getTitle());
-        Pin newPin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
+        Book existBook = bookRepository.mFindBookIsbn(reviewRespDto.getBookRespDto().getIsbn());
+        Pin existPin = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
-        if(newBook == null) {
-            throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
-        }
-        if(newPin == null) {
-            throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
-        }
         review.changeReview(reviewRespDto.getTitle(),reviewRespDto.getContent(),reviewRespDto.isPrivate(),reviewRespDto.getBookRespDto().isComplete(),reviewRespDto.getWriter());
         review.setUser(user);
-        review.setBook(newBook);
-        review.setPin(newPin);
+        review.setBook(existBook);
+        review.setPin(existPin);
         reviewRepository.save(review);
     }
     @Transactional
-    public void 유저독후감개수검증후책삭제(Long socialId, String title) {
-        Book book = bookRepository.mFindBookByUserIdAndTitle(socialId, title);
+    public void 유저독후감개수검증후책삭제(String title) {
+        Book book = bookRepository.mFindBookTitle(title);
         if(book == null) {
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }
