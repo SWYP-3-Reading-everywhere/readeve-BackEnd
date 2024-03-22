@@ -7,6 +7,8 @@ build/
 
 src/main/resources/*.yml
 !application.yml
+src/test/resources/*.yml
+!application.yml
 
 
 
