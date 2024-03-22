@@ -1,0 +1,63 @@
+spring:
+  profiles:
+    active: test
+
+  # Spring Security 설정을 간소화하거나 테스트에 적합하게 조정
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: "http://localhost:8081/login/oauth2/code/kakao"
+
+  # 테스트용 데이터베이스 및 JPA 설정
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8081
+  env: local
+  serverAddress: localhost
+  servlet:
+    context-path: /
+    encoding:
+      charset: utf-8
+      enabled: true
+
+serverName : test
+---
+# 테스트 환경에서의 CORS 설정
+spring:
+  config:
+    import: application-secret.yml
+  application:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "GET,POST,PUT,DELETE"
+      allowed-headers: "*"
+      allow-credentials: true
+
+  # 파일 업로드 관련 설정
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+
+# 로깅 레벨 설정
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: DEBUG
+    org.hibernate.type: trace
