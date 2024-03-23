@@ -86,7 +86,7 @@ public class ReviewController {
         taggedService.태그등록(reviewRespDto);
         visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
         reviewService.독후감수정(reviewId, reviewRespDto);
-        reviewService.유저독후감개수검증후책삭제(prevBookTitle);
+        reviewService.독후감개수검증삭제(prevBookTitle);
         reviewService.독후감개수검증후핀삭제(prevAddress, reviewRespDto.getSocialId());
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }

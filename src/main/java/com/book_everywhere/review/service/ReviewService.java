@@ -19,7 +19,9 @@ public interface ReviewService {
 
     void 독후감수정(Long reviewId, ReviewRespDto reviewRespDto);
 
-    void 유저독후감개수검증후책삭제(String prevBookTitle);
+    void 유저독후감개수검증후책삭제(String isbn);
+
+    void 독후감개수검증삭제(String prevBookTitle);
 
     void 독후감개수검증후핀삭제(String prevAddress, Long socialId);
 
