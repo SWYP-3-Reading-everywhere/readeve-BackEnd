@@ -161,8 +161,18 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
-    public void 유저독후감개수검증후책삭제(String title) {
-        Book book = bookRepository.mFindBookTitle(title);
+    public void 유저독후감개수검증후책삭제(String isbn) {
+        Book book = bookRepository.mFindBookIsbn(isbn);
+        if (book == null) {
+            throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
+        }
+        List<Review> reviews = reviewRepository.mFindReviewsByBook(book.getId());
+        if (reviews.isEmpty()) {
+            bookRepository.delete(book);
+        }
+    }
+    public void 독후감개수검증삭제(String prevBookTitle) {
+        Book book = bookRepository.mFindBookTitle(prevBookTitle);
         if (book == null) {
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }
