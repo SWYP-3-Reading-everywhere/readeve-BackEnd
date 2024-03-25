@@ -23,8 +23,8 @@ public class Tag {
     @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL)
     private List<Tagged> tags = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(nullable = false, unique = true)

@@ -16,13 +16,13 @@ public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pin_id")
+    @Column(name = "visit_id")
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "userId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
-    @JoinColumn(name = "pinId")
+    @JoinColumn(name = "pin_id")
     private Pin pin;
 
     private boolean isPinPrivate;
