@@ -11,8 +11,6 @@ import com.book_everywhere.tag.dto.TagCountRespDto;
 import com.book_everywhere.exception.customs.CustomErrorCode;
 import com.book_everywhere.exception.customs.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,12 +69,13 @@ public class PinServiceImpl implements PinService {
 
     public List<PinWithTagCountRespDto> 핀의상위5개태그개수와함께조회() {
         List<Pin> pins = pinRepository.findAll();
+
         return pins.stream().map(pin -> {
             List<Object[]> taggeds = taggedRepository.mCountByPinId(pin.getId());
             List<TagCountRespDto> tagCountRespDtos = taggeds.stream()
                     .map(tagged -> new TagCountRespDto(
                             (String) tagged[0],
-                            (Integer) tagged[1])).toList();
+                            (Long) tagged[1])).toList();
 
             return new PinWithTagCountRespDto(
                     pin.getId(),
@@ -99,7 +98,7 @@ public class PinServiceImpl implements PinService {
             List<TagCountRespDto> tagCountRespDtos = taggeds.stream()
                     .map(tagged -> new TagCountRespDto(
                             (String) tagged[0],
-                            (Integer) tagged[1])).toList();
+                            (Long) tagged[1])).toList();
 
             return new PinWithTagCountRespDto(
                     pin.getId(),
