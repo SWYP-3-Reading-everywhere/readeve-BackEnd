@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class TagCountRespDto {
     private String content;
-    private int count;
+    private Long count;
 }
