@@ -1,0 +1,30 @@
+<configuration>
+
+    <!-- Console Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <file>book.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender for ERROR logs -->
+    <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>book-error.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+    </appender>
+
+    <!-- Log everything at INFO level to the console -->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- Log only ERROR level logs to app-error.log -->
+    <logger name="org.springframework" level="error" additivity="false">
+        <appender-ref ref="FILE-ERROR" />
+    </logger>
+
+</configuration>
