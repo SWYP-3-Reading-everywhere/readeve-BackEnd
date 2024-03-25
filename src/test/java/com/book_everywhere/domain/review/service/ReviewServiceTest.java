@@ -8,8 +8,10 @@ import com.book_everywhere.domain.auth.UserTestBuilder;
 import com.book_everywhere.domain.book.dto.BookRespDtoBuilder;
 import com.book_everywhere.domain.pin.dto.PinRespDtoTestBuilder;
 import com.book_everywhere.domain.review.dto.ReviewRespDtoTestBuilder;
+import com.book_everywhere.exception.customs.EntityNotFoundException;
 import com.book_everywhere.pin.dto.PinRespDto;
 import com.book_everywhere.pin.repository.PinRepository;
+import com.book_everywhere.review.dto.ReviewDto;
 import com.book_everywhere.review.dto.ReviewRespDto;
 import com.book_everywhere.review.entity.Review;
 import com.book_everywhere.review.repository.ReviewRepository;
@@ -20,11 +22,17 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class ReviewServiceTest {
@@ -45,7 +53,7 @@ public class ReviewServiceTest {
         MockitoAnnotations.openMocks(this); // Mockito 초기화
     }
 
-    @DisplayName("독후감 생성 테스트")
+    @DisplayName("독후감생성_테스트")
     @Test
     public void testCreateReview() throws Exception {
         // given: 테스트에 필요한 데이터 준비
@@ -59,7 +67,7 @@ public class ReviewServiceTest {
         pinRepository.save(pinRespDto.toEntity());
 
         // when: 독후감 생성 로직 실행
-        reviewServiceImpl.독후감생성하기(reviewRespDto);
+        reviewServiceImpl.독후감생성(reviewRespDto);
 
         // then: 데이터가 예상대로 저장되었는지 검증
         assertThat(reviewRepository.mFindReviewsByUser(fakeUser.getSocialId())).isNotEmpty();
@@ -69,7 +77,7 @@ public class ReviewServiceTest {
         assertThat(savedReview.getUser().getSocialId()).isEqualTo(fakeUser.getSocialId());
     }
 
-    @DisplayName("독후감 삭제 테스트")
+    @DisplayName("독후감삭제_테스트")
     @Test
     public void testDeleteReview() throws Exception {
         reviewRepository.deleteAll();
@@ -88,7 +96,7 @@ public class ReviewServiceTest {
         bookRepository.save(bookRespDto.toEntity());
         pinRepository.save(pinRespDto.toEntity());
 
-        Long reviewId = reviewServiceImpl.독후감생성하기(reviewRespDto);
+        Long reviewId = reviewServiceImpl.독후감생성(reviewRespDto);
         assertThat(reviewRepository.mFindReviewsByUser(fakeUser.getSocialId())).isNotEmpty();
         // when: 저장된 리뷰 삭제 로직 실행
         reviewServiceImpl.독후감삭제(reviewId);
@@ -97,4 +105,5 @@ public class ReviewServiceTest {
         Optional<Review> deletedReview = reviewRepository.findById(reviewId);
         assertThat(deletedReview).isEmpty();
     }
+
 }

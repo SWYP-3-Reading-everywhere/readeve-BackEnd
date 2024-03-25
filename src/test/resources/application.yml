@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: test
+  sql:
+    init:
+      encoding: utf-8
 
   # Spring Security 설정을 간소화하거나 테스트에 적합하게 조정
   security:
@@ -23,6 +26,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
 
 server:
   port: 8081

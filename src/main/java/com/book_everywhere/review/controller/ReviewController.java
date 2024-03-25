@@ -48,7 +48,7 @@ public class ReviewController {
         bookService.책생성(reviewRespDto);
         taggedService.태그등록(reviewRespDto);
         visitService.독후감쓰기전방문등록또는수정(reviewRespDto);
-        reviewService.독후감생성하기(reviewRespDto);
+        reviewService.독후감생성(reviewRespDto);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 추가 완료");
     }
 

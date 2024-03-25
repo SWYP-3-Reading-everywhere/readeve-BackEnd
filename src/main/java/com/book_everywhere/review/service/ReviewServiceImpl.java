@@ -36,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
     //사용자 검증에 메소드
     //등록
 
-    public Long 독후감생성하기(ReviewRespDto reviewRespDto) {
+    public Long 독후감생성(ReviewRespDto reviewRespDto) {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
         Book book = bookRepository.mFindBookIsbn(reviewRespDto.getBookRespDto().getIsbn());

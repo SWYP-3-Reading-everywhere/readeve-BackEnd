@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.List;
 
 public interface ReviewService {
-    Long 독후감생성하기(ReviewRespDto reviewRespDto);
+    Long 독후감생성(ReviewRespDto reviewRespDto);
 
     List<ReviewDto> 책에따른모든리뷰(Long bookId);
 
