@@ -4,10 +4,7 @@ import com.book_everywhere.auth.entity.User;
 import com.book_everywhere.book.entity.Book;
 import com.book_everywhere.pin.entity.Pin;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,25 +12,26 @@ import java.sql.Timestamp;
 
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "bookId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
     private Book book;
 
-    @ManyToOne
-    @JoinColumn(name = "pinId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pin_id")
     private Pin pin;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(nullable = false)

@@ -25,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
@@ -35,6 +36,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@Transactional
 public class ReviewServiceTest {
     @Autowired
     private UserRepository userRepository;
@@ -53,7 +55,7 @@ public class ReviewServiceTest {
         MockitoAnnotations.openMocks(this); // Mockito 초기화
     }
 
-    @DisplayName("독후감생성_테스트")
+    @DisplayName("Service_독후감생성_테스트")
     @Test
     public void testCreateReview() throws Exception {
         // given: 테스트에 필요한 데이터 준비
@@ -77,7 +79,7 @@ public class ReviewServiceTest {
         assertThat(savedReview.getUser().getSocialId()).isEqualTo(fakeUser.getSocialId());
     }
 
-    @DisplayName("독후감삭제_테스트")
+    @DisplayName("Service_독후감삭제_테스트")
     @Test
     public void testDeleteReview() throws Exception {
         reviewRepository.deleteAll();

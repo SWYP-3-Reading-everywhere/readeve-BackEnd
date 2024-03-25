@@ -32,7 +32,7 @@ public class PinServiceTest {
     @Autowired
     private PinServiceImpl pinServiceImpl;
 
-    @DisplayName("전체지도조회_테스트")
+    @DisplayName("Service_전체지도조회_테스트")
     @Test
     public void 전체지도조회_테스트() {
         List<Pin> mockPins = Arrays.asList(
@@ -49,7 +49,7 @@ public class PinServiceTest {
         assertNotNull(resultDto);
         assertEquals(2, resultDto.size());
     }
-    @DisplayName("핀생성_테스트_새_핀_생성")
+    @DisplayName("Service_핀생성_테스트_새_핀_생성")
     @Test
     public void 핀생성_새핀생성() {
         // given
@@ -65,14 +65,14 @@ public class PinServiceTest {
         verify(pinRepository).save(any(Pin.class));
     }
 
-    @DisplayName("핀생성_테스트_기존_핀_재사용")
+    @DisplayName("Service_핀생성_테스트_기존_핀_재사용")
     @Test
     public void 핀생성_기존핀재사용() {
         // given
         BookRespDto bookRespDto = BookRespDtoBuilder.createDefault();
         PinRespDto pinRespDto = PinRespDtoTestBuilder.createDefault();
         ReviewRespDto reviewRespDto = ReviewRespDtoTestBuilder.createDefault(pinRespDto, bookRespDto);
-        when(pinRepository.mFindPinByAddress(anyString())).thenReturn(new Pin());
+        when(pinRepository.mFindPinByAddress(anyString())).thenReturn(pinRespDto.toEntity());
 
         // when
         pinServiceImpl.핀생성(reviewRespDto);
@@ -81,7 +81,7 @@ public class PinServiceTest {
         verify(pinRepository, never()).save(any(Pin.class));
     }
 
-    @DisplayName("나만의_지도_조회_테스트")
+    @DisplayName("Service_나만의_지도_조회_테스트")
     @Test
     public void 나만의지도조회_테스트() {
         // given

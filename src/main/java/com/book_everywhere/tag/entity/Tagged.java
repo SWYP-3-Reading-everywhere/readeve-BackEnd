@@ -3,34 +3,32 @@ package com.book_everywhere.tag.entity;
 import com.book_everywhere.pin.entity.Pin;
 import com.book_everywhere.auth.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Tagged {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tagged_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "pinId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pin_id")
     private Pin pin;
 
-    @ManyToOne
-    @JoinColumn(name = "tagId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id")
     private Tag tag;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @CreationTimestamp

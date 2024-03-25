@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     //공유 목록에서의 모든 독후감 조회

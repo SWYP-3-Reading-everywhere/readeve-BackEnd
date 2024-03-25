@@ -3,10 +3,7 @@ package com.book_everywhere.pin.entity;
 import com.book_everywhere.review.entity.Review;
 import com.book_everywhere.tag.entity.Tagged;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -15,12 +12,13 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Pin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pin_id")
     private Long id;
 
     @Builder.Default

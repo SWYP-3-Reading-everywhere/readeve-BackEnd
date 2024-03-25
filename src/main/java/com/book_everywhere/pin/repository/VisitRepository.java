@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface VisitRepository extends JpaRepository<Visit, Long> {
 
     //전체핀에서 몇명이 방문했는지 알려주는 쿼리
