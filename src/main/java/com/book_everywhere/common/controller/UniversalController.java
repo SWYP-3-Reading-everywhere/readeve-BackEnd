@@ -42,4 +42,9 @@ public class UniversalController {
         return new CMRespDto<>(HttpStatus.OK, env, ".env checking complete");
     }
 
+    @GetMapping("/test/error")
+    public String throwError() {
+        throw new RuntimeException("테스트 에러 발생!");
+    }
+
 }
