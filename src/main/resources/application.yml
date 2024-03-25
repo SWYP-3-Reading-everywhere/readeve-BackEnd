@@ -108,5 +108,7 @@ logging:
     org:
       springframework:
         security: DEBUG
-    rg.hibernate.type: trace
+      hibernate:
+        type: trace
+  config: logback-spring.xml
 
