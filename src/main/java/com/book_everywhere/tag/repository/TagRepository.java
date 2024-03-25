@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
     // content를 통해 가져옴

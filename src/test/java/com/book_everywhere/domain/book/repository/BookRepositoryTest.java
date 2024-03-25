@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -47,14 +48,12 @@ class BookRepositoryTest {
         bookRepository.save(book);
         pinRepository.save(pin);
         reviewRepository.save(review);
-
         //when
         List<Book> foundBook = bookRepository.mFindBookByUserId(user.getSocialId());
 
         //then
         assertEquals(review.getBook().getId(), foundBook.get(0).getId());
-
-        // 여기 뭐 Book을 영속화 할 수 없다는데 좀 공부해보자...
+        assertThat(foundBook.size()).isEqualTo(1);
     }
 
     @DisplayName("Repository_Isbn으로_책_찾아오기_테스트")
