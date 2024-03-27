@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
@@ -35,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     //사용자 검증에 메소드
     //등록
-
+    @Transactional
     public Long 독후감생성(ReviewRespDto reviewRespDto) {
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
@@ -133,7 +133,7 @@ public class ReviewServiceImpl implements ReviewService {
         }).toList();
     }
 
-
+    @Transactional
     public void 독후감수정(Long reviewId, ReviewRespDto reviewRespDto) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
@@ -147,7 +147,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.save(review);
     }
 
-
+    @Transactional
     public void 유저독후감개수검증후책삭제(String isbn) {
         Book book = bookRepository.mFindBookIsbn(isbn);
         if (book == null) {
@@ -158,7 +158,7 @@ public class ReviewServiceImpl implements ReviewService {
             bookRepository.delete(book);
         }
     }
-
+    @Transactional
     public void 독후감개수검증삭제(String prevBookTitle) {
         Book book = bookRepository.mFindBookTitle(prevBookTitle);
         if (book == null) {
@@ -169,7 +169,7 @@ public class ReviewServiceImpl implements ReviewService {
             bookRepository.delete(book);
         }
     }
-
+    @Transactional
     public void 독후감개수검증후핀삭제(String address, Long socialId) {
         Pin pin = pinRepository.mFindPinByAddress(address);
         if (pin == null) {
@@ -183,8 +183,7 @@ public class ReviewServiceImpl implements ReviewService {
             pinRepository.delete(pin);
         }
     }
-
-
+    @Transactional
     public void 독후감삭제(Long reviewId) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         reviewRepository.delete(review);

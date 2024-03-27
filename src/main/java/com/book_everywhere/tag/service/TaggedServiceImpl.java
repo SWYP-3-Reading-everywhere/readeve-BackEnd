@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class TaggedServiceImpl implements TaggedService {
     private final TagRepository tagRepository;
@@ -28,6 +28,7 @@ public class TaggedServiceImpl implements TaggedService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public void 태그등록(ReviewRespDto reviewRespDto) {
         List<String> tags = reviewRespDto.getTags();
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.USER_NOT_FOUND));
@@ -61,6 +62,7 @@ public class TaggedServiceImpl implements TaggedService {
     }
 
     @Override
+    @Transactional
     public void 태그삭제(String address, Long socialId) {
         Pin pin = pinRepository.mFindPinByAddress(address);
         if (pin == null) {

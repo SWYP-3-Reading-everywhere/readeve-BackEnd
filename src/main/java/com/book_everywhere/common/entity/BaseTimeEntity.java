@@ -1,6 +1,5 @@
 package com.book_everywhere.common.entity;
 
-import com.book_everywhere.common.config.BaseTimeConfig;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

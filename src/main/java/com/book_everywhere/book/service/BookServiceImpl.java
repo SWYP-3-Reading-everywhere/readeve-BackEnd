@@ -14,13 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
     //등록 혹은 수정
+    @Transactional
     public void 책생성(ReviewRespDto reviewRespDto) {
         BookRespDto bookRespDto = reviewRespDto.getBookRespDto();
         Book book = bookRepository.mFindBookIsbn(bookRespDto.getIsbn());

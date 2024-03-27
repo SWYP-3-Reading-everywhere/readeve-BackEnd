@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class VisitServiceImpl implements VisitService{
     private final UserRepository userRepository;
     private final PinRepository pinRepository;
     private final VisitRepository visitRepository;
 
-
+    @Transactional
     public void 독후감쓰기전방문등록또는수정(ReviewRespDto reviewRespDto) {
         //review가 올라가기전 visit에 등록되어있는지 확인후 없다면 visit등록
         User user = userRepository.findBySocialId(reviewRespDto.getSocialId()).orElseThrow(
