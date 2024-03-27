@@ -1,5 +1,6 @@
 package com.book_everywhere.auth.entity;
 
+import com.book_everywhere.common.entity.BaseTimeEntity;
 import com.book_everywhere.review.entity.Review;
 import com.book_everywhere.tag.entity.Tagged;
 import com.book_everywhere.pin.entity.Visit;
@@ -17,7 +18,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "users")
-public class User {
+public class Use extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
