@@ -7,7 +7,11 @@ import com.book_everywhere.auth.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -25,6 +29,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private final UserRepository userRepository;
     private final HttpSession httpSession;
+    private final CustomUserDetailsService customUserDetailsService;
 
     /**
      * loadUser 메서드에서는 DefaultOAuth2UserService를 사용하여 OAuth2UserRequest에 대한 OAuth2User 객체를 로드합니다.
@@ -45,13 +50,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         httpSession.setAttribute("user", user);
 
         // UserDetails 객체 생성 또는 조회
-//        UserDetails userDetails = myUserDetailsService.loadUserByUsername(user.getUsername());
+        UserDetails userDetails = customUserDetailsService.loadUserBySocialId(user.getSocialId());
 //
 //        // 사용자 인증 정보 및 권한을 포함하는 Authentication 객체 생성
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 //
 //        // 현재 스레드의 SecurityContext에 Authentication 객체 등록
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         //
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")),
