@@ -63,6 +63,7 @@ public class ReviewController {
         List<ReviewDto> result = reviewService.모든독후감조회();
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
+
     @GetMapping("/api/review/public")
     public CMRespDto<?> findPublicReviews() {
         List<ReviewDto> result = reviewService.모든공유독후감조회();
@@ -71,16 +72,16 @@ public class ReviewController {
 
 
     @GetMapping("/api/detail/{bookId}")
-    public CMRespDto<?> bookReviews(@AuthenticationPrincipal OAuth2User oAuth2User,@PathVariable Long bookId) {
-        List<ReviewDto> result = reviewService.책에따른모든리뷰((Long) oAuth2User.getAttributes().get("id"),bookId);
+    public CMRespDto<?> bookReviews(@AuthenticationPrincipal OAuth2User oAuth2User, @PathVariable Long bookId) {
+        List<ReviewDto> result = reviewService.책에따른모든리뷰((Long) oAuth2User.getAttributes().get("id"), bookId);
         return new CMRespDto<>(HttpStatus.OK, result, "책에 따른 전체 독후감 조회");
     }
 
     //수정
     @GetMapping("/api/review/{reviewId}")
-    public CMRespDto<?> getReview(@AuthenticationPrincipal OAuth2User oAuth2User,@PathVariable Long reviewId) {
-        reviewService.단일독후감조회((Long) oAuth2User.getAttributes().get("id"),reviewId);
-        return new CMRespDto<>(HttpStatus.OK, null, "단일 독후감 조회");
+    public CMRespDto<?> getReview(@AuthenticationPrincipal OAuth2User oAuth2User, @PathVariable Long reviewId) {
+        ReviewDto reviewDto = reviewService.단일독후감조회((Long) oAuth2User.getAttributes().get("id"), reviewId);
+        return new CMRespDto<>(HttpStatus.OK, reviewDto, "단일 독후감 조회");
     }
 
     @PutMapping("/api/review/edit/{reviewId}")
@@ -117,13 +118,13 @@ public class ReviewController {
 
     @PostMapping("/api/review/{reviewId}/likes")
     public CMRespDto<?> like(@AuthenticationPrincipal OAuth2User oAuth2User, @PathVariable Long reviewId) {
-        likesService.좋아요((Long) oAuth2User.getAttributes().get("id"),reviewId);
-        return new CMRespDto<>(HttpStatus.OK, null ,"좋아요 등록 완료!");
+        likesService.좋아요((Long) oAuth2User.getAttributes().get("id"), reviewId);
+        return new CMRespDto<>(HttpStatus.OK, null, "좋아요 등록 완료!");
     }
 
     @DeleteMapping("/api/review/{reviewId}/likes")
     public CMRespDto<?> unLike(@AuthenticationPrincipal OAuth2User oAuth2User, @PathVariable Long reviewId) {
-        likesService.좋아요취소((Long) oAuth2User.getAttributes().get("id"),reviewId);
-        return new CMRespDto<>(HttpStatus.OK, null ,"좋아요 취소 완료!");
+        likesService.좋아요취소((Long) oAuth2User.getAttributes().get("id"), reviewId);
+        return new CMRespDto<>(HttpStatus.OK, null, "좋아요 취소 완료!");
     }
 }
