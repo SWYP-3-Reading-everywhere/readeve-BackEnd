@@ -40,7 +40,7 @@ public class DataService {
 
 
     public List<AllDataDto> 모든공유또는개인데이터조회(boolean isPrivate) {
-        List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreateAtDesc(isPrivate);
+        List<Review> reviews = reviewRepository.findByIsPrivateOrderByCreatedDateDesc(isPrivate);
 
         return reviews.stream().map(review ->
         {
@@ -85,7 +85,7 @@ public class DataService {
                     bookRespDto,
                     tagRespDtoList,
                     review.getContent(),
-                    review.getCreateAt()
+                    review.getCreatedDate()
             );
         }).toList();
     }
@@ -138,7 +138,7 @@ public class DataService {
                     bookRespDto,
                     tagRespDtoList,
                     review.getContent(),
-                    review.getCreateAt()
+                    review.getCreatedDate()
             );
         }).toList();
     }

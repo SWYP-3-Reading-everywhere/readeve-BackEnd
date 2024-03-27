@@ -38,11 +38,7 @@ public class BookServiceImpl implements BookService {
         if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }
-        return init.stream().map(book -> new BookDto(
-                book.getTitle(),
-                book.getCoverImageUrl(),
-                book.getIsbn(),
-                book.getCreateAt())).toList();
+        return init.stream().map(BookDto::toDto).toList();
     }
 
 
@@ -50,23 +46,14 @@ public class BookServiceImpl implements BookService {
 
     public BookDto 단일책조회(Long id) {
         Book init = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));
-        return new BookDto(
-                init.getTitle(),
-                init.getCoverImageUrl(),
-                init.getIsbn(),
-                init.getCreateAt());
+        return BookDto.toDto(init);
     }
 
     //등록된 모든 책 조회
 
     public List<BookDto> 모든책조회() {
         List<Book> init = bookRepository.findAll();
-
-        return init.stream().map(book -> new BookDto(
-                book.getTitle(),
-                book.getCoverImageUrl(),
-                book.getIsbn(),
-                book.getCreateAt())).toList();
+        return init.stream().map(BookDto::toDto).toList();
     }
 
 }

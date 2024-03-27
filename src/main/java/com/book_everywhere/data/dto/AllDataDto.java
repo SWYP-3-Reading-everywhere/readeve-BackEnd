@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -21,6 +22,7 @@ public class AllDataDto {
     private BookRespDto bookRespDto;
     private List<TagRespDto> tags;
     private String content;
-    private Timestamp createAt;
+    private LocalDateTime createDate;
+
 }
 

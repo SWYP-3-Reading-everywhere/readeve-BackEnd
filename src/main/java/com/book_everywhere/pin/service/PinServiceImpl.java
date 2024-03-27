@@ -26,11 +26,10 @@ public class PinServiceImpl implements PinService {
     //DTO 변환단계
     public List<PinDto> 전체지도조회() {
         List<Pin> init = pinRepository.mFindAllPin();
-        List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getUrl(), pin.getCreateAt()))
-                .toList();
 
-        return resultDto;
+        return init.stream()
+                .map(PinDto::toDto)
+                .toList();
     }
 
     public void 핀생성(ReviewRespDto reviewRespDto) {
@@ -45,11 +44,9 @@ public class PinServiceImpl implements PinService {
     public List<PinDto> 나만의지도조회(Long userId) {
         List<Pin> init = pinRepository.mUserMap(userId);
 
-        List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getUrl(), pin.getCreateAt()))
+        return init.stream()
+                .map(PinDto::toDto)
                 .toList();
-
-        return resultDto;
     }
 
 
@@ -59,11 +56,9 @@ public class PinServiceImpl implements PinService {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
 
-        List<PinDto> resultDto = init.stream()
-                .map(pin -> new PinDto(pin.getId(), pin.getPlaceId(), pin.getLatitude(), pin.getLongitude(), pin.getTitle(), pin.getAddress(), pin.getUrl(), pin.getCreateAt()))
+        return init.stream()
+                .map(PinDto::toDto)
                 .toList();
-
-        return resultDto;
     }
 
 
@@ -77,17 +72,7 @@ public class PinServiceImpl implements PinService {
                             (String) tagged[0],
                             (Long) tagged[1])).toList();
 
-            return new PinWithTagCountRespDto(
-                    pin.getId(),
-                    pin.getPlaceId(),
-                    pin.getLatitude(),
-                    pin.getLongitude(),
-                    pin.getTitle(),
-                    pin.getAddress(),
-                    pin.getUrl(),
-                    pin.getCreateAt(),
-                    tagCountRespDtos
-            );
+            return PinWithTagCountRespDto.toDto(pin, tagCountRespDtos);
         }).toList();
     }
 
@@ -99,18 +84,7 @@ public class PinServiceImpl implements PinService {
                     .map(tagged -> new TagCountRespDto(
                             (String) tagged[0],
                             (Long) tagged[1])).toList();
-
-            return new PinWithTagCountRespDto(
-                    pin.getId(),
-                    pin.getPlaceId(),
-                    pin.getLatitude(),
-                    pin.getLongitude(),
-                    pin.getTitle(),
-                    pin.getAddress(),
-                    pin.getUrl(),
-                    pin.getCreateAt(),
-                    tagCountRespDtos
-            );
+            return PinWithTagCountRespDto.toDto(pin, tagCountRespDtos);
         }).toList();
     }
 }

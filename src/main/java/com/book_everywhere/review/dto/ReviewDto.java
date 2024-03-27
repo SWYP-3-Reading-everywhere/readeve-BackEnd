@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -19,8 +20,8 @@ public class ReviewDto {
     private boolean isPrivate;
     private Long likeCount;
     private boolean likeState;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 
     public static ReviewDto toDto(Review review, Long likeCount, boolean likeState) {
         return new ReviewDto(
@@ -31,7 +32,8 @@ public class ReviewDto {
                 review.isPrivate(),
                 likeCount,
                 likeState,
-                review.getCreateAt(),
-                review.getUpdateAt());
+                review.getCreatedDate(),
+                review.getUpdatedDate()
+        );
     }
 }
