@@ -32,41 +32,25 @@ public class BookServiceImpl implements BookService {
 
     //조회
     //특정 유저의 모든 책 목록 조회
-
     public List<BookDto> 유저책조회(Long socialId) {
-        List<Book> init = bookRepository.mFindBookByUserId(socialId);
-        if (init.isEmpty()) {
+        List<Book> books = bookRepository.mFindBookByUserId(socialId);
+        if (books.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND);
         }
-        return init.stream().map(book -> new BookDto(
-                book.getTitle(),
-                book.getCoverImageUrl(),
-                book.getIsbn(),
-                book.getCreateAt())).toList();
+        return books.stream().map(BookDto::toDto).toList();
     }
 
 
     //책 한권 조회
-
     public BookDto 단일책조회(Long id) {
-        Book init = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));
-        return new BookDto(
-                init.getTitle(),
-                init.getCoverImageUrl(),
-                init.getIsbn(),
-                init.getCreateAt());
+        Book book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CustomErrorCode.BOOK_NOT_FOUND));
+        return BookDto.toDto(book);
     }
 
     //등록된 모든 책 조회
-
     public List<BookDto> 모든책조회() {
-        List<Book> init = bookRepository.findAll();
-
-        return init.stream().map(book -> new BookDto(
-                book.getTitle(),
-                book.getCoverImageUrl(),
-                book.getIsbn(),
-                book.getCreateAt())).toList();
+        List<Book> books = bookRepository.findAll();
+        return books.stream().map(BookDto::toDto).toList();
     }
 
 }

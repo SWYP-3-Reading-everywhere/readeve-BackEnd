@@ -126,7 +126,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     public List<ReviewDto> 모든공유독후감조회() {
-        List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
+        List<Review> init = reviewRepository.findByIsPrivateOrderByCreatedDateDesc(false);
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
             return ReviewDto.toDto(review, likeCount, false);

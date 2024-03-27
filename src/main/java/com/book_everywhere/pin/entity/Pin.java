@@ -1,12 +1,11 @@
 package com.book_everywhere.pin.entity;
 
+import com.book_everywhere.common.entity.BaseTimeEntity;
 import com.book_everywhere.review.entity.Review;
 import com.book_everywhere.tag.entity.Tagged;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 @Getter
@@ -14,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Pin {
+public class Pin extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +50,4 @@ public class Pin {
     @Column(nullable = false,unique = true)
     private String address;
 
-    //최초 방문자의 생성
-    @CreationTimestamp
-    private Timestamp createAt;
 }

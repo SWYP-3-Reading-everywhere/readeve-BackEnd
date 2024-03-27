@@ -1,18 +1,16 @@
 package com.book_everywhere.pin.entity;
 
 import com.book_everywhere.auth.entity.User;
+import com.book_everywhere.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.sql.Timestamp;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
-public class Visit {
+public class Visit extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +26,7 @@ public class Visit {
     private Pin pin;
 
     private boolean isPinPrivate;
-    //최초 방문시각
-    @CreationTimestamp
-    private Timestamp createAt;
+
 
     //==연관 관계 편의 메서드==//
     private void setUser(User user) {

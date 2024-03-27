@@ -1,12 +1,10 @@
 package com.book_everywhere.book.entity;
 
+import com.book_everywhere.common.entity.BaseTimeEntity;
 import com.book_everywhere.review.entity.Review;
-import com.book_everywhere.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Book {
+public class Book extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
@@ -31,8 +29,4 @@ public class Book {
     private String title;
     private String coverImageUrl;
     private String author;
-
-
-    @CreationTimestamp
-    private Timestamp createAt;
 }

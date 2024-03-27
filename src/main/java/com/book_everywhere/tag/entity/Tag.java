@@ -1,7 +1,6 @@
 package com.book_everywhere.tag.entity;
 
-import com.book_everywhere.tag.entity.Category;
-import com.book_everywhere.tag.entity.Tagged;
+import com.book_everywhere.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Tag {
+public class Tag extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tag_id")

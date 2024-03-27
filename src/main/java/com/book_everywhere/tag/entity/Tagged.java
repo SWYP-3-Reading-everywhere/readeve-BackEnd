@@ -1,19 +1,17 @@
 package com.book_everywhere.tag.entity;
 
+import com.book_everywhere.common.entity.BaseTimeEntity;
 import com.book_everywhere.pin.entity.Pin;
 import com.book_everywhere.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.sql.Timestamp;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Tagged {
+public class Tagged extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tagged_id")
@@ -30,9 +28,6 @@ public class Tagged {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @CreationTimestamp
-    private Timestamp createAt;
 
     //==연관 관계 편의 메서드==//
     private void setPin(Pin pin) {

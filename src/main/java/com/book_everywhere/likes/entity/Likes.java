@@ -1,6 +1,7 @@
 package com.book_everywhere.likes.entity;
 
 import com.book_everywhere.auth.entity.User;
+import com.book_everywhere.common.entity.BaseTimeEntity;
 import com.book_everywhere.review.entity.Review;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -8,10 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-
-import java.sql.Timestamp;
 
 @Builder
 @AllArgsConstructor
@@ -27,7 +24,7 @@ import java.sql.Timestamp;
                 )
         }
 )
-public class Likes {
+public class Likes extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,6 +38,4 @@ public class Likes {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @CreationTimestamp
-    private Timestamp createAt;
 }

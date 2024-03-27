@@ -2,20 +2,17 @@ package com.book_everywhere.review.entity;
 
 import com.book_everywhere.auth.entity.User;
 import com.book_everywhere.book.entity.Book;
+import com.book_everywhere.common.entity.BaseTimeEntity;
 import com.book_everywhere.pin.entity.Pin;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.sql.Timestamp;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
-public class Review {
+public class Review extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,13 +48,6 @@ public class Review {
 
     @Transient
     private boolean likeState;
-
-    @CreationTimestamp
-    private Timestamp createAt;
-
-    @UpdateTimestamp
-    private Timestamp updateAt;
-
 
 
   //==연관 관계 편의 메서드==//
