@@ -6,6 +6,7 @@ import com.book_everywhere.auth.entity.User;
 import com.book_everywhere.pin.dto.PinRespDto;
 import com.book_everywhere.pin.entity.Pin;
 import com.book_everywhere.review.entity.Review;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
