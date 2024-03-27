@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class PinServiceImpl implements PinService {
     private final PinRepository pinRepository;
@@ -31,7 +31,7 @@ public class PinServiceImpl implements PinService {
                 .map(PinDto::toDto)
                 .toList();
     }
-
+    @Transactional
     public void 핀생성(ReviewRespDto reviewRespDto) {
         PinRespDto pinRespDto = reviewRespDto.getPinRespDto();
         Pin pined = pinRepository.mFindPinByAddress(reviewRespDto.getPinRespDto().getAddress());
