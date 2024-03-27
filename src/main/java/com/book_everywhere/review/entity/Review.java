@@ -45,11 +45,20 @@ public class Review {
     @Column(nullable = false)
     private boolean isBookComplete;
 
+
+    @Transient // 칼럼이 만들어지지 않는다.
+    private int likeCount;
+
+    @Transient
+    private boolean likeState;
+
     @CreationTimestamp
     private Timestamp createAt;
 
     @UpdateTimestamp
     private Timestamp updateAt;
+
+
 
   //==연관 관계 편의 메서드==//
     public void setBook(Book book) {

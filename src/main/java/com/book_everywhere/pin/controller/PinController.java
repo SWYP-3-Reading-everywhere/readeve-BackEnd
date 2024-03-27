@@ -43,7 +43,7 @@ public class PinController {
     //핀을 눌렀을때 핀에 해당하는 독후감 정보 조회
     @GetMapping("/api/pin/{pinId}")
     public CMRespDto<?> pinDetails(@PathVariable Long pinId, @AuthenticationPrincipal OAuth2User oAuth2User) {
-        List<ReviewDto> result = reviewService.단일핀독후감조회(pinId, oAuth2User);
+        List<ReviewDto> result = reviewService.단일핀독후감조회((Long) oAuth2User.getAttributes().get("id"),pinId);
         return new CMRespDto<>(HttpStatus.OK, result,"단일 핀 종속 독후감 조회 성공!");
     }
 
@@ -63,7 +63,7 @@ public class PinController {
 
     @GetMapping("/api/mypage/notyet")
     public CMRespDto<?> userReview(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        List<ReviewDto> result = reviewService.유저모든독후감조회(oAuth2User);
+        List<ReviewDto> result = reviewService.유저모든독후감조회((Long) oAuth2User.getAttributes().get("id"));
         return new CMRespDto<>(HttpStatus.OK, result,"모든 독후감 조회 성공!");
     }
 
