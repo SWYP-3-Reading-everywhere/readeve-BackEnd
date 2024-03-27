@@ -2,6 +2,7 @@ package com.book_everywhere.review.service;
 
 import com.book_everywhere.book.entity.Book;
 import com.book_everywhere.book.repository.BookRepository;
+import com.book_everywhere.likes.repository.LikesRepository;
 import com.book_everywhere.pin.entity.Pin;
 import com.book_everywhere.pin.repository.PinRepository;
 import com.book_everywhere.review.entity.Review;
@@ -15,8 +16,6 @@ import com.book_everywhere.review.dto.ReviewRespDto;
 import com.book_everywhere.exception.customs.PropertyBadRequestException;
 import com.book_everywhere.review.dto.ReviewDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final PinRepository pinRepository;
     private final UserRepository userRepository;
     private final TaggedService taggedService;
+    private final LikesRepository likesRepository;
 
 
     //사용자 검증에 메소드
@@ -48,6 +48,8 @@ public class ReviewServiceImpl implements ReviewService {
         if (pin == null) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
+
+
         Review review = Review.builder()
                 .book(book)
                 .pin(pin)
@@ -63,87 +65,72 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     //책에따른 모든 리뷰기능이 추가되었습니다.
-    public List<ReviewDto> 책에따른모든리뷰(Long bookId) {
+    public List<ReviewDto> 책에따른모든리뷰(Long socialId, Long bookId) {
         List<Review> init = reviewRepository.mFindReviewsByBook(bookId);
         if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
 
-        List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(), review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
-                .toList();
-
-        return resultDto;
+        return init.stream().map(review -> {
+            Long likeCount = likesRepository.countByReviewId(review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
+            return ReviewDto.toDto(review, likeCount, likeState);
+        }).toList();
     }
 
 
     //단일 핀을 눌렀을때 독후감이 조회됩니다.
-    public List<ReviewDto> 단일핀독후감조회(Long pinId, @AuthenticationPrincipal OAuth2User oAuth2User) {
-        List<Review> init = reviewRepository.mFindReviewUserMap((Long) oAuth2User.getAttributes().get("id"), pinId);
+    public List<ReviewDto> 단일핀독후감조회(Long socialId, Long pinId) {
+        List<Review> init = reviewRepository.mFindReviewUserMap(socialId, pinId);
         if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
 
-        List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(), review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
-                .toList();
-
-        return resultDto;
+        return init.stream().map(review -> {
+            Long likeCount = likesRepository.countByReviewId(review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
+            return ReviewDto.toDto(review, likeCount, likeState);
+        }).toList();
     }
 
 
-    public List<ReviewDto> 유저모든독후감조회(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        List<Review> init = reviewRepository.mFindReviewsByUser((Long) oAuth2User.getAttributes().get("id"));
+    public List<ReviewDto> 유저모든독후감조회(Long socialId) {
+        List<Review> init = reviewRepository.mFindReviewsByUser(socialId);
 
-        List<ReviewDto> resultDto = init.stream()
-                .map(review -> new ReviewDto(review.getId(), review.getWriter(), review.getTitle(), review.getContent(), review.isPrivate(), review.getUpdateAt(), review.getCreateAt()))
-                .toList();
-
-        return resultDto;
+        return init.stream().map(review -> {
+            Long likeCount = likesRepository.countByReviewId(review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
+            return ReviewDto.toDto(review, likeCount, likeState);
+        }).toList();
     }
 
 
     //리뷰 하나만 조회
-    public ReviewDto 단일독후감조회(Long id) {
-        Review init = reviewRepository.findById(id).orElseThrow(
+    public ReviewDto 단일독후감조회(Long socialId, Long review_id) {
+        Review review = reviewRepository.findById(review_id).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
-        return new ReviewDto(
-                init.getId(),
-                init.getWriter(),
-                init.getTitle(),
-                init.getContent(),
-                init.isPrivate(),
-                init.getCreateAt(),
-                init.getUpdateAt());
+        Long likeCount = likesRepository.countByReviewId(review.getId());
+        boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
+        return ReviewDto.toDto(review, likeCount, likeState);
     }
 
 
     //등록된 모든 리뷰 조회
     public List<ReviewDto> 모든독후감조회() {
         List<Review> init = reviewRepository.findAll();
-        return init.stream().map(review ->
-                new ReviewDto(
-                        review.getId(),
-                        review.getWriter(),
-                        review.getTitle(),
-                        review.getContent(),
-                        review.isPrivate(),
-                        review.getCreateAt(),
-                        review.getUpdateAt())).toList();
+        return init.stream().map(review -> {
+            Long likeCount = likesRepository.countByReviewId(review.getId());
+            return ReviewDto.toDto(review, likeCount, false);
+        }).toList();
     }
 
 
     public List<ReviewDto> 모든공유독후감조회() {
         List<Review> init = reviewRepository.findByIsPrivateOrderByCreateAtDesc(false);
-        return init.stream().map(review ->
-                new ReviewDto(
-                        review.getId(),
-                        review.getWriter(),
-                        review.getTitle(),
-                        review.getContent(),
-                        review.isPrivate(),
-                        review.getCreateAt(),
-                        review.getUpdateAt())).toList();
+        return init.stream().map(review -> {
+            Long likeCount = likesRepository.countByReviewId(review.getId());
+            return ReviewDto.toDto(review, likeCount, false);
+        }).toList();
     }
 
 
@@ -171,6 +158,7 @@ public class ReviewServiceImpl implements ReviewService {
             bookRepository.delete(book);
         }
     }
+
     public void 독후감개수검증삭제(String prevBookTitle) {
         Book book = bookRepository.mFindBookTitle(prevBookTitle);
         if (book == null) {
@@ -222,4 +210,5 @@ public class ReviewServiceImpl implements ReviewService {
             throw new PropertyBadRequestException(CustomErrorCode.ADDRESS_IS_NOT_NULL);
         }
     }
+
 }

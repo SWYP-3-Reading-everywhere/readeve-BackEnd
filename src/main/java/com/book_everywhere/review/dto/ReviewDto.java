@@ -17,8 +17,21 @@ public class ReviewDto {
     private String title;
     private String content;
     private boolean isPrivate;
+    private Long likeCount;
+    private boolean likeState;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-
+    public static ReviewDto toDto(Review review, Long likeCount, boolean likeState) {
+        return new ReviewDto(
+                review.getId(),
+                review.getWriter(),
+                review.getTitle(),
+                review.getContent(),
+                review.isPrivate(),
+                likeCount,
+                likeState,
+                review.getCreateAt(),
+                review.getUpdateAt());
+    }
 }
