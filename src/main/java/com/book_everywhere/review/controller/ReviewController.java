@@ -2,6 +2,7 @@ package com.book_everywhere.review.controller;
 
 
 import com.book_everywhere.book.service.BookService;
+import com.book_everywhere.likes.service.LikesService;
 import com.book_everywhere.pin.service.PinService;
 import com.book_everywhere.pin.service.VisitService;
 import com.book_everywhere.review.service.ReviewService;
@@ -16,6 +17,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +33,7 @@ public class ReviewController {
     private final VisitService visitService;
     private final BookService bookService;
     private final ReviewService reviewService;
+    private final LikesService likesService;
 
     @PostMapping("/api/write")
     @Operation(summary = "독후감 추가", description = "독후감을 새로 추가합니다.")
@@ -55,21 +59,27 @@ public class ReviewController {
     //조회
     //공개 독후감 조회
     @GetMapping("/api/reviews")
-    public CMRespDto<?> publicReviews(){
+    public CMRespDto<?> publicReviews() {
         List<ReviewDto> result = reviewService.모든독후감조회();
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
+    @GetMapping("/api/review/public")
+    public CMRespDto<?> findPublicReviews() {
+        List<ReviewDto> result = reviewService.모든공유독후감조회();
+        return new CMRespDto<>(HttpStatus.OK, result, "모든 공유 독후감 조회 완료");
+    }
+
 
     @GetMapping("/api/detail/{bookId}")
-    public CMRespDto<?> bookReviews(@PathVariable Long bookId) {
-        List<ReviewDto> result = reviewService.책에따른모든리뷰(bookId);
+    public CMRespDto<?> bookReviews(@AuthenticationPrincipal OAuth2User oAuth2User,@PathVariable Long bookId) {
+        List<ReviewDto> result = reviewService.책에따른모든리뷰((Long) oAuth2User.getAttributes().get("id"),bookId);
         return new CMRespDto<>(HttpStatus.OK, result, "책에 따른 전체 독후감 조회");
     }
 
     //수정
     @GetMapping("/api/review/{reviewId}")
-    public CMRespDto<?> getReview(@PathVariable Long reviewId) {
-        reviewService.단일독후감조회(reviewId);
+    public CMRespDto<?> getReview(@AuthenticationPrincipal OAuth2User oAuth2User,@PathVariable Long reviewId) {
+        reviewService.단일독후감조회((Long) oAuth2User.getAttributes().get("id"),reviewId);
         return new CMRespDto<>(HttpStatus.OK, null, "단일 독후감 조회");
     }
 
@@ -91,12 +101,6 @@ public class ReviewController {
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
 
-    @GetMapping("/api/review/public")
-    public CMRespDto<?> findPublicReviews() {
-        List<ReviewDto> result = reviewService.모든공유독후감조회();
-        return new CMRespDto<>(HttpStatus.OK, result, "모든 공유 독후감 조회 완료");
-    }
-
     @DeleteMapping("/api/review/delete/{reviewId}")
     public CMRespDto<?> deleteReview(@PathVariable Long reviewId,
                                      @RequestParam Long socialId,
@@ -107,5 +111,19 @@ public class ReviewController {
         reviewService.유저독후감개수검증후책삭제(bookTitle);
         reviewService.독후감개수검증후핀삭제(address, socialId);
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 삭제 완료");
+    }
+
+    // 좋아요 구현
+
+    @PostMapping("/api/review/{reviewId}/likes")
+    public CMRespDto<?> like(@AuthenticationPrincipal OAuth2User oAuth2User, @PathVariable Long reviewId) {
+        likesService.좋아요((Long) oAuth2User.getAttributes().get("id"),reviewId);
+        return new CMRespDto<>(HttpStatus.OK, null ,"좋아요 등록 완료!");
+    }
+
+    @DeleteMapping("/api/review/{reviewId}/likes")
+    public CMRespDto<?> unLike(@AuthenticationPrincipal OAuth2User oAuth2User, @PathVariable Long reviewId) {
+        likesService.좋아요취소((Long) oAuth2User.getAttributes().get("id"),reviewId);
+        return new CMRespDto<>(HttpStatus.OK, null ,"좋아요 취소 완료!");
     }
 }

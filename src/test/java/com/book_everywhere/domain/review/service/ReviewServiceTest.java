@@ -8,10 +8,8 @@ import com.book_everywhere.domain.auth.UserTestBuilder;
 import com.book_everywhere.domain.book.dto.BookRespDtoBuilder;
 import com.book_everywhere.domain.pin.dto.PinRespDtoTestBuilder;
 import com.book_everywhere.domain.review.dto.ReviewRespDtoTestBuilder;
-import com.book_everywhere.exception.customs.EntityNotFoundException;
 import com.book_everywhere.pin.dto.PinRespDto;
 import com.book_everywhere.pin.repository.PinRepository;
-import com.book_everywhere.review.dto.ReviewDto;
 import com.book_everywhere.review.dto.ReviewRespDto;
 import com.book_everywhere.review.entity.Review;
 import com.book_everywhere.review.repository.ReviewRepository;
@@ -22,18 +20,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
