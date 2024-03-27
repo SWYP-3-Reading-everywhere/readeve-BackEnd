@@ -38,9 +38,9 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         // 구체적인 출처 지정
-        config.setAllowedOrigins(Arrays.asList("https://www.bookeverywhere.site"));
+        config.setAllowedOrigins(Arrays.asList("https://www.bookeverywhere.site","http://localhost:3000"));
         // 또는 패턴을 사용하여 출처 지정
-        config.setAllowedOriginPatterns(Arrays.asList("https://*.bookeverywhere.site"));
+        config.setAllowedOriginPatterns(Arrays.asList("https://*.bookeverywhere.site","http://localhost:3000"));
         config.setAllowCredentials(true); // 크리덴셜 허용
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
