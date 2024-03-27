@@ -1,4 +1,4 @@
-package com.book_everywhere.domain.like.repository;
+package com.book_everywhere.domain.likes.repository;
 
 import com.book_everywhere.auth.entity.User;
 import com.book_everywhere.auth.repository.UserRepository;
@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

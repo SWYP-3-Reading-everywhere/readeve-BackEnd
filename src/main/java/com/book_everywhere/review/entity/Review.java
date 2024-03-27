@@ -47,7 +47,7 @@ public class Review {
 
 
     @Transient // 칼럼이 만들어지지 않는다.
-    private int likeCount;
+    private Long likeCount;
 
     @Transient
     private boolean likeState;

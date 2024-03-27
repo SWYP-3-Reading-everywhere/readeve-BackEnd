@@ -12,6 +12,7 @@ public interface ReviewService {
     List<ReviewDto> 책에따른모든리뷰(Long socialId, Long bookId);
 
     List<ReviewDto> 모든독후감조회();
+
     List<ReviewDto> 모든공유독후감조회();
 
     void 등록또는수정전예외처리(ReviewRespDto reviewRespDto);
@@ -26,13 +27,11 @@ public interface ReviewService {
 
     void 독후감개수검증후핀삭제(String prevAddress, Long socialId);
 
-
-
     void 독후감삭제(Long reviewId);
 
     List<ReviewDto> 유저모든독후감조회(Long socialId);
 
-    List<ReviewDto> 단일핀독후감조회(Long socialId,Long pinId);
+    List<ReviewDto> 단일핀독후감조회(Long socialId, Long pinId);
 
 
 }
