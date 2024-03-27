@@ -6,22 +6,20 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Optional;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
 
+    @Modifying
+    @Query(value = "INSERT INTO likes(review_id, user_id) VALUES(:reviewId, :userId)", nativeQuery = true)
+    void mLike(@Param("userId") Long userId, @Param("reviewId") Long reviewId);
 
     @Modifying
-    @Query(value = "INSERT INTO likes(review_id, socialId) VALUES(:reviewId, :socialId)", nativeQuery = true)
-    int mLike(Long socialId,Long reviewId);
-
-    @Modifying
-    @Query(value = "DELETE FROM likes WHERE review_id = :reviewId AND socialId = :socialId", nativeQuery = true)
-    int mUnLike(Long socialId,Long reviewId);
+    @Query(value = "DELETE FROM likes WHERE review_id = :reviewId AND user_id  = :userId", nativeQuery = true)
+    void mUnLike(@Param("userId") Long userId, @Param("reviewId") Long reviewId);
 
     @Query("SELECT COUNT(l) FROM Likes l WHERE l.review.id = :reviewId")
     Long countByReviewId(@Param("reviewId") Long reviewId);
 
-    boolean existsByReviewIdAndUserId(Long userId,Long reviewId);
+    boolean existsByUserIdAndReviewId(Long userId, Long reviewId);
 
 }

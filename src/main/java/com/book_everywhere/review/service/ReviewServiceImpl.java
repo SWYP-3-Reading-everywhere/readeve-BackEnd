@@ -73,7 +73,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            boolean likeState = likesRepository.existsByReviewIdAndUserId(socialId, review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
             return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
@@ -88,7 +88,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            boolean likeState = likesRepository.existsByReviewIdAndUserId(socialId, review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
             return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
@@ -99,7 +99,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            boolean likeState = likesRepository.existsByReviewIdAndUserId(socialId, review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
             return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
@@ -110,7 +110,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(review_id).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         Long likeCount = likesRepository.countByReviewId(review.getId());
-        boolean likeState = likesRepository.existsByReviewIdAndUserId(socialId, review.getId());
+        boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
         return ReviewDto.toDto(review, likeCount, likeState);
     }
 
