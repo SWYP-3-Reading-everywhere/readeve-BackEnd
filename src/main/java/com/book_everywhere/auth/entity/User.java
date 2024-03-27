@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "users")
-public class Use extends BaseTimeEntity {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -48,9 +48,6 @@ public class Use extends BaseTimeEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING) // Enum 값을 문자열로 저장
     private Role role;
-
-    @CreationTimestamp
-    private Timestamp createAt;
 
     public User update(String nickname, String image, Role role) {
         this.nickname = nickname;
