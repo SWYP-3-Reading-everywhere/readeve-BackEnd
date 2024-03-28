@@ -58,19 +58,21 @@ public class ReviewController {
 
     //조회
     //공개 독후감 조회
+    @Operation(summary = "모든 독후감 조회", description = "조건에 없이 모든 독후감을 조회합니다 return = List<ReviewDto>")
     @GetMapping("/api/reviews")
     public CMRespDto<?> publicReviews(@RequestParam Long socialId) {
         List<ReviewDto> result = reviewService.모든독후감조회(socialId);
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
 
+    @Operation(summary = "모든 공유 독후감 조회", description = "공유 독후감을 조회합니다 return = List<ReviewDto>")
     @GetMapping("/api/review/public")
     public CMRespDto<?> findPublicReviews(@RequestParam Long socialId) {
         List<ReviewDto> result = reviewService.모든공유독후감조회(socialId);
         return new CMRespDto<>(HttpStatus.OK, result, "모든 공유 독후감 조회 완료");
     }
 
-
+    @Operation(summary = "단일 책 독후감 조회", description = "단일 책 독후감을 조회합니다 return = List<ReviewDto>")
     @GetMapping("/api/detail/{bookId}")
     public CMRespDto<?> bookReviews(@RequestParam Long socialId, @PathVariable Long bookId) {
         List<ReviewDto> result = reviewService.책에따른모든리뷰(socialId, bookId);
@@ -78,6 +80,7 @@ public class ReviewController {
     }
 
     //수정
+    @Operation(summary = "단일 독후감 조회", description = "특정 독후감을 조회합니다 return = ReviewDto")
     @GetMapping("/api/review/{reviewId}")
     public CMRespDto<?> getReview(@RequestParam Long socialId, @PathVariable Long reviewId) {
         ReviewDto reviewDto = reviewService.단일독후감조회(socialId, reviewId);
@@ -101,7 +104,7 @@ public class ReviewController {
         reviewService.독후감개수검증후핀삭제(prevAddress, reviewRespDto.getSocialId());
         return new CMRespDto<>(HttpStatus.OK, null, "독후감 수정 완료");
     }
-
+    @Operation(summary = "단일 독후감 삭제", description = "특정 독후감을 삭제합니다.")
     @DeleteMapping("/api/review/delete/{reviewId}")
     public CMRespDto<?> deleteReview(@PathVariable Long reviewId,
                                      @RequestParam Long socialId,
@@ -115,13 +118,14 @@ public class ReviewController {
     }
 
     // 좋아요 구현
-
+    @Operation(summary = "좋아요", description = "특정 독후감을 좋아요합니다. 중복불가")
     @PostMapping("/api/review/{reviewId}/likes")
     public CMRespDto<?> like(@RequestParam Long socialId, @PathVariable Long reviewId) {
         likesService.좋아요(socialId, reviewId);
         return new CMRespDto<>(HttpStatus.OK, null, "좋아요 등록 완료!");
     }
 
+    @Operation(summary = "좋아요", description = "특정 독후감의 좋아요를 삭제합니다.")
     @DeleteMapping("/api/review/{reviewId}/likes")
     public CMRespDto<?> unLike(@RequestParam Long socialId, @PathVariable Long reviewId) {
         likesService.좋아요취소(socialId, reviewId);

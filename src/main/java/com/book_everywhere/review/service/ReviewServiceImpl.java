@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -123,23 +124,29 @@ public class ReviewServiceImpl implements ReviewService {
     //등록된 모든 리뷰 조회
     public List<ReviewDto> 모든독후감조회(Long socialId) {
         List<Review> init = reviewRepository.findAll();
-        User user = userRepository.findBySocialId(socialId).orElseThrow();
+
+        Optional<User> optionalUser = userRepository.findBySocialId(socialId);
 
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            boolean likeState = likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId());
+            boolean likeState = optionalUser
+                    .map(user -> likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId()))
+                    .orElse(false);
             return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
 
 
+
     public List<ReviewDto> 모든공유독후감조회(Long socialId) {
         List<Review> init = reviewRepository.findByIsPrivateOrderByCreatedDateDesc(false);
-        User user = userRepository.findBySocialId(socialId).orElseThrow();
+        Optional<User> optionalUser = userRepository.findBySocialId(socialId);
 
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            boolean likeState = likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId());
+            boolean likeState = optionalUser
+                    .map(user -> likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId()))
+                    .orElse(false);
             return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }

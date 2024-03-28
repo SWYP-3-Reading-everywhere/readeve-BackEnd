@@ -11,7 +11,7 @@ public class UserTestBuilder {
     public static User createDefault() {
         return User.builder()
                 .id(123456L)
-                .socialId(123456L) // 가짜 socialId 설정
+                .socialId(123L) // 가짜 socialId 설정
                 .nickname("testUser") // 가짜 닉네임 설정
                 .image("default_image.jpg") // 가짜 이미지 경로 설정
                 .role(Role.ROLE_MEMBER) // 가짜 역할 설정
