@@ -67,7 +67,7 @@ public class SecurityConfig {
                         .requestMatchers(new MvcRequestMatcher(introspector, "/api/map")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(introspector, "/api/tags")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(introspector, "/api/data/**")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasRole("ROLE_MEMBER")
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasRole("MEMBER")
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
