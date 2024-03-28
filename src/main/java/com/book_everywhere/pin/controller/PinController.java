@@ -61,9 +61,9 @@ public class PinController {
         return new CMRespDto<>(HttpStatus.OK, result,"태그 조회 성공!"); // 이 부분 논의
     }
 
-    @GetMapping("/api/mypage/notyet")
-    public CMRespDto<?> userReview(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        List<ReviewDto> result = reviewService.유저모든독후감조회((Long) oAuth2User.getAttributes().get("id"));
+    @GetMapping("/api/mypage/review")
+    public CMRespDto<?> userReview(@RequestParam Long socialId) {
+        List<ReviewDto> result = reviewService.유저모든독후감조회(socialId);
         return new CMRespDto<>(HttpStatus.OK, result,"모든 독후감 조회 성공!");
     }
 
