@@ -52,7 +52,7 @@ jobs:
           if [ "$STATUS" = "200" ]; then
             CURRENT_UPSTREAM=$(curl -s "https://${{ secrets.BOOKEVERYWHERE_URL }}/env" | jq -r '.data')
           else
-            CURRENT_UPSTREAM=blue
+            CURRENT_UPSTREAM=green
           fi
           echo CURRENT_UPSTREAM=$CURRENT_UPSTREAM >> $GITHUB_ENV
           if [ $CURRENT_UPSTREAM = blue ]; then
