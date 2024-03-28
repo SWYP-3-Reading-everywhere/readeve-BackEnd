@@ -17,7 +17,7 @@ public class ReviewRespDtoTestBuilder {
 
     public static ReviewRespDto createDefault(PinRespDto pinRespDto, BookRespDto bookRespDto) {
         return new ReviewRespDto(
-                123456L,
+                123L,
                 "Default Review Title",
                 "Default Author",
                 true,
