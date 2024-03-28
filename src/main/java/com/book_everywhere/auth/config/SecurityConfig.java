@@ -75,7 +75,6 @@ public class SecurityConfig {
                                 .userInfoEndpoint(userInfoEndpointConfig ->
                                         userInfoEndpointConfig.userService(customOAuth2UserService))
                                 .successHandler((request, response, authentication) -> {
-                                    // 로그인 성공 후 리다이렉션할 URL 지정
                                     response.sendRedirect("https://www.bookeverywhere.site");
                                 }))
         ;
