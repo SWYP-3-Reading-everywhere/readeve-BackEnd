@@ -10,23 +10,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-
     public UserDetails loadUserBySocialId(Long socialId) {
         User user = userRepository.findBySocialId(socialId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with social ID: " + socialId));
 
-        // 권한 리스트 설정, 비밀번호는 소셜 로그인에 사용하지 않으므로 ""로 처리
-        return new org.springframework.security.core.userdetails.User(user.getNickname(), "", Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name())));
+        return new org.springframework.security.core.userdetails.User(
+                user.getNickname(),
+                "", // 소셜 로그인이므로 비밀번호는 사용하지 않음
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))); // 권한 설정
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        throw new UnsupportedOperationException("loadUserByUsername is not supported");
     }
 }
