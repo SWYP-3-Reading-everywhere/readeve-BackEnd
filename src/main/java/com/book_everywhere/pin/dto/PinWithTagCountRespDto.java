@@ -20,7 +20,7 @@ public class PinWithTagCountRespDto {
     private String title;
     private String address;
     private String url;
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
     private List<TagCountRespDto> tagCountRespDtos;
 
     public static PinWithTagCountRespDto toDto(Pin pin, List<TagCountRespDto> tagCountRespDtos) {

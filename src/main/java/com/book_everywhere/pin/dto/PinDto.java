@@ -20,7 +20,7 @@ public class PinDto {
     private String title;
     private String address;
     private String url;
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
 
     public Pin toEntity() {
         return Pin.builder()
