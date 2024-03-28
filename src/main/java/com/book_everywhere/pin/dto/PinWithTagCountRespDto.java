@@ -14,8 +14,8 @@ import java.util.List;
 public class PinWithTagCountRespDto {
     private Long id;
     private double placeId;
-    private double latitude;
-    private double longitude;
+    private double y;
+    private double x;
     //개인설정이름
     private String title;
     private String address;
