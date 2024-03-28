@@ -37,8 +37,6 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        // 구체적인 출처 지정
-        config.setAllowedOrigins(Arrays.asList("https://www.bookeverywhere.site","http://localhost:3000"));
         // 또는 패턴을 사용하여 출처 지정
         config.setAllowedOriginPatterns(Arrays.asList("https://*.bookeverywhere.site","http://localhost:3000"));
         config.setAllowCredentials(true); // 크리덴셜 허용
@@ -63,9 +61,9 @@ public class SecurityConfig {
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/health")).permitAll()
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/env")).permitAll()
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/swagger-ui/**")).permitAll()
 //                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasAuthority("ROLE_MEMBER")
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).authenticated()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/**")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
