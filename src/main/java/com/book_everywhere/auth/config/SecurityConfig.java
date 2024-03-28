@@ -51,7 +51,7 @@ public class SecurityConfig {
 
         http
                 .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
