@@ -63,9 +63,9 @@ public class SecurityConfig {
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/health")).permitAll()
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/env")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/swagger-ui/**")).permitAll()
 //                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasAuthority("ROLE_MEMBER")
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/**")).permitAll()
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).permitAll()
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).authenticated()
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
