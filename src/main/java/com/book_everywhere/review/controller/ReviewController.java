@@ -60,13 +60,13 @@ public class ReviewController {
     //공개 독후감 조회
     @GetMapping("/api/reviews")
     public CMRespDto<?> publicReviews(@RequestParam Long socialId) {
-        List<ReviewDto> result = reviewService.모든독후감조회();
+        List<ReviewDto> result = reviewService.모든독후감조회(socialId);
         return new CMRespDto<>(HttpStatus.OK, result, "전체 공유 독후감 조회");
     }
 
     @GetMapping("/api/review/public")
     public CMRespDto<?> findPublicReviews(@RequestParam Long socialId) {
-        List<ReviewDto> result = reviewService.모든공유독후감조회();
+        List<ReviewDto> result = reviewService.모든공유독후감조회(socialId);
         return new CMRespDto<>(HttpStatus.OK, result, "모든 공유 독후감 조회 완료");
     }
 

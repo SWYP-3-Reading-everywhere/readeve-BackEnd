@@ -11,9 +11,9 @@ public interface ReviewService {
 
     List<ReviewDto> 책에따른모든리뷰(Long socialId, Long bookId);
 
-    List<ReviewDto> 모든독후감조회();
+    List<ReviewDto> 모든독후감조회(Long socialId);
 
-    List<ReviewDto> 모든공유독후감조회();
+    List<ReviewDto> 모든공유독후감조회(Long socialId);
 
     void 등록또는수정전예외처리(ReviewRespDto reviewRespDto);
 
