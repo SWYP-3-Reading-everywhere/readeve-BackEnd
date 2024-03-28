@@ -70,10 +70,11 @@ public class ReviewServiceImpl implements ReviewService {
         if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
+        User user = userRepository.findBySocialId(socialId).orElseThrow();
 
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId());
             return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
@@ -85,10 +86,11 @@ public class ReviewServiceImpl implements ReviewService {
         if (init.isEmpty()) {
             throw new EntityNotFoundException(CustomErrorCode.PIN_NOT_FOUND);
         }
+        User user = userRepository.findBySocialId(socialId).orElseThrow();
 
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId());
             return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
@@ -96,10 +98,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     public List<ReviewDto> 유저모든독후감조회(Long socialId) {
         List<Review> init = reviewRepository.mFindReviewsByUser(socialId);
+        User user = userRepository.findBySocialId(socialId).orElseThrow();
 
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId());
             return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
@@ -107,29 +110,37 @@ public class ReviewServiceImpl implements ReviewService {
 
     //리뷰 하나만 조회
     public ReviewDto 단일독후감조회(Long socialId, Long review_id) {
+        User user = userRepository.findBySocialId(socialId).orElseThrow();
+
         Review review = reviewRepository.findById(review_id).orElseThrow(
                 () -> new EntityNotFoundException(CustomErrorCode.REVIEW_NOT_FOUND));
         Long likeCount = likesRepository.countByReviewId(review.getId());
-        boolean likeState = likesRepository.existsByUserIdAndReviewId(socialId, review.getId());
+        boolean likeState = likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId());
         return ReviewDto.toDto(review, likeCount, likeState);
     }
 
 
     //등록된 모든 리뷰 조회
-    public List<ReviewDto> 모든독후감조회() {
+    public List<ReviewDto> 모든독후감조회(Long socialId) {
         List<Review> init = reviewRepository.findAll();
+        User user = userRepository.findBySocialId(socialId).orElseThrow();
+
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            return ReviewDto.toDto(review, likeCount, false);
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId());
+            return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
 
 
-    public List<ReviewDto> 모든공유독후감조회() {
+    public List<ReviewDto> 모든공유독후감조회(Long socialId) {
         List<Review> init = reviewRepository.findByIsPrivateOrderByCreatedDateDesc(false);
+        User user = userRepository.findBySocialId(socialId).orElseThrow();
+
         return init.stream().map(review -> {
             Long likeCount = likesRepository.countByReviewId(review.getId());
-            return ReviewDto.toDto(review, likeCount, false);
+            boolean likeState = likesRepository.existsByUserIdAndReviewId(user.getId(), review.getId());
+            return ReviewDto.toDto(review, likeCount, likeState);
         }).toList();
     }
 
