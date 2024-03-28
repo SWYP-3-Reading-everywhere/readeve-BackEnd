@@ -37,8 +37,6 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        // 구체적인 출처 지정
-        config.setAllowedOrigins(Arrays.asList("https://www.bookeverywhere.site","http://localhost:3000"));
         // 또는 패턴을 사용하여 출처 지정
         config.setAllowedOriginPatterns(Arrays.asList("https://*.bookeverywhere.site","http://localhost:3000"));
         config.setAllowCredentials(true); // 크리덴셜 허용
@@ -60,20 +58,23 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/health")).permitAll()
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/env")).permitAll()
-//                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasAuthority("ROLE_MEMBER")
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/**")).permitAll()
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).permitAll()
-                                .anyRequest().authenticated()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/health")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/env")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/test/**")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/swagger-ui/**")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/review")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/map")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/tags")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/data/**")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/**")).hasRole("MEMBER")
+                        .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
                         oauth2Login
                                 .userInfoEndpoint(userInfoEndpointConfig ->
                                         userInfoEndpointConfig.userService(customOAuth2UserService))
                                 .successHandler((request, response, authentication) -> {
-                                    // 로그인 성공 후 리다이렉션할 URL 지정
                                     response.sendRedirect("https://www.bookeverywhere.site");
                                 }))
         ;

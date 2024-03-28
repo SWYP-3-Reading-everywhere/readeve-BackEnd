@@ -55,7 +55,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new CustomOAuth2User(attributes,Role.ROLE_MEMBER);
+        return new CustomOAuth2User(attributes,user.getRole());
     }
 
     /**
