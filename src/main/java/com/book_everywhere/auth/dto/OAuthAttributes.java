@@ -36,6 +36,7 @@ public class OAuthAttributes {
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
+
     public User toEntity() {
         return User.builder()
                 .nickname(nickname)
