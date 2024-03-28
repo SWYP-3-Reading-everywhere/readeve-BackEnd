@@ -21,7 +21,7 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return oAuthAttributes.getAttributes();
     }
 
     @Override
@@ -43,6 +43,8 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        return null;
+        return oAuthAttributes.getNickname();
     }
+
+
 }
