@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class PinDto {
     private Long id;
     private double placeId;
-    private double latitude;
-    private double longitude;
+    private double y;
+    private double x;
     //개인설정이름
     private String title;
     private String address;
@@ -25,9 +25,9 @@ public class PinDto {
     public Pin toEntity() {
         return Pin.builder()
                 .title(title)
-                .latitude(latitude)
+                .latitude(y)
                 .address(address)
-                .longitude(longitude)
+                .longitude(x)
                 .build();
     }
 
