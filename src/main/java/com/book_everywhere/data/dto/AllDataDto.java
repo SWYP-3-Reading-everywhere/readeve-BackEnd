@@ -22,7 +22,7 @@ public class AllDataDto {
     private BookRespDto bookRespDto;
     private List<TagRespDto> tags;
     private String content;
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
 
 }
 

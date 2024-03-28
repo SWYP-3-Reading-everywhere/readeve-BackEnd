@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -13,5 +14,5 @@ public class TaggedDto {
     private Long pinId;
     private String tagName;
     private int count;
-    private Timestamp createAt;
+    private LocalDateTime createdDate;
 }
