@@ -1,5 +1,6 @@
 package com.book_everywhere.auth.service;
 
+import com.book_everywhere.auth.dto.CustomOAuth2User;
 import com.book_everywhere.auth.dto.OAuthAttributes;
 import com.book_everywhere.auth.entity.Role;
 import com.book_everywhere.auth.entity.User;
@@ -49,20 +50,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         User user = saveOrUpdate(attributes);
         httpSession.setAttribute("user", user);
 
-        // UserDetails 객체 생성 또는 조회
+
         UserDetails userDetails = customUserDetailsService.loadUserBySocialId(user.getSocialId());
-//
-//        // 사용자 인증 정보 및 권한을 포함하는 Authentication 객체 생성
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//
-//        // 현재 스레드의 SecurityContext에 Authentication 객체 등록
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        //
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")),
-                attributes.getAttributes(),
-                attributes.getNameAttributeKey()
-        );
+
+        return new CustomOAuth2User(attributes,Role.ROLE_MEMBER);
     }
 
     /**
